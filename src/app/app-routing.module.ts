@@ -10,7 +10,7 @@ const routes: Routes = [
     {
         path: 'charts',
         loadChildren: () =>
-            import('./modules/charts/charts-routing.module').then(m => m.ChartsRoutingModule),
+            import('modules/charts/charts-routing.module').then(m => m.ChartsRoutingModule),
     },
     {
         path: 'dashboard',
