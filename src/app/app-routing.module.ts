@@ -45,6 +45,11 @@ const routes: Routes = [
         loadChildren: () =>
             import('modules/error/error-routing.module').then(m => m.ErrorRoutingModule),
     },
+    {
+        path: 'portfolios',
+        loadChildren: () =>
+            import('modules/portfolios/portfolios-routing.module').then(m => m.PortfoliosRoutingModule),
+    },
 ];
 
 @NgModule({
