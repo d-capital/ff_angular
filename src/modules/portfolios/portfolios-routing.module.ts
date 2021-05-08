@@ -14,21 +14,9 @@ import { SBRouteData } from '@modules/navigation/models';
 /* Routes */
 export const ROUTES: Routes = [
     {
-        path: '',
-        canActivate: [],
-        data: {
-            title: 'Tables - SB Admin Angular',
-            breadcrumbs: [
-                {
-                    text: 'Dashboard',
-                    link: '/dashboard',
-                },
-                {
-                    text: 'Tables',
-                    active: true,
-                },
-            ],
-        } as SBRouteData,
+        path: 'dashboard',
+        pathMatch: 'full',
+        redirectTo: 'portfolios',
     },
 ];
 
