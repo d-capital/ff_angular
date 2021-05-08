@@ -1,6 +1,7 @@
 /* tslint:disable: ordered-imports*/
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SBRouteData } from '@modules/navigation/models';
 
 /* Module */
 import { PortfoliosModule } from './portfolios.module';
@@ -8,15 +9,27 @@ import { PortfoliosModule } from './portfolios.module';
 
 
 /* Guards */
+import * as portfoliosGuards from './guards';
 
-import { SBRouteData } from '@modules/navigation/models';
+
 
 /* Routes */
 export const ROUTES: Routes = [
     {
-        path: 'dashboard',
+        path: '',
+        canActivate: [],
         pathMatch: 'full',
         redirectTo: 'portfolios',
+        data: {
+            title: 'Portfolios - manage your portfolios',
+            breadcrumbs: [
+                {
+                    text: 'Portfolios',
+                    active: true,
+                },
+            ]
+        } as SBRouteData,
+        component: PortfoliosModule,
     },
 ];
 
