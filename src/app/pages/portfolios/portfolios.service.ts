@@ -14,7 +14,7 @@ private portfoliosUrl = `${API_URL}/manage_portfolios`;
     
   }
 
-  // GET list of public, future events
+  // GET list of portfolios
   getPortfolios(): Observable<Portfolio[]> {
     return this.http.get<Portfolio[]>(this.portfoliosUrl).pipe(catchError(this.erroHandler));
   }

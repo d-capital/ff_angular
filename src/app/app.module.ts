@@ -12,6 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import {PortfoliosApiService} from './pages/portfolios/portfolios.service';
+
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment as env } from '../environments/environment'
 
 
 @NgModule({
@@ -22,14 +26,17 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule.forRoot({
+      ...env.auth,
+    }),
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [],
+  providers: [PortfoliosApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
