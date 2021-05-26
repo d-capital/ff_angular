@@ -5,6 +5,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { SignupButtonComponent } from './signup-button/signup-button.component';
+import { LogoutButtonComponent } from './logout-button/logout-button.component';
+import { AuthenticationButtonComponent } from './authentication-button/authentication-button.component';
+import { AppLoadingComponent } from './app-loading/app-loading.component';
 
 @NgModule({
   imports: [
@@ -15,12 +20,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    LoginButtonComponent,
+    SignupButtonComponent,
+    LogoutButtonComponent,
+    AuthenticationButtonComponent,
+    AppLoadingComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    AppLoadingComponent
   ]
 })
 export class ComponentsModule { }
