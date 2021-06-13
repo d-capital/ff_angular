@@ -5,33 +5,34 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginButtonComponent } from './login-button/login-button.component';
-import { SignupButtonComponent } from './signup-button/signup-button.component';
-import { LogoutButtonComponent } from './logout-button/logout-button.component';
-import { AuthenticationButtonComponent } from './authentication-button/authentication-button.component';
-import { AppLoadingComponent } from './app-loading/app-loading.component';
+
+import { environment as env } from '../../environments/environment';
+import { LoadingComponent } from './loading/loading.component';
+import { AuthService } from '../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    HttpClientModule,
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    LoginButtonComponent,
-    SignupButtonComponent,
-    LogoutButtonComponent,
-    AuthenticationButtonComponent,
-    AppLoadingComponent
+    LoadingComponent
+
   ],
+  providers: [AuthService],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    AppLoadingComponent
   ]
 })
 export class ComponentsModule { }

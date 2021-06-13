@@ -1,0 +1,25 @@
+<div>
+    <div>
+      <form role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+        <div class="form-group mb-3">
+          <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+            </div>
+            <input type="text" class="form-control" id="username" placeholder="Enter Your Username" 
+            formControlName='username' required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group input-group-alternative">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+            </div>
+            <input type="password" class="form-control" id="password" placeholder="enter password"
+             formControlName="password" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>

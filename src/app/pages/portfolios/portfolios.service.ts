@@ -7,6 +7,7 @@ import {Portfolio} from './portfolios.model';
 
 
 
+
 @Injectable()
 export class PortfoliosApiService {
 private portfoliosUrl = `${API_URL}/manage_portfolios`;

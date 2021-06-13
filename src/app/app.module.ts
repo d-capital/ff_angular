@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -14,8 +14,9 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import {PortfoliosApiService} from './pages/portfolios/portfolios.service';
 
-import { AuthModule } from '@auth0/auth0-angular';
-import { environment as env } from '../environments/environment'
+import { environment as env } from '../environments/environment';
+import { domain } from 'process';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -27,16 +28,13 @@ import { environment as env } from '../environments/environment'
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    AuthModule.forRoot({
-      ...env.auth,
-    }),
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [PortfoliosApiService],
+  providers: [PortfoliosApiService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

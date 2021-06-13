@@ -13,6 +13,10 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { PortfoliosComponent } from '../../pages/portfolios/portfolios.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { environment as env } from '../../../environments/environment';
+
+
+
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -31,7 +35,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     IconsComponent,
     MapsComponent,
     PortfoliosComponent
-  ]
+  ],
+  providers: [],
 })
 
 export class AdminLayoutModule {}

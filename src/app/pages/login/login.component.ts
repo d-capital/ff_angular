@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import {LoginformComponent} from '../../components/loginform/loginform.component'
 
 @Component({
   selector: 'app-login',
