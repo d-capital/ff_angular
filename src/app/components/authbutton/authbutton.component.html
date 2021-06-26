@@ -1,0 +1,9 @@
+<div class="dropdown-item" *ngIf="isLoggedIn; else loggedOut">
+    <i class="ni ni-user-run"></i>
+    <button class="btn"(click)="logOut()">Logout</button>
+</div>
+<ng-template #loggedOut>
+    <div class="dropdown-item">
+        <button class="btn btn-default">Log In</button>
+    </div>
+</ng-template>

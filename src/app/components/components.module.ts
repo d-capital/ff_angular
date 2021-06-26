@@ -11,6 +11,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthbuttonComponent } from './authbutton/authbutton.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    LoadingComponent
+    LoadingComponent,
+    AuthbuttonComponent
 
   ],
   providers: [AuthService],

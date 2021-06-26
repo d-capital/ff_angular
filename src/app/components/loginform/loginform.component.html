@@ -1,16 +1,17 @@
 <div>
     <div>
       <form role="form" [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
-        <div class="form-group mb-3">
+        <div class="form-group" style="margin-bottom: 10px;">
           <div class="input-group input-group-alternative">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
             </div>
             <input type="text" class="form-control" id="username" placeholder="Enter Your Username" 
-            formControlName='username' required>
+            formControlName='username'>
           </div>
         </div>
-        <div class="form-group">
+        <div style="color:red;text-align: right; font-size: small; margin-bottom: 10px;" *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].touched">Username is required</div>
+        <div class="form-group" style="margin-bottom: 10px;">
           <div class="input-group input-group-alternative">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
@@ -19,7 +20,10 @@
              formControlName="password" required>
           </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <div style="color:red; text-align: right; font-size: small; margin-bottom: 10px;" *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">Password is required</div>
+        <button [disabled]="!loginForm.valid" type="submit" class="btn btn-default">Submit</button>
       </form>
+      <br>
+      <div style="color:red; text-align: center;" *ngIf="serverErrors">{{serverErrors}}</div>
     </div>
   </div>

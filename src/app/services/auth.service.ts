@@ -4,7 +4,7 @@ import { HttpRequest } from "@angular/common/http";
 import {API_URL} from '../../../src/app/env';
 import { User } from '../models/user';
 import { catchError } from 'rxjs/operators'
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 
 
@@ -22,12 +22,19 @@ export class AuthService {
     const headers = new HttpHeaders().set('Content-Type','application/json');
     return this.http.post(
       this.BASE_URL+'api/login',
-      JSON.stringify(body),{headers:headers}).
-      subscribe(data=>{
-        var auth_data = JSON.stringify(data);
-        localStorage.setItem('auth_token', JSON.parse(auth_data)['auth_token']);
-      });
+      JSON.stringify(body),{headers:headers})
   }
+
+  ensureAuthenticated(token: any): Observable<any>{
+    let url = this.BASE_URL+'api/userstatus';
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.get(url, {headers: headers}).pipe(catchError(this.erroHandler));
+  };
+    
+
   register(user: User) {
     const body = { username: user.username, password: user.password };
     return this.http.post(
