@@ -21,7 +21,7 @@ export class LoginformComponent {
 
   serverErrors = [];
 
-  user: User = new User('','');
+  user: User = new User('','','');
   
   constructor(
     private auth: AuthService,
@@ -45,8 +45,5 @@ export class LoginformComponent {
           }
       }
     });
-  }
-  onRegister(): void {
-    this.auth.register(this.user);
   }
 }

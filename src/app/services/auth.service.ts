@@ -35,12 +35,12 @@ export class AuthService {
   };
     
 
-  register(user: User) {
-    const body = { username: user.username, password: user.password };
+  signup(user: User) {
+    const body = { username: user.username, password: user.password, email: user.email };
+    const headers = new HttpHeaders().set('Content-Type','application/json');
     return this.http.post(
-      this.BASE_URL,
-      body,
-    );
+      this.BASE_URL + 'api/signup',
+      JSON.stringify(body),{headers:headers})
   }
 
   erroHandler(error: HttpErrorResponse) {
