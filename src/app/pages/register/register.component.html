@@ -88,14 +88,14 @@
                   <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                 </div>
                 <input class="form-control" placeholder="Repeat Password" 
-                type="password" id='confirmpassword' 
-                formControlName="confirmpassword" required>
+                type="password" id='confirmationpassword' 
+                formControlName="confirmationpassword" required autocomplete="new-password">
               </div>
             </div>
             <div style="color:red; text-align: right; 
             font-size: small; margin-bottom: 10px;" 
-            *ngIf="signupForm.controls['confirmpassword'].invalid 
-            && signupForm.controls['confirmpassword'].touched">
+            *ngIf="signupForm.controls['confirmationpassword'].invalid 
+            && signupForm.controls['confirmationpassword'].touched">
             Password needs to be confirmed</div>
             <!--div class="text-muted font-italic"><small>password strength: <span class="text-success font-weight-700">strong</span></small></div>
             <div class="row my-4">

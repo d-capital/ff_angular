@@ -36,7 +36,8 @@ export class AuthService {
     
 
   signup(user: User) {
-    const body = { username: user.username, password: user.password, email: user.email };
+    const body = { username: user.username, password: window.btoa(user.password),
+       email: user.email, confirmationpassword: window.btoa(user.confirmationpassword) };
     const headers = new HttpHeaders().set('Content-Type','application/json');
     return this.http.post(
       this.BASE_URL + 'api/signup',

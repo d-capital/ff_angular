@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { User } from '../../models/user';
 import {Router} from '@angular/router'
 import { AuthService } from '../../services/auth.service';
 
@@ -13,10 +14,11 @@ export class RegisterComponent implements OnInit {
   signupForm = new FormGroup ({
     username: new FormControl('',[Validators.required]),
     password: new FormControl('',[Validators.required]),
-    confirmpassword: new FormControl('',[Validators.required]),
+    confirmationpassword: new FormControl('',[Validators.required]),
     email: new FormControl('',[Validators.required,Validators.email])
   });
   serverErrors = [];
+  user: User = new User('','','', '');
 
   constructor(
     private auth: AuthService,
