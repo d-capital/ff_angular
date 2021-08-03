@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CantRegisterService } from './cant-register.service';
+import { IsLoggedInService } from './is-logged-in.service';
 
-describe('CantRegisterService', () => {
-  let service: CantRegisterService;
+describe('IsLoggedInService', () => {
+  let service: IsLoggedInService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CantRegisterService);
+    service = TestBed.inject(IsLoggedInService);
   });
 
   it('should be created', () => {

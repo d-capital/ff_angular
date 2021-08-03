@@ -14,6 +14,8 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { PortfoliosComponent } from '../../pages/portfolios/portfolios.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
+import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service';
 
 
 
@@ -36,7 +38,7 @@ import { environment as env } from '../../../environments/environment';
     MapsComponent,
     PortfoliosComponent
   ],
-  providers: [],
+  providers: [AuthService, IsLoggedInService],
 })
 
 export class AdminLayoutModule {}

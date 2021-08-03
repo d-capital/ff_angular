@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
-import { CantRegisterService } from '../../services/guards/cant-register.service';
+import { IsNotLoggedInService } from '../../services/guards/is-not-logged-in.service';
 
 export const AuthLayoutRoutes: Routes = [
     { 
@@ -12,6 +12,6 @@ export const AuthLayoutRoutes: Routes = [
     { 
         path: 'register',
         component: RegisterComponent,
-        canActivate: [CantRegisterService]
+        canActivate: [IsNotLoggedInService]
     }
 ];

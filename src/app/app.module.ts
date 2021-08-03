@@ -17,7 +17,8 @@ import {PortfoliosApiService} from './pages/portfolios/portfolios.service';
 import { environment as env } from '../environments/environment';
 import { domain } from 'process';
 import { AuthService } from './services/auth.service';
-import { CantRegisterService } from './services/guards/cant-register.service';
+import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service';
+import { IsLoggedInService } from './services/guards/is-logged-in.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { CantRegisterService } from './services/guards/cant-register.service';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [PortfoliosApiService, AuthService, CantRegisterService],
+  providers: [PortfoliosApiService, AuthService, IsNotLoggedInService, IsLoggedInService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

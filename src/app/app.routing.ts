@@ -5,7 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { CantRegisterService } from './services/guards/cant-register.service';
+import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service';
+import { IsLoggedInService } from './services/guards/is-logged-in.service';
+
 
 const routes: Routes =[
   {

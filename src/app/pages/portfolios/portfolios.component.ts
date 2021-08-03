@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {Subscription, of} from 'rxjs';
 import {PortfoliosApiService} from './portfolios.service';
 import {Portfolio} from './portfolios.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-portfolios',
@@ -9,6 +10,10 @@ import {Portfolio} from './portfolios.model';
   styleUrls: ['./portfolios.component.scss']
 })
 export class PortfoliosComponent implements OnInit, OnDestroy {
+  
+  @ViewChild('el') table:ElementRef;
+  serverErrors = [];
+  
   portfoliosListSubs!: Subscription;
   portfoliosList!: Portfolio[];
   constructor(private portfoliosApi: PortfoliosApiService) { 
@@ -16,8 +21,9 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const token = localStorage.getItem('auth_token');
     this.portfoliosListSubs = this.portfoliosApi
-      .getPortfolios()
+      .getPortfolios(token)
       .subscribe(res => {
           this.portfoliosList = res;
         },
@@ -27,6 +33,53 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.portfoliosListSubs.unsubscribe();
+  }
+  deletePortfolioFromUi(event){
+    const portfolioIdToDelete = event.target.dataset.pid;
+    const token = localStorage.getItem('auth_token');
+    this.portfoliosApi.
+    deletePortfolio(token,portfolioIdToDelete).pipe().subscribe(
+      data=>{
+        var resp = JSON.stringify(data);
+        var status = JSON.parse(resp)['status'];
+        if(status === 'success'){
+          this.table.nativeElement.getElementsByTagName('tr')
+          .namedItem(portfolioIdToDelete).remove()
+        };
+      }, err=>{
+        const validationErrors = err.error;
+          if (err instanceof HttpErrorResponse) {
+            
+            if (err.status === 422) {
+              this.serverErrors = err.error.message
+            }
+        }
+      }
+    );
+  }
+  savePortfolioName(event, newName){
+    const portfolioIdToRename = event.target.dataset.pid;
+    const token = localStorage.getItem('auth_token');
+    this.portfoliosApi.
+    renamePortfolio(token,portfolioIdToRename,newName).pipe().subscribe(
+      data=>{
+        var resp = JSON.stringify(data);
+        var status = JSON.parse(resp)['status'];
+        if(status === 'success'){
+          let table_row = this.table.nativeElement.getElementsByTagName('tr')
+          .namedItem(portfolioIdToRename);
+          table_row.getElementsByTagName('a')[0].textContent = newName;
+        };
+      }, err=>{
+        const validationErrors = err.error;
+          if (err instanceof HttpErrorResponse) {
+            
+            if (err.status === 422) {
+              this.serverErrors = err.error.message
+            }
+        }
+      }
+    );
   }
 
 }
