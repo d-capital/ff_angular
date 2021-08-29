@@ -3,6 +3,7 @@ import {Subscription, of} from 'rxjs';
 import {PortfoliosApiService} from './portfolios.service';
 import {Portfolio} from './portfolios.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-portfolios',
@@ -16,7 +17,7 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   
   portfoliosListSubs!: Subscription;
   portfoliosList!: Portfolio[];
-  constructor(private portfoliosApi: PortfoliosApiService) { 
+  constructor(private portfoliosApi: PortfoliosApiService, private router: Router) { 
 
   }
 
@@ -34,6 +35,7 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.portfoliosListSubs.unsubscribe();
   }
+
   deletePortfolioFromUi(event){
     const portfolioIdToDelete = event.target.dataset.pid;
     const token = localStorage.getItem('auth_token');
@@ -80,6 +82,12 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  openPortfolio(event){
+    const portfolioToOpen = event.target.dataset.pid;
+    localStorage.setItem('pId', portfolioToOpen);
+    this.router.navigate(['single-portfolio']);
   }
 
 }

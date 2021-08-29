@@ -1,0 +1,107 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+      </div>
+    </div>
+</div>
+<form>
+  <div class="container-fluid mt--7">
+      <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <h3 class="mb-0">
+              <span><b>Selected Portfolio:</b> {{ portfoliosInfo.portfolio_name }} </span>
+              <span style="margin-left: 10%;"><b style="margin-right: 2%;">Capital:</b> 
+                <span style="margin-right: 2%;">{{ portfoliosInfo.cap_currency }}</span>
+                <mat-form-field>
+                  <input matInput value="{{ portfoliosInfo.capital }}">
+                </mat-form-field>
+              </span>
+              <span style="margin-left: 10%;" *ngIf="portfoliosInfo.start_date"><b>Optimization Period:</b> {{ portfoliosInfo.start_date }} - {{ portfoliosInfo.end_date }}</span>
+              <span style="margin-left: 10%;" *ngIf="portfoliosInfo.er"><b>ER:</b>{{ portfoliosInfo.er }}</span> </h3>
+            </div>
+            <div class="table-responsive">
+              <table #el class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                      <th scope="col">Delete</th>
+                      <th scope='col'>Asset</th>
+                      <th scope="col">Lot</th>
+                      <th scope="col">Lots to buy</th>
+                      <th scope="col">%</th>
+                      <th scope="col">Money Spent</th>
+                      <th scope="col">Used Price*</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p_asset of portfoliosContentList" 
+                  id='{{p_asset.name}}'>
+                    <th scope="row" >
+                      <button class = "btn" attr.data-pid={{p_asset.name}}
+                      (click)='deleteAssetFromUi($event)'>
+                      <i class="ni ni-fat-remove"
+                      attr.data-pid={{p_asset.name}}>
+                      </i>
+                    </button>
+                    </th>
+                    <td>
+                      <mat-form-field class="example-full-width" appearance="fill">
+                        <input matInput aria-label="Asset" value="{{ p_asset.asset }}">
+                      </mat-form-field>
+                    </td>
+                    <td style="width: 98px;">
+                      <span class="badge badge-dot mr-4">{{p_asset.lot}}</span>
+                    </td>
+                    <td>
+                      <mat-form-field style="width: 50px;" class="example-full-width" appearance="fill">
+                        <input matInput value="{{ p_asset.to_buy }}">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field style="width: 50px;" class="example-full-width" appearance="fill">
+                        <input matInput value="{{ p_asset.percentage }}">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <span class="mr-2">{{p_asset.money}}</span>
+                    </td>
+                    <td class="text-left">
+                      <span class="mr-2">{{ p_asset.price }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer py-4">
+              <nav aria-label="...">
+                <ul class="pagination justify-content-end mb-0">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                      <i class="fas fa-angle-left"></i>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <li class="page-item active">
+                    <a class="page-link" href="javascript:void(0)">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="javascript:void(0)">
+                      <i class="fas fa-angle-right"></i>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</form>
+  

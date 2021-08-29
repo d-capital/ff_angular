@@ -16,8 +16,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service';
-
-
+import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -28,7 +29,9 @@ import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service'
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [
     DashboardComponent,
@@ -36,7 +39,8 @@ import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service'
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    PortfoliosComponent
+    PortfoliosComponent,
+    SinglePortfolioComponent,
   ],
   providers: [AuthService, IsLoggedInService],
 })

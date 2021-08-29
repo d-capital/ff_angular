@@ -21,6 +21,7 @@ import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service
 import { IsLoggedInService } from './services/guards/is-logged-in.service';
 
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -29,7 +30,7 @@ import { IsLoggedInService } from './services/guards/is-logged-in.service';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   declarations: [
     AppComponent,

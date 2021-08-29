@@ -7,12 +7,32 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { PortfoliosComponent } from '../../pages/portfolios/portfolios.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { IsLoggedInService } from '../../services/guards/is-logged-in.service';
+import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'portfolios',     component: PortfoliosComponent, canActivate: [IsLoggedInService] }
+    { 
+        path: 'dashboard',
+        component: DashboardComponent },
+    { 
+        path: 'user-profile',
+        component: UserProfileComponent },
+    { 
+        path: 'tables',
+        component: TablesComponent },
+    { 
+        path: 'icons',
+        component: IconsComponent },
+    { 
+        path: 'maps',
+        component: MapsComponent 
+    },
+    { 
+        path: 'portfolios',
+        component: PortfoliosComponent,
+        canActivate: [IsLoggedInService] 
+    },
+    { 
+        path: 'single-portfolio', 
+        component: SinglePortfolioComponent
+    }
 ];
