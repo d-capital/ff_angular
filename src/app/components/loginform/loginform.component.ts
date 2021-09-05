@@ -29,7 +29,6 @@ export class LoginformComponent {
     ) {}
 
   onLogin(): void {
-    //console.warn(this.loginForm.value);
     const formControl = this.loginForm;
     this.auth.login(this.loginForm.value).pipe().subscribe(data=>{
       var auth_data = JSON.stringify(data);

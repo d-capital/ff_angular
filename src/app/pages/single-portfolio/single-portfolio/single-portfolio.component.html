@@ -10,72 +10,79 @@
       <div class="row">
         <div class="col">
           <div class="card shadow">
-            <div class="card-header border-0">
-              <h3 class="mb-0">
-              <span><b>Selected Portfolio:</b> {{ portfoliosInfo.portfolio_name }} </span>
-              <span style="margin-left: 10%;"><b style="margin-right: 2%;">Capital:</b> 
-                <span style="margin-right: 2%;">{{ portfoliosInfo.cap_currency }}</span>
-                <mat-form-field>
-                  <input matInput value="{{ portfoliosInfo.capital }}">
-                </mat-form-field>
-              </span>
-              <span style="margin-left: 10%;" *ngIf="portfoliosInfo.start_date"><b>Optimization Period:</b> {{ portfoliosInfo.start_date }} - {{ portfoliosInfo.end_date }}</span>
-              <span style="margin-left: 10%;" *ngIf="portfoliosInfo.er"><b>ER:</b>{{ portfoliosInfo.er }}</span> </h3>
-            </div>
-            <div class="table-responsive">
-              <table #el class="table align-items-center table-flush">
-                <thead class="thead-light">
-                  <tr>
-                      <th scope="col">Delete</th>
-                      <th scope='col'>Asset</th>
-                      <th scope="col">Lot</th>
-                      <th scope="col">Lots to buy</th>
-                      <th scope="col">%</th>
-                      <th scope="col">Money Spent</th>
-                      <th scope="col">Used Price*</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let p_asset of portfoliosContentList" 
-                  id='{{p_asset.name}}'>
-                    <th scope="row" >
-                      <button class = "btn" attr.data-pid={{p_asset.name}}
-                      (click)='deleteAssetFromUi($event)'>
-                      <i class="ni ni-fat-remove"
-                      attr.data-pid={{p_asset.name}}>
-                      </i>
-                    </button>
-                    </th>
-                    <td>
-                      <mat-form-field class="example-full-width" appearance="fill">
-                        <input matInput aria-label="Asset" value="{{ p_asset.asset }}">
-                      </mat-form-field>
-                    </td>
-                    <td style="width: 98px;">
-                      <span class="badge badge-dot mr-4">{{p_asset.lot}}</span>
-                    </td>
-                    <td>
-                      <mat-form-field style="width: 50px;" class="example-full-width" appearance="fill">
-                        <input matInput value="{{ p_asset.to_buy }}">
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field style="width: 50px;" class="example-full-width" appearance="fill">
-                        <input matInput value="{{ p_asset.percentage }}">
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <span class="mr-2">{{p_asset.money}}</span>
-                    </td>
-                    <td class="text-left">
-                      <span class="mr-2">{{ p_asset.price }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <form role="form" [formGroup]="portfolioForm" (ngSubmit)="onSave()" novalidate *ngIf="portfoliosContentList && portfoliosInfo">
+                <div class="card-header border-0">
+                  <h3 class="mb-0">
+                  <span><b>Selected Portfolio:</b> {{ portfoliosInfo.portfolio_name }} </span>
+                  <span style="margin-left: 10%;"><b style="margin-right: 2%;">Capital:</b> 
+                    <span class="select">
+                      <select style="width: 30px;" formControlName='cap_currency' class='select-text'>
+                        <option value="dollar">$</option>
+                        <option value="rubel">₽</option>
+                      </select>
+                      <span class="select-highlight"></span>
+                      <span class="select-bar"></span>
+                    </span>  
+                      
+                    <span style="margin-left: 2%;">
+                      <input formControlName='capital'>
+                    </span>
+                  </span>
+                  <span style="margin-left: 10%;" *ngIf="portfoliosInfo.start_date"><b>Optimization Period:</b> {{ portfoliosInfo.start_date }} - {{ portfoliosInfo.end_date }}</span>
+                  <span style="margin-left: 10%;" *ngIf="portfoliosInfo.er"><b>ER:</b>{{ portfoliosInfo.er }}</span> </h3>
+                </div>
+              <div class="table-responsive">
+                <table #el class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Delete</th>
+                        <th scope='col'>Asset</th>
+                        <th scope="col">Lot</th>
+                        <th scope="col">Lots to buy</th>
+                        <th scope="col">%</th>
+                        <th scope="col">Money Spent</th>
+                        <th scope="col">Used Price*</th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets').controls; let i = index" >
+                    <tr [formGroup]='p_asset'>
+                      <th scope="row">
+                        <button class = "btn" attr.data-pid={{asset}}
+                        (click)='deleteAssetFromUi($event)'>
+                        <i class="ni ni-fat-remove"
+                        attr.data-pid={{asset}}>
+                        </i>
+                      </button>
+                      </th>
+                      <td>
+                        <!--auto-complete [options]="assetList" [controlName]='asset' formControlName='asset'></auto-complete-->
+                        <input formControlName="asset">
+                      </td>
+                      <td style="width: 98px;">
+                        <input disabled style="width: 50px;" formControlName="lot">
+                      </td>
+                      <td>
+                        <input style="width: 50px;" formControlName="to_buy">
+                      </td>
+                      <td>
+                        <input style="width: 50px;" formControlName="percentage">
+                      </td>
+                      <td>
+                        <input disabled formControlName="money">
+                      </td>
+                      <td class="text-left">
+                        <input style="width: 50px;" disabled formControlName="price">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
             <div class="card-footer py-4">
-              <nav aria-label="...">
+              <span>Total Money Spent: <span id="totalMoneySpent">{{ InitTotalMoneySpent }}</span></span>
+              <span style="margin-left: 10%;">Total Percentage: <span id="totalMoneySpent">{{ InitTotalPercentage }}</span></span>
+              <span style="margin-left: 10%;">Free Money: <span id="totalMoneySpent">{{ InitFreeMoney }}</span></span>
+              <!--nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
                   <li class="page-item disabled">
                     <a class="page-link" href="javascript:void(0)" tabindex="-1">
@@ -97,7 +104,7 @@
                     </a>
                   </li>
                 </ul>
-              </nav>
+              </nav-->
             </div>
           </div>
         </div>

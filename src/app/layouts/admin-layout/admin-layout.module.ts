@@ -19,6 +19,7 @@ import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service'
 import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ComponentsModule } from '../../components/components.module';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -27,11 +28,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
     ClipboardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    ComponentsModule
   ],
   declarations: [
     DashboardComponent,
