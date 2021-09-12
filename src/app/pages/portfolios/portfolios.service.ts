@@ -76,7 +76,7 @@ private getAssetsUrl = `${API_URL}/api/get_assets`;
   public getPortfolioInfo(
     token: any,
     portfolio_id: number
-    ): Observable<Portfolio[]> {
+    ): Observable<Portfolio> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
@@ -84,7 +84,7 @@ private getAssetsUrl = `${API_URL}/api/get_assets`;
     const body = { 
       portfolio_id: portfolio_id,
     };
-    return this.http.post<Portfolio[]>(this.getPortfolioInfoUrl, 
+    return this.http.post<Portfolio>(this.getPortfolioInfoUrl, 
       JSON.stringify(body), 
       {headers: headers}).pipe(catchError(this.erroHandler));
   }

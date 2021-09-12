@@ -15,17 +15,12 @@
                   <h3 class="mb-0">
                   <span><b>Selected Portfolio:</b> {{ portfoliosInfo.portfolio_name }} </span>
                   <span style="margin-left: 10%;"><b style="margin-right: 2%;">Capital:</b> 
-                    <span class="select">
-                      <select style="width: 30px;" formControlName='cap_currency' class='select-text'>
-                        <option value="dollar">$</option>
-                        <option value="rubel">₽</option>
-                      </select>
-                      <span class="select-highlight"></span>
-                      <span class="select-bar"></span>
-                    </span>  
-                      
+                  <select style="width: 40px; border: 0px" formControlName='cap_currency' (change)="recalcPortfolio()">
+                        <option value="$">$</option>
+                        <option value="rub">₽</option>
+                  </select>  
                     <span style="margin-left: 2%;">
-                      <input formControlName='capital'>
+                      <input formControlName='capital' name = "capital" (keyup)="recalcPortfolio()">
                     </span>
                   </span>
                   <span style="margin-left: 10%;" *ngIf="portfoliosInfo.start_date"><b>Optimization Period:</b> {{ portfoliosInfo.start_date }} - {{ portfoliosInfo.end_date }}</span>
@@ -47,31 +42,48 @@
                   <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets').controls; let i = index" >
                     <tr [formGroup]='p_asset'>
                       <th scope="row">
-                        <button class = "btn" attr.data-pid={{asset}}
+                        <button class = "btn" attr.data-pid={{i}}
                         (click)='deleteAssetFromUi($event)'>
                         <i class="ni ni-fat-remove"
-                        attr.data-pid={{asset}}>
+                        attr.data-pid="{{i}}"
+                        id="{{i}}" name= 'delete'>
                         </i>
                       </button>
                       </th>
-                      <td>
-                        <!--auto-complete [options]="assetList" [controlName]='asset' formControlName='asset'></auto-complete-->
-                        <input formControlName="asset">
+                      <td>                      
+                        <input formControlName="asset" 
+                          (change)="setNewAsset($event)" 
+                          (keyup)="getMatchingAssets($event)" 
+                          list="dynmicAssets"
+                          id="{{i}}" name='asset_name'> 
+                        <datalist id="dynmicAssets" >
+                          <option *ngFor="let item of assetList" value="{{item.ticker + ' ' + item.name }}">{{item.name}}</option>
+                        </datalist>
                       </td>
                       <td style="width: 98px;">
-                        <input disabled style="width: 50px;" formControlName="lot">
+                        <input style="width: 50px;" 
+                        formControlName="lot"
+                        id="{{i}}" name='lot'>
                       </td>
                       <td>
-                        <input style="width: 50px;" formControlName="to_buy">
+                        <input style="width: 50px;" 
+                        formControlName="to_buy"
+                        id="{{i}}" name='to_buy'
+                        (keyup)="setNewToBuy($event)">
                       </td>
                       <td>
-                        <input style="width: 50px;" formControlName="percentage">
+                        <input style="width: 50px;" 
+                        formControlName="percentage"
+                        id="{{i}}" name='percentag'
+                        (keyup)="setNewPercentage($event)">
                       </td>
                       <td>
-                        <input disabled formControlName="money">
+                        <input formControlName="money"
+                        id="{{i}}" name='money'>
                       </td>
                       <td class="text-left">
-                        <input style="width: 50px;" disabled formControlName="price">
+                        <input style="width: 50px;" formControlName="price"
+                        id="{{i}}" name='price'>
                       </td>
                     </tr>
                   </tbody>
@@ -80,8 +92,8 @@
             </form>
             <div class="card-footer py-4">
               <span>Total Money Spent: <span id="totalMoneySpent">{{ InitTotalMoneySpent }}</span></span>
-              <span style="margin-left: 10%;">Total Percentage: <span id="totalMoneySpent">{{ InitTotalPercentage }}</span></span>
-              <span style="margin-left: 10%;">Free Money: <span id="totalMoneySpent">{{ InitFreeMoney }}</span></span>
+              <span style="margin-left: 10%;">Total Percentage: <span id="totalPercentage">{{ InitTotalPercentage }}</span></span>
+              <span style="margin-left: 10%;">Free Money: <span id="freeMoney">{{ InitFreeMoney }}</span></span>
               <!--nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
                   <li class="page-item disabled">

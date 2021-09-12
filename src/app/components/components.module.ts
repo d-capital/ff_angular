@@ -12,7 +12,6 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthbuttonComponent } from './authbutton/authbutton.component';
-import { AutoCompleteComponent } from './auto-complete/auto-complete.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -34,16 +33,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NavbarComponent,
     SidebarComponent,
     LoadingComponent,
-    AuthbuttonComponent,
-    AutoCompleteComponent
+    AuthbuttonComponent
 
   ],
   providers: [AuthService],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent,
-    AutoCompleteComponent
+    SidebarComponent
   ]
 })
 export class ComponentsModule { }
