@@ -42,10 +42,10 @@
                   <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets').controls; let i = index" >
                     <tr [formGroup]='p_asset'>
                       <th scope="row">
-                        <button class = "btn" attr.data-pid={{i}}
+                        <button class = "btn" attr.data-rid={{i}}
                         (click)='deleteAssetFromUi($event)'>
                         <i class="ni ni-fat-remove"
-                        attr.data-pid="{{i}}"
+                        attr.data-rid="{{i}}"
                         id="{{i}}" name= 'delete'>
                         </i>
                       </button>
@@ -87,6 +87,7 @@
                       </td>
                     </tr>
                   </tbody>
+                  <button class = "btn-secondary" (click)="addRow()"><i class= "ni ni-fat-add"></i></button>
                 </table>
               </div>
             </form>

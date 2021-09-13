@@ -141,11 +141,65 @@ export class SinglePortfolioComponent implements OnInit {
     this.setNewTotals()
   }
   deleteAssetFromUi(event){
-    console.log('deleteAssetFromUi');
+    const rowToDelete = event.target.dataset.rid;
+    (<FormArray>this.portfolioForm.controls.pAssets).removeAt(rowToDelete);
+    this.setNewTotals()
   }
   recalcPortfolio(){
-    //TODO in loop using percentage recalc to buy and money
+    let capital = this.portfolioForm.controls['capital'].value;
+    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+    let pLength = this.portfolioForm.controls.pAssets['controls'].length;
+    
+    for (var i = 0; i < pLength; i++){
+      let toBuy = this.portfolioForm.controls.pAssets['controls'].at(i).value.to_buy;
+      let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
+      let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
+      let price = this.portfolioForm.controls.pAssets['controls'].at(i).value.price;
+      let lot = this.portfolioForm.controls.pAssets['controls'].at(i).value.lot;
+      let rowTicker = rowAsset.split(' ')[0];
+      let assetCurrency = this.assetList.find(x => x.ticker === rowTicker);
+      let calcPrice = this.getCalcPrice(price, capCurrency, assetCurrency)
+      if(toBuy == NaN && percentage !== NaN){
+        let newToBuy = Math.round((capital*(percentage/100))/(lot*price));
+        let newMoney = calcPrice*lot*newToBuy;
+        let newPercentage = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+          money: newMoney, 
+          percentage: newPercentage, 
+          to_buy: newToBuy
+        });
+      } else if(toBuy !== NaN && percentage == NaN){
+        let newPercentage = Math.round(((calcPrice*lot*toBuy)/capital)*100);
+        let newMoney = calcPrice*lot*toBuy;
+        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+          money: newMoney, 
+          percentage: newPercentage
+        });
+      } else if(toBuy !== NaN && percentage !== NaN){
+        let newToBuy = Math.round((capital*(percentage/100))/(lot*calcPrice));
+        let newMoney = calcPrice*lot*newToBuy;
+        let newPercentage = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+          money: newMoney, 
+          percentage: newPercentage,
+          to_buy: newToBuy
+        });
+      }else{
+        //pass
+      };
+    }
     this.setNewTotals()
+  }
+  addRow(){
+    const control = <FormArray>this.portfolioForm.get('pAssets');
+    control.push(this.fb.group({
+      asset: null,
+      lot: {value: null, disabled: true},
+      to_buy: null,
+      percentage: null,
+      price: { value: null, disabled: true},
+      money: {value: null, disabled: true },
+    }));
   }
   getCalcPrice(price, capCurrency, assetCurrency){
     let calcPrice;
