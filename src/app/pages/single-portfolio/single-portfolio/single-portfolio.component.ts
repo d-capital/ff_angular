@@ -216,9 +216,9 @@ export class SinglePortfolioComponent implements OnInit {
   setNewToBy(event){
     let rowId = event.target.id;
     let newToBuy = event.target.value;
-    let capital = this.portfolioForm.controls['capital'].value;
+    let capital = parseFloat(this.portfolioForm.controls['capital'].value);
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
-    let price = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.price;
+    let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
     let rowTicker = rowAsset.split(' ')[0];
     let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
@@ -236,9 +236,9 @@ export class SinglePortfolioComponent implements OnInit {
   setNewPercentage(event){
     let rowId = event.target.id;
     let newPercentage = event.target.value;
-    let capital = this.portfolioForm.controls['capital'].value;
+    let capital = parseFloat(this.portfolioForm.controls['capital'].value);
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
-    let price = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.price;
+    let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
     let rowTicker = rowAsset.split(' ')[0];
     let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
@@ -262,7 +262,7 @@ export class SinglePortfolioComponent implements OnInit {
     let newTotalPercentage = 0;
     for (var i = 0 ; i<this.portfolioForm.controls.pAssets['controls'].length;i++) {
       newTotalMoney = newTotalMoney + this.portfolioForm.controls.pAssets['controls'].at(i).controls.money.value;
-      newTotalPercentage = newTotalPercentage + this.portfolioForm.controls.pAssets['controls'].at(i).controls.percentage.value;
+      newTotalPercentage = newTotalPercentage + (parseFloat(this.portfolioForm.controls.pAssets['controls'].at(i).controls.percentage.value));
     }
     document.getElementById('totalMoneySpent').innerText = (newTotalMoney.toFixed(2)).toString();
     document.getElementById('freeMoney').innerText = ((capital - newTotalMoney).toFixed(2)).toString();
