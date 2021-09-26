@@ -18,6 +18,7 @@ private renamePortfoliosUrl = `${API_URL}/api/rename_portfolio`;
 private getPortfolioContentUrl = `${API_URL}/api/get_single_portfolio_content`;
 private getPortfolioInfoUrl = `${API_URL}/api/get_single_portfolio_info`;
 private getAssetsUrl = `${API_URL}/api/get_assets`;
+private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
 
   constructor(private http: HttpClient) {
     
@@ -90,6 +91,16 @@ private getAssetsUrl = `${API_URL}/api/get_assets`;
   }
   public getAssets(): Observable<DbAssets[]> {
     return this.http.get<DbAssets[]>(this.getAssetsUrl).pipe(catchError(this.erroHandler));
+  }
+  public savePortfolio(token:any, new_name: string, portfolio_id: string, portfolioToSave: PortfolioContent[]): Observable<any>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = {new_name: new_name,portfolio_id: portfolio_id, portfolioUpdates: portfolioToSave};
+    return this.http.post(this.savePortfolioUrl,
+      JSON.stringify(body),
+      {headers: headers}).pipe(catchError(this.erroHandler));
   }
 
   erroHandler(error: HttpErrorResponse) {

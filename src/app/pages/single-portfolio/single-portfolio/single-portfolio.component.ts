@@ -7,7 +7,7 @@ import { Portfolio } from '../../portfolios/portfolios.model'
 import { Subscription } from 'rxjs';
 import { float } from 'aws-sdk/clients/lightsail';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
-
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-single-portfolio',
@@ -34,11 +34,17 @@ export class SinglePortfolioComponent implements OnInit {
   mathcingAssetList: any;
 
 
+  newPortfolioContent: PortfolioContent[] = [];
+
   lastkeydown1: number = 0;
 
-  constructor(private portfoliosApi: PortfoliosApiService, private fb: FormBuilder) { 
+  constructor(
+    private portfoliosApi: PortfoliosApiService,
+    private fb: FormBuilder,
+    private modalService: NgbModal) { 
 
     this.portfolioForm = this.fb.group({
+      new_name : new FormControl('',[Validators.required]),
       capital: new FormControl('',[Validators.required]),
       cap_currency: new FormControl('',[Validators.required]),
       pAssets: this.fb.array([]),
@@ -84,8 +90,10 @@ export class SinglePortfolioComponent implements OnInit {
               console.log(this.portfoliosInfo.cap_currency);
               const pCapital = <FormControl>this.portfolioForm.get('capital');
               const pCapCurrency = <FormControl>this.portfolioForm.get('cap_currency');
+              const pName = <FormControl>this.portfolioForm.get('new_name');
               pCapital.setValue(this.portfoliosInfo.capital);
               pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
+              pName.setValue(this.portfoliosInfo.portfolio_name)
               },
               console.error
             );
@@ -154,8 +162,8 @@ export class SinglePortfolioComponent implements OnInit {
       let toBuy = this.portfolioForm.controls.pAssets['controls'].at(i).value.to_buy;
       let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
       let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
-      let price = this.portfolioForm.controls.pAssets['controls'].at(i).value.price;
-      let lot = this.portfolioForm.controls.pAssets['controls'].at(i).value.lot;
+      let price = this.portfolioForm.controls.pAssets['controls'].at(i).controls.price.value;
+      let lot = this.portfolioForm.controls.pAssets['controls'].at(i).controls.lot.value;
       let rowTicker = rowAsset.split(' ')[0];
       let assetCurrency = this.assetList.find(x => x.ticker === rowTicker);
       let calcPrice = this.getCalcPrice(price, capCurrency, assetCurrency)
@@ -253,8 +261,56 @@ export class SinglePortfolioComponent implements OnInit {
     });
     this.setNewTotals();
   }
-  onSave(){
-    //TODO
+  public openModal(content){
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+  }
+  public onSave(howToSave){
+    console.log("save attempt");
+    const token = localStorage.getItem('auth_token');
+    //ask to save as new portfolio or to change exisiting one?
+    let pId: string;
+    if(howToSave && howToSave=='new')
+      pId = '0'; 
+    else if(howToSave && howToSave=='old'){
+      pId = localStorage.getItem('pId');
+    }
+    const pLength = this.portfolioForm.controls.pAssets['controls'].length;
+    this.newPortfolioContent = [];
+    for(var i=0; i < pLength; i++){
+      let asset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
+      let assetTicker = asset.split(' ')[0];
+      let assetInfo = this.assetList.find(x => x.ticker === assetTicker);
+      this.newPortfolioContent.push({
+        user_id: null,//user_id will be identified on backend
+        portfolio_id: parseInt(pId),
+        asset: assetTicker,
+        lot: this.portfolioForm.controls.pAssets['controls'].at(i).controls.lot.value,
+        to_buy: this.portfolioForm.controls.pAssets['controls'].at(i).value.to_buy,
+        percentage: this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage,
+        start_date: new Date(),//since it is manual portfolio there is no date
+        end_date: new Date(),//since it is manual portfolio there is no date
+        exchange: assetInfo.exchange,
+        asset_group: this.portfoliosInfo.asset_group,
+        capital: this.portfolioForm.controls['capital'].value,
+        cap_currency: this.portfolioForm.controls['cap_currency'].value,
+        er: null,//since it is manual portfolio there is er
+        price:this.portfolioForm.controls.pAssets['controls'].at(i).controls.price.value,
+        money:this.portfolioForm.controls.pAssets['controls'].at(i).controls.money.value
+      });
+    };
+    const newPContent = this.newPortfolioContent;
+    const new_name = (this.portfolioForm.controls['new_name'].value).toString();
+    this.portfoliosApi.savePortfolio(token, new_name, pId, newPContent).pipe().subscribe(data=>{
+      //give user a message that portfolios is saved
+      }, err => { 
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+      }
+    });
   }
   setNewTotals(){
     let capital = this.portfolioForm.controls['capital'].value;
