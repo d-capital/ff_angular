@@ -17,9 +17,11 @@ import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { IsLoggedInService } from 'src/app/services/guards/is-logged-in.service';
 import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
+import { OptimizationComponent } from 'src/app/pages/optimization/optimization.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ComponentsModule } from '../../components/components.module';
+import { OptimizeApiService } from 'src/app/services/optimize.service';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -44,8 +46,9 @@ import { ComponentsModule } from '../../components/components.module';
     MapsComponent,
     PortfoliosComponent,
     SinglePortfolioComponent,
+    OptimizationComponent
   ],
-  providers: [AuthService, IsLoggedInService],
+  providers: [AuthService, IsLoggedInService, OptimizeApiService],
 })
 
 export class AdminLayoutModule {}

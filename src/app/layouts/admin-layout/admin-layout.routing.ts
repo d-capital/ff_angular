@@ -8,6 +8,7 @@ import { PortfoliosComponent } from '../../pages/portfolios/portfolios.component
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { IsLoggedInService } from '../../services/guards/is-logged-in.service';
 import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
+import { OptimizationComponent } from 'src/app/pages/optimization/optimization.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -34,5 +35,9 @@ export const AdminLayoutRoutes: Routes = [
     { 
         path: 'single-portfolio', 
         component: SinglePortfolioComponent
+    },
+    {
+        path: 'optimization',
+        component: OptimizationComponent
     }
 ];
