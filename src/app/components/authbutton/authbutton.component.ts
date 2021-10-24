@@ -27,6 +27,7 @@ export class AuthbuttonComponent implements OnInit {
   logOut() {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('pId');
+    localStorage.removeItem('username');
     window.location.reload();
     this.router.navigate(['/#/dashboard'], {skipLocationChange: true});
   }

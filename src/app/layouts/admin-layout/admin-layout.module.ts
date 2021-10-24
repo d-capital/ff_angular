@@ -22,6 +22,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ComponentsModule } from '../../components/components.module';
 import { OptimizeApiService } from 'src/app/services/optimize.service';
+import { TasksApiService } from 'src/app/services/tasks.services';
+import { ResultsApiService } from 'src/app/services/results.service';
+import { UserProfileApiService } from 'src/app/services/user-profile.service';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -48,7 +51,14 @@ import { OptimizeApiService } from 'src/app/services/optimize.service';
     SinglePortfolioComponent,
     OptimizationComponent
   ],
-  providers: [AuthService, IsLoggedInService, OptimizeApiService],
+  providers: [
+    AuthService, 
+    IsLoggedInService, 
+    OptimizeApiService, 
+    TasksApiService, 
+    ResultsApiService, 
+    UserProfileApiService
+  ],
 })
 
 export class AdminLayoutModule {}

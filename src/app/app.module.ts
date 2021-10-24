@@ -20,7 +20,6 @@ import { AuthService } from './services/auth.service';
 import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service';
 import { IsLoggedInService } from './services/guards/is-logged-in.service';
 
-
 @NgModule({
   imports: [
     BrowserAnimationsModule,

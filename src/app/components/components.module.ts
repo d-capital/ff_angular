@@ -15,6 +15,7 @@ import { AuthbuttonComponent } from './authbutton/authbutton.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TaskStatusComponent } from './task-status/task-status.component';
 
 @NgModule({
   imports: [
@@ -33,14 +34,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NavbarComponent,
     SidebarComponent,
     LoadingComponent,
-    AuthbuttonComponent
+    AuthbuttonComponent,
+    TaskStatusComponent
 
   ],
   providers: [AuthService],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    TaskStatusComponent
   ]
 })
 export class ComponentsModule { }

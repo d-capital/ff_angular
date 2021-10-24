@@ -87,6 +87,7 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   openPortfolio(event){
     const portfolioToOpen = event.target.dataset.pid;
     localStorage.setItem('pId', portfolioToOpen);
+    localStorage.setItem('isTempPortfolio','false');
     this.router.navigate(['single-portfolio']);
   }
 

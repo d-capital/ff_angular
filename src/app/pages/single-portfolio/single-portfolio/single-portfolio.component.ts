@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { PortfoliosApiService } from '../../portfolios/portfolios.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PortfolioContent } from 'src/app/models/portfolio-content';
-import { DbAssets } from 'src/app/models/dbassets';
+import { DbAssets} from 'src/app/models/dbassets';
 import { Portfolio } from '../../portfolios/portfolios.model'
 import { Subscription } from 'rxjs';
 import { float } from 'aws-sdk/clients/lightsail';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-single-portfolio',
@@ -41,7 +42,9 @@ export class SinglePortfolioComponent implements OnInit {
   constructor(
     private portfoliosApi: PortfoliosApiService,
     private fb: FormBuilder,
-    private modalService: NgbModal) { 
+    private modalService: NgbModal,
+    private router: Router
+    ) { 
 
     this.portfolioForm = this.fb.group({
       new_name : new FormControl('',[Validators.required]),
@@ -56,12 +59,19 @@ export class SinglePortfolioComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('auth_token');
     const pId = parseFloat(localStorage.getItem('pId'));
-
-
+    const isTempPortfolio = localStorage.getItem('isTempPortfolio')
+    var cap;
+    var cap_curr;
+    var displayedEnd;
+    var dsiplayedStart
     this.portfoliosContentListSubs = this.portfoliosApi
-      .getPortfolioContent(token, pId)
+      .getPortfolioContent(token, pId, isTempPortfolio)
       .subscribe(res => {
           this.portfoliosContentList = res;
+          cap = this.portfoliosContentList[0].capital;
+          cap_curr = this.portfoliosContentList[0].cap_currency;
+          displayedEnd = this.portfoliosContentList[0].end_date;
+          dsiplayedStart = this.portfoliosContentList[0].start_date;
           this.assetListSubs = this.portfoliosApi
           .getAssets().subscribe(res => {
             this.assetList = res;
@@ -85,18 +95,25 @@ export class SinglePortfolioComponent implements OnInit {
             this.InitFreeMoney = moneyLeft.toString();
             this.InitTotalMoneySpent = Math.round((this.InitTotalMoneySpent + Number.EPSILON)*100)/100;// this is rounding
             this.InitTotalPercentage = Math.round((this.InitTotalPercentage + Number.EPSILON)*100)/100;
-            this.portfolioInfoSubs = this.portfoliosApi.getPortfolioInfo(token, pId).subscribe(s => {
-              this.portfoliosInfo = s;
-              console.log(this.portfoliosInfo.cap_currency);
-              const pCapital = <FormControl>this.portfolioForm.get('capital');
-              const pCapCurrency = <FormControl>this.portfolioForm.get('cap_currency');
-              const pName = <FormControl>this.portfolioForm.get('new_name');
-              pCapital.setValue(this.portfoliosInfo.capital);
-              pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
-              pName.setValue(this.portfoliosInfo.portfolio_name)
-              },
-              console.error
-            );
+            const pCapital = <FormControl>this.portfolioForm.get('capital');
+            const pCapCurrency = <FormControl>this.portfolioForm.get('cap_currency');
+            const pName = <FormControl>this.portfolioForm.get('new_name');
+            if (isTempPortfolio === 'false'){
+              this.portfolioInfoSubs = this.portfoliosApi.getPortfolioInfo(token, pId).subscribe(s => {
+                this.portfoliosInfo = s;
+                pCapital.setValue(this.portfoliosInfo.capital);
+                pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
+                pName.setValue(this.portfoliosInfo.portfolio_name)
+                document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
+                },
+                console.error
+              );
+            }else {
+              pCapital.setValue(cap);
+              pCapCurrency.setValue(cap_curr);
+              pName.setValue('New Name');
+              document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
+            };
           },
           console.error
          );
@@ -265,7 +282,6 @@ export class SinglePortfolioComponent implements OnInit {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
   }
   public onSave(howToSave){
-    console.log("save attempt");
     const token = localStorage.getItem('auth_token');
     //ask to save as new portfolio or to change exisiting one?
     let pId: string;
@@ -323,6 +339,40 @@ export class SinglePortfolioComponent implements OnInit {
     document.getElementById('totalMoneySpent').innerText = (newTotalMoney.toFixed(2)).toString();
     document.getElementById('freeMoney').innerText = ((capital - newTotalMoney).toFixed(2)).toString();
     document.getElementById('totalPercentage').innerText = newTotalPercentage.toFixed(2).toString();
+  }
+  
+  startBacktest(){
+    const token = localStorage.getItem('auth_token');
+    let capital = this.portfolioForm.controls['capital'].value;
+    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+    let backtestStartInput = <HTMLInputElement>document.getElementById('backtestStart');
+    let backtestEndInput = <HTMLInputElement>document.getElementById('backtestEnd');
+    let backtestStartDate = backtestStartInput.value;
+    let backtestEndDate = backtestEndInput.value;
+    let stocksForTest = [];
+    let allocationForTest = [];
+    const pLength = this.portfolioForm.controls.pAssets['controls'].length;
+    for(var i=0; i < pLength; i++){
+      let asset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
+      let assetTicker = asset.split(' ')[0];
+      stocksForTest.push(assetTicker)
+    }
+    for(var i=0; i < pLength; i++){
+      let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
+      allocationForTest.push(percentage)
+    }
+    document.getElementById('overlay').style.display = "block";
+    this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
+      this.router.navigate(['/#/results']);
+      }, err => { 
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+      }
+    });
   }
 
 }

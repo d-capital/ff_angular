@@ -6,6 +6,7 @@ import { API_URL } from 'src/app/env';
 import { Portfolio } from './portfolios.model';
 import { PortfolioContent } from 'src/app/models/portfolio-content';
 import { DbAssets } from 'src/app/models/dbassets';
+import { integer } from 'aws-sdk/clients/lightsail';
 
 
 
@@ -19,6 +20,7 @@ private getPortfolioContentUrl = `${API_URL}/api/get_single_portfolio_content`;
 private getPortfolioInfoUrl = `${API_URL}/api/get_single_portfolio_info`;
 private getAssetsUrl = `${API_URL}/api/get_assets`;
 private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
+private startBacktestUrl = `${API_URL}/api/start_backtest`;
 
   constructor(private http: HttpClient) {
     
@@ -61,7 +63,8 @@ private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
   }
   public getPortfolioContent(
     token: any,
-    portfolio_id: number
+    portfolio_id: number,
+    isTempPortfolio : string
     ): Observable<PortfolioContent[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -69,6 +72,7 @@ private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
     });
     const body = { 
       portfolio_id: portfolio_id,
+      isTempPortfolio: isTempPortfolio
     };
     return this.http.post<PortfolioContent[]>(this.getPortfolioContentUrl, 
       JSON.stringify(body), 
@@ -99,6 +103,16 @@ private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
     });
     const body = {new_name: new_name,portfolio_id: portfolio_id, portfolioUpdates: portfolioToSave};
     return this.http.post(this.savePortfolioUrl,
+      JSON.stringify(body),
+      {headers: headers}).pipe(catchError(this.erroHandler));
+  }
+  public startBacktest(token:any, stocksForTest: any, allocationForTest: any,capital: integer, capCurrency: string, backtestStartDate: string, backtestEndDate: string): Observable<any>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    const body = {capital: capital, stocksForTest: stocksForTest, allocationForTest: allocationForTest, capCurrency: capCurrency, backtestStartDate: backtestStartDate, backtestEndDate: backtestEndDate};
+    return this.http.post(this.startBacktestUrl,
       JSON.stringify(body),
       {headers: headers}).pipe(catchError(this.erroHandler));
   }

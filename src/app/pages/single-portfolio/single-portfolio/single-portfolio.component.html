@@ -3,14 +3,48 @@
       <div class="header-body">
       </div>
     </div>
+    <div class="card shadow" style="margin-bottom:3rem;">
+      <div class="card-header bg-transparent">
+        <div class="row align-items-center">
+          <div class="col">
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Backtest The Portfolio Below</h6>
+          </div>
+        </div>
+          <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                      <tr>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">End Date</th>
+                      <th scope="col"></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <th scope="row">
+                            <input type="date" id='backtestStart'>
+                          </th>
+                          <td>
+                            <input type="date" id='backtestEnd'>
+                          </td>
+                          <td>
+                              <button id = 'startBacktest' class='btn btn-dark' (click)='startBacktest()'>Start Backtest</button>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
 </div>
+
 <form>
   <div class="container-fluid mt--7">
       <!-- Table -->
       <div class="row">
         <div class="col">
           <div class="card shadow">
-            <form role="form" [formGroup]="portfolioForm" (ngSubmit)="openModal(modalData)" novalidate *ngIf="portfoliosContentList && portfoliosInfo">
+            <form role="form" [formGroup]="portfolioForm" (ngSubmit)="openModal(modalData)" novalidate *ngIf="portfoliosContentList">
                 <div class="card-header border-0">
                   <h3 class="mb-0">
                   <span><b>Selected Portfolio:</b> <input name='new_name' formControlName='new_name'> </span>
@@ -23,8 +57,8 @@
                       <input formControlName='capital' name = "capital" (keyup)="recalcPortfolio()">
                     </span>
                   </span>
-                  <span style="margin-left: 10%;" *ngIf="portfoliosInfo.start_date"><b>Optimization Period:</b> {{ portfoliosInfo.start_date }} - {{ portfoliosInfo.end_date }}</span>
-                  <span style="margin-left: 10%;" *ngIf="portfoliosInfo.er"><b>ER:</b> {{ portfoliosInfo.er }}</span> </h3>
+                  <span style="margin-left: 10%;"><b>Optimization Period: </b> <span id='startEnd'>' '</span></span>
+                  <span style="margin-left: 10%;" *ngIf="portfoliosInfo?.er"><b>ER:</b> {{ portfoliosInfo.er }}</span> </h3>
                 </div>
               <div class="table-responsive">
                 <table #el class="table align-items-center table-flush">
@@ -149,5 +183,15 @@
     </div>
   </ng-template>
 </form>
-
+<div id="overlay" class="#overlay">
+  <div class="#text" id="text">
+      <div>
+        <div class="centering">
+          <div class="loader"></div>
+        </div>  
+        <p style="text-align: center;" class="mb-4"><b>We started to test your portfolio.</b></p>
+        <p style="text-align: center;"><b>Wait a bit to see results.</b></p>
+      </div>
+  </div>
+</div>
   
