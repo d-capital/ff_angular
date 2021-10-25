@@ -52,4 +52,4 @@ jobs:
         with:
           app-name: 'finefolioang'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6EF82832FE044B92A4AF6273A396A9EF }}
-          package: ./dist/argon-dashboard-angular
+          package: ./dist/
