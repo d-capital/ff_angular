@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { UserProfileApiService } from 'src/app/services/user-profile.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,6 +17,7 @@ export class UserProfileComponent implements OnInit {
   public planBEnd?:string;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private UserPorfileApiService: UserProfileApiService,
   ) { }
 
@@ -36,10 +38,62 @@ export class UserProfileComponent implements OnInit {
           if (err.status === 422) {
             this.serverErrors = err.error.message
           }
-      }
+        }
       }
     );
     
+  }
+  buyBPlan(){
+    const token = localStorage.getItem('auth_token');
+    this.UserPorfileApiService.payForB(token).pipe().subscribe(
+      data=>{
+        this.payPlanBUrl = data['payUrl'];
+        this.document.location.href = data['payUrl'] ;
+      },
+      err=>{
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+        }
+      }
+    );
+  }
+  updateBillStatus(){
+    const token = localStorage.getItem('auth_token');
+    this.UserPorfileApiService.updateBillStatus(token).pipe().subscribe(
+      data=>{
+        window.location.reload();
+      },
+      err=>{
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+        }
+      }
+    );
+  }
+  rejectPayment(){
+    const token = localStorage.getItem('auth_token');
+    this.UserPorfileApiService.rejectBill(token).pipe().subscribe(
+      data=>{
+        window.location.reload();
+      },
+      err=>{
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+        }
+      }
+    );
   }
 
 }

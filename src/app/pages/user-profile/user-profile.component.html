@@ -99,7 +99,24 @@
                   <div class="form-group">
                     <span style="margin-right: 5%;"><label class="form-control-label">Plan A</label></span>
                     <span style="margin-right: 5%;"><label class="">$10 per month</label></span>
-                    <button class="btn btn-dark" style="margin-right: 5%;margin-bottom: 2%;">Buy</button>
+                    <button class="btn btn-dark" 
+                      style="margin-right: 5%;margin-bottom: 2%;" 
+                      *ngIf="!planBStart && !payPlanBUrl" 
+                      (click)="buyBPlan()">Buy</button>
+                    <a class="btn btn-dark" 
+                      style="margin-right: 5%;margin-bottom: 2%;" 
+                      *ngIf="payPlanBUrl" 
+                      href="{{payPlanBUrl}}" 
+                      target="blank">Pay an openen bill</a>
+                    <button class="btn btn-light" 
+                      style="margin-right: 5%;margin-bottom: 2%;" 
+                      *ngIf="payPlanBUrl"
+                      (click)="rejectPayment()">Reject</button>
+                    <i *ngIf="payPlanBUrl" (click)="updateBillStatus()" class="fa fa-refresh"></i>
+                    <button 
+                      class="btn btn-dark" 
+                      style="margin-right: 5%;margin-bottom: 2%;" 
+                      *ngIf="planBStart" disabled>You have paid for this plan from {{ planBStart }} till {{ planBEnd }}</button>
                     <span style="margin-right: 5%;margin-top: 5%;"><label class="f">Customize Forecast and Optimization Settings, Save and Store Custom Portfolios</label></span>
                   </div>
                 </div>
