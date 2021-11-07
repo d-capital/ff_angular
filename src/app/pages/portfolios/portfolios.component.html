@@ -42,21 +42,20 @@
                     <span class="mb-0 text-sm">{{portfolio.saved_portfolio_id}}</span>
                   </td>
                   <td>
-                    <div *ngIf="!isEditMode; else editMode">
+                    <div id="pName{{ portfolio.saved_portfolio_id }}">
                       <a (click) = 'openPortfolio($event)' 
                         attr.data-pid={{portfolio.saved_portfolio_id}}>
                         {{portfolio.portfolio_name}}</a>
-                      <span style="margin-left: 10%;" (click)='isEditMode = true'>
-                        <span><i class="ni ni-ruler-pencil"></i></span>
+                      <span style="margin-left: 10%;" (click)='openEditMode($event)' 
+                        attr.data-pid={{portfolio.saved_portfolio_id}}>
+                        <span attr.data-pid={{portfolio.saved_portfolio_id}}><i attr.data-pid={{portfolio.saved_portfolio_id}} class="ni ni-ruler-pencil"></i></span>
                       </span>
+                    </div>                  
+                    <div id="pNameControl{{ portfolio.saved_portfolio_id }}" style="display: none;">
+                      <input value="{{portfolio.portfolio_name}}" #ref1>
+                      <button attr.data-pid={{portfolio.saved_portfolio_id}} (click)='savePortfolioName($event, ref1.value); closeEditMode($event)'>Save</button>
+                      <button attr.data-pid={{portfolio.saved_portfolio_id}} (click)='closeEditMode($event)'>Cancel</button>
                     </div>
-                    <ng-template #editMode>
-                      <div>
-                        <input value="{{portfolio.portfolio_name}}" #ref1>
-                        <button attr.data-pid={{portfolio.saved_portfolio_id}} (click)='savePortfolioName($event, ref1.value); isEditMode = false'>Save</button>
-                        <button (click)='isEditMode = false'>Cancel</button>
-                      </div>
-                    </ng-template>
                   </td>
                   <td>
                     <span class="badge badge-dot mr-4">{{portfolio.exchange}}</span>

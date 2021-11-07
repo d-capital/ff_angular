@@ -28,12 +28,20 @@
                             <input type="date" id='backtestEnd'>
                           </td>
                           <td>
-                              <button id = 'startBacktest' class='btn btn-dark' (click)='startBacktest()'>Start Backtest</button>
+                              <button
+                              id = 'startBacktest' 
+                              class='btn btn-dark' 
+                              [disabled]="!portfolioForm.valid"
+                              (click)='startBacktest()'>Start Backtest</button>
                           </td>
                       </tr>
                   </tbody>
               </table>
           </div>
+          <br>
+          <span *ngFor="let error of uiErrors">
+            <div style="color:red; text-align: center;">{{error}}</div>
+          </span>
       </div>
     </div>
 </div>
@@ -85,7 +93,7 @@
                       </button>
                       </th>
                       <td>                      
-                        <input formControlName="asset" 
+                        <input required formControlName="asset" 
                           (change)="setNewAsset($event)" 
                           (keyup)="getMatchingAssets($event)" 
                           list="dynmicAssets"
@@ -100,13 +108,13 @@
                         id="{{i}}" name='lot'>
                       </td>
                       <td>
-                        <input style="width: 50px;" 
+                        <input required style="width: 50px;" 
                         formControlName="to_buy"
                         id="{{i}}" name='to_buy'
                         (keyup)="setNewToBy($event)">
                       </td>
                       <td>
-                        <input style="width: 50px;" 
+                        <input required style="width: 50px;" 
                         formControlName="percentage"
                         id="{{i}}" name='percentag'
                         (keyup)="setNewPercentage($event)">
@@ -126,9 +134,13 @@
               </div>
               <div style="margin-top:2%;margin-bottom: 2%; margin-right: 1% ;float: right;">
 
-                  <input type="submit" class="btn btn-dark" value="Save">
+                  <input type="submit" class="btn btn-dark" value="Save" [disabled]="!portfolioForm.valid">
 
               </div>
+              <br>
+              <span *ngFor="let error of uiErrorsOnSave">
+                <div style="color:red; text-align: center;">{{error}}</div>
+              </span>
             </form>
             <div class="card-footer py-4">
               <span>Total Money Spent: <span id="totalMoneySpent">{{ InitTotalMoneySpent }}</span></span>

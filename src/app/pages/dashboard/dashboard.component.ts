@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   public maxWin: number;
   public testPeriod: string;
   public endCap: number;
-  public returns: number;
+  public returns: string;
   
   constructor(
     private resultsApiService: ResultsApiService,
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
       this.maxDrawdown = data['max_drawdown'];
       this.maxWin = data['max_win'];
       this.endCap = this.curveRefined[this.curveRefined.length-1];
-      this.returns = ((this.endCap/data['capital'])*100);
+      this.returns = (((this.endCap/data['capital'])-1)*100).toFixed(2);
       var chartSales = document.getElementById('chart-sales');
       this.datasets = [
         [0, 20, 10, 30, 15, 40, 20, 60, 60],

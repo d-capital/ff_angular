@@ -91,4 +91,15 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
     this.router.navigate(['single-portfolio']);
   }
 
+  openEditMode(event){
+    const portfolioToOpenEditMode = event.target.dataset.pid;
+    document.getElementById('pName'+portfolioToOpenEditMode).style.display = 'none';
+    document.getElementById('pNameControl'+portfolioToOpenEditMode).style.display = 'block';
+  }
+  closeEditMode(event){
+    const portfolioToCloseEditMode = event.target.dataset.pid;
+    document.getElementById('pName'+portfolioToCloseEditMode).style.display = 'block';
+    document.getElementById('pNameControl'+portfolioToCloseEditMode).style.display = 'none';
+  }
+
 }

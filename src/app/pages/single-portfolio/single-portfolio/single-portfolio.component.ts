@@ -20,6 +20,8 @@ export class SinglePortfolioComponent implements OnInit {
  
 
   serverErrors = [];
+  uiErrors = [];
+  uiErrorsOnSave = [];
   
   portfoliosContentListSubs!: Subscription;
   portfoliosContentList!: PortfolioContent[];
@@ -82,8 +84,9 @@ export class SinglePortfolioComponent implements OnInit {
               let price = parseFloat(assetInfo.price.toFixed(2));
               let money = assetInfo.price * x.lot * x.to_buy;
               this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;
+              var displayedAssetName = assetInfo.ticker + ' ' + assetInfo.name;
               control.push(this.fb.group({
-                asset: assetInfo.ticker + ' ' + assetInfo.name,
+                asset: displayedAssetName,
                 lot: {value: x.lot, disabled: true},
                 to_buy: x.to_buy,
                 percentage: x.percentage,
@@ -151,10 +154,11 @@ export class SinglePortfolioComponent implements OnInit {
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let assetCurrency = newAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
     let calcPrice = this.getCalcPrice(newAssetInfo.price,capCurrency,assetCurrency);
-    let capital = this.portfolioForm.controls['capital'].value;
+    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
     let currentToBuy = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.to_buy;
     let newMoney = parseFloat((calcPrice*newAssetInfo.lot*currentToBuy).toFixed(2));
-    let newPercentage = Math.round(((calcPrice*newAssetInfo.lot*currentToBuy)/capital)*100);
+    let calcedNewPercentage = Math.round(((calcPrice*newAssetInfo.lot*currentToBuy)/capital)*100);
+    let newPercentage = isNaN(calcedNewPercentage)? 0 : calcedNewPercentage;
     this.portfolioForm.controls.pAssets['controls'].at(rowId).setValue({
       asset: newAsset, 
       lot: newAssetInfo.lot, 
@@ -171,7 +175,7 @@ export class SinglePortfolioComponent implements OnInit {
     this.setNewTotals()
   }
   recalcPortfolio(){
-    let capital = this.portfolioForm.controls['capital'].value;
+    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let pLength = this.portfolioForm.controls.pAssets['controls'].length;
     
@@ -182,12 +186,14 @@ export class SinglePortfolioComponent implements OnInit {
       let price = this.portfolioForm.controls.pAssets['controls'].at(i).controls.price.value;
       let lot = this.portfolioForm.controls.pAssets['controls'].at(i).controls.lot.value;
       let rowTicker = rowAsset.split(' ')[0];
-      let assetCurrency = this.assetList.find(x => x.ticker === rowTicker);
+      let assetExchange = this.assetList.find(x => x.ticker === rowTicker).exchange;
+      let assetCurrency = assetExchange === 'MOEX' ? 'rub' : 'dollar'
       let calcPrice = this.getCalcPrice(price, capCurrency, assetCurrency)
       if(toBuy == NaN && percentage !== NaN){
         let newToBuy = Math.round((capital*(percentage/100))/(lot*price));
         let newMoney = calcPrice*lot*newToBuy;
-        let newPercentage = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        let calcedNewPercentage1 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        let newPercentage = isNaN(calcedNewPercentage1) ? 0 : calcedNewPercentage1;
         this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
           money: newMoney, 
           percentage: newPercentage, 
@@ -203,7 +209,8 @@ export class SinglePortfolioComponent implements OnInit {
       } else if(toBuy !== NaN && percentage !== NaN){
         let newToBuy = Math.round((capital*(percentage/100))/(lot*calcPrice));
         let newMoney = calcPrice*lot*newToBuy;
-        let newPercentage = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        let calcedNewPercentage2 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+        let newPercentage = isNaN(calcedNewPercentage2) ? 0 : calcedNewPercentage2;
         this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
           money: newMoney, 
           percentage: newPercentage,
@@ -241,7 +248,7 @@ export class SinglePortfolioComponent implements OnInit {
   setNewToBy(event){
     let rowId = event.target.id;
     let newToBuy = event.target.value;
-    let capital = parseFloat(this.portfolioForm.controls['capital'].value);
+    let capital = this.portfolioForm.controls['capital'].value ==="" ? 0 : parseFloat(this.portfolioForm.controls['capital'].value);
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
@@ -249,7 +256,8 @@ export class SinglePortfolioComponent implements OnInit {
     let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
     let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
     let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
-    let newPercentage = Math.round(((calcPrice*rowAssetInfo.lot*newToBuy)/capital)*100);;
+    let newCalcedPercentage = Math.round(((calcPrice*rowAssetInfo.lot*newToBuy)/capital)*100);
+    let newPercentage = isFinite(newCalcedPercentage) ? newCalcedPercentage : 0;
     let newMoney = parseFloat((calcPrice*rowAssetInfo.lot*newToBuy).toFixed(2));;
     this.portfolioForm.controls.pAssets['controls'].at(rowId).patchValue({
       money: newMoney, 
@@ -260,8 +268,8 @@ export class SinglePortfolioComponent implements OnInit {
   }
   setNewPercentage(event){
     let rowId = event.target.id;
-    let newPercentage = event.target.value;
-    let capital = parseFloat(this.portfolioForm.controls['capital'].value);
+    let newPercentage = parseInt(event.target.value);
+    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : parseFloat(this.portfolioForm.controls['capital'].value);
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
@@ -269,7 +277,8 @@ export class SinglePortfolioComponent implements OnInit {
     let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
     let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
     let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
-    let newToBuy = Math.round((capital*(newPercentage/100))/(rowAssetInfo.lot*price));
+    let calcedNewToBuy = Math.round((capital*(newPercentage/100))/(rowAssetInfo.lot*calcPrice));
+    let newToBuy = isNaN(calcedNewToBuy) ? 0 : calcedNewToBuy;
     let newMoney = parseFloat((calcPrice*rowAssetInfo.lot*newToBuy).toFixed(2));
     this.portfolioForm.controls.pAssets['controls'].at(rowId).patchValue({
       money: newMoney, 
@@ -279,7 +288,32 @@ export class SinglePortfolioComponent implements OnInit {
     this.setNewTotals();
   }
   public openModal(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    let capital = this.portfolioForm.controls['capital'].value;
+    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+    var capitalEmpty = !capital;
+    var capCurrencyEmpty = !capCurrency;
+    const pLength = this.portfolioForm.controls.pAssets['controls'].length;
+    var portfolioEmpty = pLength <= 0;
+    let currentFreeMoney = parseFloat(document.getElementById('freeMoney').innerText);
+    var negativeFreeMoney = currentFreeMoney<0; 
+    this.uiErrorsOnSave = [];
+    if (capCurrencyEmpty){
+      this.uiErrorsOnSave.push('Currency of the capital is not defined');
+    }
+    if (capitalEmpty){
+      this.uiErrorsOnSave.push('Capital must be provided to run the test or save portfolio');
+    }
+    if (portfolioEmpty){
+      this.uiErrorsOnSave.push('There are no assets in your portfolio');
+    }
+    if (negativeFreeMoney){
+      this.uiErrorsOnSave.push("You've spent more money than you have");
+    }
+    if(portfolioEmpty || capitalEmpty || capCurrencyEmpty || negativeFreeMoney){
+      console.warn('Multiple errors while starting backtest on users side');
+    } else {
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    }
   }
   public onSave(howToSave){
     const token = localStorage.getItem('auth_token');
@@ -329,7 +363,7 @@ export class SinglePortfolioComponent implements OnInit {
     });
   }
   setNewTotals(){
-    let capital = this.portfolioForm.controls['capital'].value;
+    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
     let newTotalMoney = 0;
     let newTotalPercentage = 0;
     for (var i = 0 ; i<this.portfolioForm.controls.pAssets['controls'].length;i++) {
@@ -342,37 +376,64 @@ export class SinglePortfolioComponent implements OnInit {
   }
   
   startBacktest(){
-    const token = localStorage.getItem('auth_token');
-    let capital = this.portfolioForm.controls['capital'].value;
-    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let backtestStartInput = <HTMLInputElement>document.getElementById('backtestStart');
     let backtestEndInput = <HTMLInputElement>document.getElementById('backtestEnd');
     let backtestStartDate = backtestStartInput.value;
     let backtestEndDate = backtestEndInput.value;
-    let stocksForTest = [];
-    let allocationForTest = [];
+    var datesEmpty = !backtestStartDate || !backtestEndDate;
+    let capital = this.portfolioForm.controls['capital'].value;
+    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+    var capitalEmpty = !capital;
+    var capCurrencyEmpty = !capCurrency;
     const pLength = this.portfolioForm.controls.pAssets['controls'].length;
-    for(var i=0; i < pLength; i++){
-      let asset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
-      let assetTicker = asset.split(' ')[0];
-      stocksForTest.push(assetTicker)
+    var portfolioEmpty = pLength <= 0;
+    let currentFreeMoney = parseFloat(document.getElementById('freeMoney').innerText);
+    var negativeFreeMoney = currentFreeMoney<0; 
+    this.uiErrors = [];
+    if (datesEmpty){
+      this.uiErrors.push('Both start and end dates are required fileds');
     }
-    for(var i=0; i < pLength; i++){
-      let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
-      allocationForTest.push(percentage)
+    if (capCurrencyEmpty){
+      this.uiErrors.push('Currency of the capital is not defined');
     }
-    document.getElementById('overlay').style.display = "block";
-    this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
-      this.router.navigate(['/#/results']);
-      }, err => { 
-        const validationErrors = err.error;
-        if (err instanceof HttpErrorResponse) {
-          
-          if (err.status === 422) {
-            this.serverErrors = err.error.message
-          }
+    if (capitalEmpty){
+      this.uiErrors.push('Capital must be provided to run the test');
+    }
+    if (portfolioEmpty){
+      this.uiErrors.push('There are no assets in your portfolio');
+    }
+    if (negativeFreeMoney){
+      this.uiErrors.push("You've spent more money than you have");
+    }
+    if(portfolioEmpty || capitalEmpty || datesEmpty || capCurrencyEmpty || negativeFreeMoney){
+      console.warn('Multiple errors while starting backtest on users side');
+    } else {
+      const token = localStorage.getItem('auth_token');
+      let stocksForTest = [];
+      let allocationForTest = [];
+      for(var i=0; i < pLength; i++){
+        let asset = this.portfolioForm.controls.pAssets['controls'].at(i).value.asset;
+        let assetTicker = asset.split(' ')[0];
+        stocksForTest.push(assetTicker)
       }
-    });
+      for(var i=0; i < pLength; i++){
+        let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
+        allocationForTest.push(percentage)
+      }
+      document.getElementById('overlay').style.display = "block";
+      this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
+        this.router.navigate(['/#/results']);
+        }, err => { 
+          const validationErrors = err.error;
+          if (err instanceof HttpErrorResponse) {
+            
+            if (err.status === 422) {
+              this.serverErrors = err.error.message
+            }
+        }
+      });
+    }
+
   }
 
 }

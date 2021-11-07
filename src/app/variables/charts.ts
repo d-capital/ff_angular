@@ -165,8 +165,8 @@ export function chartOptions() {
       global: {
         responsive: true,
         maintainAspectRatio: false,
-        defaultColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
-        defaultFontColor: (mode == 'dark') ? colors.gray[700] : colors.gray[600],
+        defaultColor: colors.white,
+        defaultFontColor: colors.white,
         defaultFontFamily: fonts.base,
         defaultFontSize: 13,
         layout: {
@@ -175,6 +175,7 @@ export function chartOptions() {
         legend: {
           display: false,
           position: 'bottom',
+          fontColor: colors.white,
           labels: {
             usePointStyle: true,
             padding: 16
@@ -188,7 +189,7 @@ export function chartOptions() {
           line: {
             tension: .4,
             borderWidth: 4,
-            borderColor: colors.theme['primary'],
+            borderColor: colors.white,
             backgroundColor: colors.transparent,
             borderCapStyle: 'rounded'
           },
@@ -197,7 +198,7 @@ export function chartOptions() {
           },
           arc: {
             backgroundColor: colors.theme['primary'],
-            borderColor: (mode == 'dark') ? colors.gray[800] : colors.white,
+            borderColor: (mode == 'dark') ? colors.white : colors.white,
             borderWidth: 4
           }
         },
@@ -233,16 +234,17 @@ export function chartOptions() {
     gridLines: {
       borderDash: [2],
       borderDashOffset: [2],
-      color: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      color: colors.white,
       drawBorder: false,
       drawTicks: false,
       lineWidth: 0,
       zeroLineWidth: 0,
-      zeroLineColor: (mode == 'dark') ? colors.gray[900] : colors.gray[300],
+      zeroLineColor: (mode == 'dark') ? colors.gray[500] : colors.gray[300],
       zeroLineBorderDash: [2],
       zeroLineBorderDashOffset: [2]
     },
     ticks: {
+      fontColor: colors.white,
       beginAtZero: true,
       padding: 10,
       callback: function(value) {
@@ -255,6 +257,7 @@ export function chartOptions() {
 
   // xAxes
   Chart.scaleService.updateScaleDefaults('category', {
+    fontColor: colors.white,
     gridLines: {
       drawBorder: false,
       drawOnChartArea: false,
@@ -282,27 +285,51 @@ export const parseOptions = (parent, options) => {
 
 export const chartExample1 = {
   options: {
+    fontColor: colors.white,
+    legend: {
+      labels:{
+        fontColor: colors.white,
+      }
+    },
     scales: {
       yAxes: [{
         gridLines: {
-          color: colors.gray[900],
-          zeroLineColor: colors.gray[900]
+          color: colors.gray[300],
+          zeroLineColor: colors.gray[300]
         },
         ticks: {
           callback: function(value) {
             if (!(value % 10)) {
               return '$' + value + 'k';
             }
-          }
+          },
+          fontColor: colors.white, // labels color yAxes
+        },
+        labels:{
+          fontColor: colors.white,
         }
+      }],
+      xAxes: [{
+        
+        ticks: {
+          fontColor: colors.white, // labels color yAxes
+        },
       }]
     }
   },
   data: {
-    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8','p9', 'p10','p11','p12', 'p13', 'p14', 'p15'],
     datasets: [{
-      label: 'Performance',
-      data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+      label: 'Capital Growth',
+      data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+      fontColor: colors.white,
+      borderColor: colors.white,
+      backgroundColor:colors.gray[700],
+      pointBackgroundColor: colors.gray[200],
+      pointBorderColor: colors.white,
+      pointHoverBackgroundColor: colors.white,
+      pointHoverBorderColor: colors.white,
+      scaleFontColor: colors.white,
     }]
   }
 }
