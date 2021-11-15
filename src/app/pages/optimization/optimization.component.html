@@ -4,29 +4,37 @@
       </div>
     </div>
 </div>
-<h2 class="text-center mt-0">Couple Of Details</h2>
+
+<div style="margin-top: 3%;"><h2 class="text-center mt-0" >Couple Of Details</h2></div>
 <div id="log"></div>
-<form role="form" [formGroup]="optimizationForm" novalidate (ngSubmit)="startOptimization()">
-    <div class="row">
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
-                <h3 class="h4 mb-2">Capital: </h3>
+<div>
+    <form role="form" [formGroup]="optimizationForm" novalidate (ngSubmit)="startOptimization()">
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
+                    <h3 class="h4 mb-2">Capital: </h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
-                    <select class="custom-select-capital" formControlName='cap_currency'>
+                    <select class="custom-select-capital" formControlName='cap_currency' style="margin-right: 2%;">
                         <option value="rub">RUB</option>
                         <option value="dollar">$</option>
                     </select>
                     <input class = "custom-input-capital" name='capital' formControlName='capital'>
-                </p>
-                <p class="text-muted mb-0">We need to know how much money you are ready to invest into portfolio
-                    so that we can allocate it among stocks, bonds and ETFs' according to their prices and minimal lot.</p>
+                </p>         
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">We need to know how much money you are ready to invest into portfolio
+                        so that we can allocate it among stocks, bonds and ETFs' according to their prices and minimal lot.</p>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Stock Exchange: </h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <select class="custom-select" formControlName='exchange'>
                         <option value="MOEX">MOEX</option>
@@ -34,17 +42,22 @@
                         <option value="US and Russian Market">US and Russian Market</option>
                     </select>
                 </p>
-                <p class="text-muted mb-0">You can choose the exchange you want to build your
-                    portfolio on, the capital value you provided will be calculated in 
-                    rubles for Moscow Exchange or in dollars for US-Exchanges.
-                </p>
             </div>
-        </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">You can choose the exchange you want to build your
+                        portfolio on, the capital value you provided will be calculated in 
+                        rubles for Moscow Exchange or in dollars for US-Exchanges.</p>
+                </div>
+            </div>
 
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
+        </div>
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Asset Group: </h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <select class="custom-select" formControlName='asset_group'>
                         <option value="Blue Chips">Blue Chips</option>
@@ -53,72 +66,84 @@
                         <option value="No Oil">Without Energetic Branch</option>
                     </select>
                 </p>
-                <p class="text-muted mb-0">Pick the assets that will be analysed: include safe bonds
-                    or buy only high performing companies' stocks.
-                    Don't like how oil prices are moving markets? Exclude energy companies.</p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">Pick the assets that will be analysed: include safe bonds
+                        or buy only high performing companies' stocks.
+                        Don't like how oil prices are moving markets? Exclude energy companies.</p>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Forecasting Method: </h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <select class="custom-select" formControlName='forecast_method'>
                         <option value="average" selected>Average</option>
                         <option value="finefolio">FineFolio</option>
                     </select>
                 </p>
-                <p class="text-muted mb-0">By default we will use a never aging out classic - averaging,
-                    for a more sophisticated type of forecast please use FineFolio (ARIMA-GARCH forecast).
-                </p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">By default we will use a never aging out classic - averaging,
+                        for a more sophisticated type of forecast please use FineFolio (ARIMA-GARCH forecast).</p>
+                </div>
             </div>
         </div>
-
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5"> </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Optimization Method: </h3>
+            </div>
+
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <select class="custom-select" formControlName='opt_method'>
                         <option value="markowitz" selected>Markowitz</option>
                         <option value="finefolio">Sharpe Ratio Maximization</option>
                     </select>
                 </p>
-                <p class="text-muted mb-0">By default we will use maximization of return
-                    with a constraint for the risk lower than or equal to 2 % (so called Markowitz optimization),
-                    Sharpe Ratio Maximization is a next option.
-                </p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">By default we will use maximization of return
+                        with a constraint for the risk lower than or equal to 2 % (so called Markowitz optimization),
+                        Sharpe Ratio Maximization is a next option.</p>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <i class="fas fa-4x fa-gem text-primary mb-4"></i>
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Optimisation Period</h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
                 <p>
-                    <input type="checkbox" id="yes1" (change)="datesOn()" formControlName='use_custom_period'>
-                    <label for="yes1">Let me pick the dates</label><br>
-                    <input type="checkbox" id="no1" (change)="datesOff()" formControlName='use_default_period'>
+                    <input type="checkbox" id="yes1" (change)="datesOn()" formControlName='use_custom_period' 
+                    style="margin-right: 2%;">
+                    <label style="margin-right: 4%;" for="yes1">Let me pick the dates</label>
+                    <input type="checkbox" id="no1" (change)="datesOff()" formControlName='use_default_period'
+                    style="margin-right: 2%;">
                     <label for="no1">Do it for me</label><br>
                 </p>
-                <p class="text-muted mb-0">
-                    Recommended way is to pick last year to calculate next year portfolio,
-                    but you can pick a custom range, for example - to simulate how would a 2018
-                    optimized portfolio perform in 2019.</p>
+            </div>  
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">Recommended way is to pick last year to calculate next year portfolio,
+                        but you can pick a custom range, for example - to simulate how would a 2018
+                        optimized portfolio perform in 2019.</p>
+                </div>
             </div>
         </div>
-
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5"> </div>
-        </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <div class="form-group" id="startdate1">
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="form-group" id="startdate1" style="display:none">
                     <label for="inputDate">Start Date:</label>
                     <input type="date" 
                     class="form-control"
@@ -129,10 +154,8 @@
                     id="startdate1inp">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5">
-                <div class="form-group" id = "enddate1">
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="form-group" id = "enddate1" style="display:none">
                     <label for="inputDate">End Date:</label>
                     <input type="date" 
                     class="form-control"
@@ -140,26 +163,26 @@
                     value="{{ end }}" 
                     min="2008-02-01" 
                     max="{{ end }}"
-                    id="enddate1inp"q>
+                    id="enddate1inp">
                 </div>
             </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <h3 class="h4 mb-2"> </h3>
+                <input type="checkbox" id="save" formControlName="save_result">
+                <label for="save">I want to save calculated portfolio</label><br>
+                <p>
+                    <input [disabled]="!optimizationForm.valid" 
+                    class="btn btn-primary btn-xl" 
+                    type="submit" 
+                    value="Build Your Portfolio">
+                </p>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <div class="mt-5"> </div>
-        </div>
-
-    </div>
-    
-    <div class="=row">
-        <h3 class="h4 mb-2"> </h3>
-        <input type="checkbox" id="save" formControlName="save_result">
-        <label for="save">I want to save calculated portfolio</label><br>
-    </div>
-    <div>
-        <div class="col-lg-3 col-md-6 text-center">
-            <p>
-                <input class="btn btn-primary btn-xl" type="submit" value="Build Your Portfolio">
-            </p>
-        </div>
-    </div>
-</form>
+        <br>
+        <span *ngFor="let error of uiErrors">
+            <div style="color:red; text-align: center;">{{error}}</div>
+        </span>
+        <br>
+        <div style="color:red; text-align: center;" *ngIf="serverErrors">{{serverErrors}}</div>
+    </form>
+</div>

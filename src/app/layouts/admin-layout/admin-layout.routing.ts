@@ -16,7 +16,9 @@ export const AdminLayoutRoutes: Routes = [
         component: DashboardComponent },
     { 
         path: 'user-profile',
-        component: UserProfileComponent },
+        component: UserProfileComponent,
+        canActivate: [IsLoggedInService]
+    },
     { 
         path: 'tables',
         component: TablesComponent },
@@ -38,6 +40,7 @@ export const AdminLayoutRoutes: Routes = [
     },
     {
         path: 'optimization',
-        component: OptimizationComponent
+        component: OptimizationComponent,
+        canActivate: [IsLoggedInService]
     }
 ];

@@ -35,7 +35,8 @@ export class SinglePortfolioComponent implements OnInit {
   portfolioForm: FormGroup;
   pAssets: FormArray;
   mathcingAssetList: any;
-
+  isNewP: boolean;
+  isExistingP: boolean;
 
   newPortfolioContent: PortfolioContent[] = [];
 
@@ -59,70 +60,102 @@ export class SinglePortfolioComponent implements OnInit {
   
 
   ngOnInit(): void {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    let todayUI = yyyy + '-' + mm + '-' + dd;
+    var year_ago = new Date();
+    var dd_1 = String(year_ago.getDate()).padStart(2, '0');
+    var mm_1 = String(year_ago.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy_1 = year_ago.getFullYear() - 1;
+    let yearAgoUI = yyyy_1 + '-' + mm_1 + '-' + dd_1;
+    var btStartDate = <HTMLInputElement>document.getElementById('backtestStart');
+    btStartDate.value = yearAgoUI;
+    var btEndDate = <HTMLInputElement>document.getElementById('backtestEnd');
+    btEndDate.value = todayUI;
     const token = localStorage.getItem('auth_token');
     const pId = parseFloat(localStorage.getItem('pId'));
+    this.isNewP = !(pId);
+    this.isExistingP = !!(this.portfoliosContentList);
     const isTempPortfolio = localStorage.getItem('isTempPortfolio')
-    var cap;
-    var cap_curr;
-    var displayedEnd;
-    var dsiplayedStart
-    this.portfoliosContentListSubs = this.portfoliosApi
-      .getPortfolioContent(token, pId, isTempPortfolio)
-      .subscribe(res => {
-          this.portfoliosContentList = res;
-          cap = this.portfoliosContentList[0].capital;
-          cap_curr = this.portfoliosContentList[0].cap_currency;
-          displayedEnd = this.portfoliosContentList[0].end_date;
-          dsiplayedStart = this.portfoliosContentList[0].start_date;
-          this.assetListSubs = this.portfoliosApi
-          .getAssets().subscribe(res => {
-            this.assetList = res;
-            const control = <FormArray>this.portfolioForm.get('pAssets');
-            this.portfoliosContentList.forEach(x =>{
-              let assetInfo =  this.assetList.filter(s => s.ticker == x.asset)[0];
-              this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
-              let price = parseFloat(assetInfo.price.toFixed(2));
-              let money = assetInfo.price * x.lot * x.to_buy;
-              this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;
-              var displayedAssetName = assetInfo.ticker + ' ' + assetInfo.name;
-              control.push(this.fb.group({
-                asset: displayedAssetName,
-                lot: {value: x.lot, disabled: true},
-                to_buy: x.to_buy,
-                percentage: x.percentage,
-                price: { value: price, disabled: true},
-                money: {value: parseFloat((money).toFixed(2)), disabled: true },
-              }));
-            });
-            let moneyLeft = (this.portfoliosContentList[0].capital - this.InitTotalMoneySpent).toFixed(2);
-            this.InitFreeMoney = moneyLeft.toString();
-            this.InitTotalMoneySpent = Math.round((this.InitTotalMoneySpent + Number.EPSILON)*100)/100;// this is rounding
-            this.InitTotalPercentage = Math.round((this.InitTotalPercentage + Number.EPSILON)*100)/100;
-            const pCapital = <FormControl>this.portfolioForm.get('capital');
-            const pCapCurrency = <FormControl>this.portfolioForm.get('cap_currency');
-            const pName = <FormControl>this.portfolioForm.get('new_name');
-            if (isTempPortfolio === 'false'){
-              this.portfolioInfoSubs = this.portfoliosApi.getPortfolioInfo(token, pId).subscribe(s => {
-                this.portfoliosInfo = s;
-                pCapital.setValue(this.portfoliosInfo.capital);
-                pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
-                pName.setValue(this.portfoliosInfo.portfolio_name)
+    if(pId){
+      var cap;
+      var cap_curr;
+      var displayedEnd;
+      var dsiplayedStart
+      this.portfoliosContentListSubs = this.portfoliosApi
+        .getPortfolioContent(token, pId, isTempPortfolio)
+        .subscribe(res => {
+            this.portfoliosContentList = res;
+            cap = this.portfoliosContentList[0].capital;
+            cap_curr = this.portfoliosContentList[0].cap_currency  === "dollar" ? "$" : this.portfoliosContentList[0].cap_currency;
+            displayedEnd = this.portfoliosContentList[0].end_date;
+            dsiplayedStart = this.portfoliosContentList[0].start_date;
+            this.assetListSubs = this.portfoliosApi
+            .getAssets().subscribe(res => {
+              this.assetList = res;
+              const control = <FormArray>this.portfolioForm.get('pAssets');
+              this.portfoliosContentList.forEach(x =>{
+                let assetInfo =  this.assetList.filter(s => s.ticker == x.asset)[0];
+                this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
+                let price = parseFloat(assetInfo.price.toFixed(2));
+                let money = assetInfo.price * x.lot * x.to_buy;
+                this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;
+                var displayedAssetName = assetInfo.ticker + ' ' + assetInfo.name;
+                control.push(this.fb.group({
+                  asset: displayedAssetName,
+                  lot: {value: x.lot, disabled: true},
+                  to_buy: x.to_buy,
+                  percentage: x.percentage,
+                  price: { value: price, disabled: true},
+                  money: {value: parseFloat((money).toFixed(2)), disabled: true },
+                }));
+              });
+              let moneyLeft = (this.portfoliosContentList[0].capital - this.InitTotalMoneySpent).toFixed(2);
+              this.InitFreeMoney = moneyLeft.toString();
+              this.InitTotalMoneySpent = Math.round((this.InitTotalMoneySpent + Number.EPSILON)*100)/100;// this is rounding
+              this.InitTotalPercentage = Math.round((this.InitTotalPercentage + Number.EPSILON)*100)/100;
+              const pCapital = <FormControl>this.portfolioForm.get('capital');
+              const pCapCurrency = <FormControl>this.portfolioForm.get('cap_currency');
+              const pName = <FormControl>this.portfolioForm.get('new_name');
+              if (isTempPortfolio === 'false'){
+                this.portfolioInfoSubs = this.portfoliosApi.getPortfolioInfo(token, pId).subscribe(s => {
+                  this.portfoliosInfo = s;
+                  pCapital.setValue(this.portfoliosInfo.capital);
+                  pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
+                  pName.setValue(this.portfoliosInfo.portfolio_name)
+                  document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
+                  },
+                  console.error
+                );
+              }else {
+                pCapital.setValue(cap);
+                pCapCurrency.setValue(cap_curr);
+                pName.setValue('New Name');
                 document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
-                },
-                console.error
-              );
-            }else {
-              pCapital.setValue(cap);
-              pCapCurrency.setValue(cap_curr);
-              pName.setValue('New Name');
-              document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
-            };
-          },
-          console.error
-         );
+              };
+            },
+            console.error
+          );
         },
-        console.error
+          console.error
       );
+    } else {
+      const control = <FormArray>this.portfolioForm.get('pAssets');
+      control.push(this.fb.group({
+        asset: '',
+        lot: {value: 0, disabled: true},
+        to_buy: 0,
+        percentage: 0,
+        price: { value: 0, disabled: true},
+        money: {value: 0, disabled: true },
+      }));
+      this.assetListSubs = this.portfoliosApi
+            .getAssets().subscribe(res => {
+              this.assetList = res;
+            });
+    };
   }
   
   getMatchingAssets($event) {
@@ -340,7 +373,7 @@ export class SinglePortfolioComponent implements OnInit {
         start_date: new Date(),//since it is manual portfolio there is no date
         end_date: new Date(),//since it is manual portfolio there is no date
         exchange: assetInfo.exchange,
-        asset_group: this.portfoliosInfo.asset_group,
+        asset_group: this.portfoliosInfo ? this.portfoliosInfo.asset_group : '',
         capital: this.portfolioForm.controls['capital'].value,
         cap_currency: this.portfolioForm.controls['cap_currency'].value,
         er: null,//since it is manual portfolio there is er

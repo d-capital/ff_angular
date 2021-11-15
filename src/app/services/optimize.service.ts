@@ -25,7 +25,7 @@ private optimizeUrl = `${API_URL}/api/run_optimization`;
     const body = { optimizationInputs: optimizationInputs};
     return this.http.post(this.optimizeUrl,
       JSON.stringify(body),
-      {headers: headers}).pipe(catchError(this.erroHandler));
+      {headers: headers})
   }
 
   erroHandler(error: HttpErrorResponse) {
