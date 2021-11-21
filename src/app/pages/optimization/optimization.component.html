@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="custom-row">
+        <div class="custom-row" *ngIf="isBPayed === 'true'">
             <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Forecasting Method: </h3>
             </div>
@@ -96,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="custom-row">
+        <div class="custom-row" *ngIf="isBPayed === 'true'">
             <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2">Optimization Method: </h3>
             </div>
@@ -168,8 +168,8 @@
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <h3 class="h4 mb-2"> </h3>
-                <input type="checkbox" id="save" formControlName="save_result">
-                <label for="save">I want to save calculated portfolio</label><br>
+                <!--input type="checkbox" id="save" formControlName="save_result">
+                <label for="save">I want to save calculated portfolio</label><br-->
                 <p>
                     <input [disabled]="!optimizationForm.valid" 
                     class="btn btn-primary btn-xl" 

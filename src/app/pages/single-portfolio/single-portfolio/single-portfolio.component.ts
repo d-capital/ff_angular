@@ -22,6 +22,7 @@ export class SinglePortfolioComponent implements OnInit {
   serverErrors = [];
   uiErrors = [];
   uiErrorsOnSave = [];
+  isBPayed: string;
   
   portfoliosContentListSubs!: Subscription;
   portfoliosContentList!: PortfolioContent[];
@@ -60,6 +61,7 @@ export class SinglePortfolioComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.isBPayed = localStorage.getItem("isBPayed");
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -79,7 +81,7 @@ export class SinglePortfolioComponent implements OnInit {
     this.isNewP = !(pId);
     this.isExistingP = !!(this.portfoliosContentList);
     const isTempPortfolio = localStorage.getItem('isTempPortfolio')
-    if(pId){
+    if(!(isNaN(pId)) && (pId => 0)){
       var cap;
       var cap_curr;
       var displayedEnd;
@@ -129,7 +131,7 @@ export class SinglePortfolioComponent implements OnInit {
                   },
                   console.error
                 );
-              }else {
+              } else {
                 pCapital.setValue(cap);
                 pCapCurrency.setValue(cap_curr);
                 pName.setValue('New Name');
@@ -368,7 +370,7 @@ export class SinglePortfolioComponent implements OnInit {
         portfolio_id: parseInt(pId),
         asset: assetTicker,
         lot: this.portfolioForm.controls.pAssets['controls'].at(i).controls.lot.value,
-        to_buy: this.portfolioForm.controls.pAssets['controls'].at(i).value.to_buy,
+        to_buy: parseInt(this.portfolioForm.controls.pAssets['controls'].at(i).value.to_buy),
         percentage: this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage,
         start_date: new Date(),//since it is manual portfolio there is no date
         end_date: new Date(),//since it is manual portfolio there is no date
@@ -381,7 +383,8 @@ export class SinglePortfolioComponent implements OnInit {
         money:this.portfolioForm.controls.pAssets['controls'].at(i).controls.money.value
       });
     };
-    const newPContent = this.newPortfolioContent;
+    var newPContent = this.newPortfolioContent;
+    newPContent = this.mergeDuplicates(newPContent);
     const new_name = (this.portfolioForm.controls['new_name'].value).toString();
     this.portfoliosApi.savePortfolio(token, new_name, pId, newPContent).pipe().subscribe(data=>{
       //give user a message that portfolios is saved
@@ -422,6 +425,7 @@ export class SinglePortfolioComponent implements OnInit {
     var portfolioEmpty = pLength <= 0;
     let currentFreeMoney = parseFloat(document.getElementById('freeMoney').innerText);
     var negativeFreeMoney = currentFreeMoney<0; 
+    //check duplicates here
     this.uiErrors = [];
     if (datesEmpty){
       this.uiErrors.push('Both start and end dates are required fileds');
@@ -449,24 +453,53 @@ export class SinglePortfolioComponent implements OnInit {
         let assetTicker = asset.split(' ')[0];
         stocksForTest.push(assetTicker)
       }
-      for(var i=0; i < pLength; i++){
-        let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
-        allocationForTest.push(percentage)
-      }
-      document.getElementById('overlay').style.display = "block";
-      this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
-        this.router.navigate(['/#/results']);
-        }, err => { 
-          const validationErrors = err.error;
-          if (err instanceof HttpErrorResponse) {
-            
-            if (err.status === 422) {
-              this.serverErrors = err.error.message
-            }
+      const toFindDuplicates = stocksForTest.filter((item, index) => stocksForTest.indexOf(item) !== index)
+      if(toFindDuplicates.length > 0){
+        this.uiErrors.push(`The following assets are duplicated: ${toFindDuplicates}. Please reconsider your choice.`);
+      } else {
+        for(var i=0; i < pLength; i++){
+          let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
+          allocationForTest.push(percentage)
         }
-      });
+        document.getElementById('overlay').style.display = "block";
+        this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
+          this.router.navigate(['/#/results']);
+          }, err => { 
+            const validationErrors = err.error;
+            if (err instanceof HttpErrorResponse) {
+              
+              if (err.status === 422) {
+                this.serverErrors = err.error.message
+              }
+          }
+        });
+      }
     }
+  }
 
+  mergeDuplicates(newPContent){
+    var duplicateAssets = newPContent
+     .map(e => e['asset'])
+     .map((e, i, final) => final.indexOf(e) !== i && i)
+     .filter(obj=> newPContent[obj])
+     .map(e => newPContent[e]["asset"]);
+    var duplicate = newPContent.filter(obj=> duplicateAssets.includes(obj.asset));
+    var unique = newPContent.filter((set => f => !set.has(f.asset) && set.add(f.asset))(new Set));
+    unique.forEach(e=>{
+      var assetDuplicate = duplicate.filter(x => x.asset === e.asset);
+      var uniMoney = 0;
+      var uniToBuy = 0;
+      var uniPercentage = 0;    
+      assetDuplicate.forEach(aD => {
+          uniMoney = uniMoney + aD.money;
+          uniToBuy = uniToBuy + aD.to_buy;
+          uniPercentage = uniPercentage + aD.percentage;
+      });
+      e.money = uniMoney;
+      e.to_buy = uniToBuy;
+      e.percentage = uniPercentage;
+    })
+    return unique;
   }
 
 }

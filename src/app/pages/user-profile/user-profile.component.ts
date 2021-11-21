@@ -30,6 +30,7 @@ export class UserProfileComponent implements OnInit {
         this.payPlanBUrl = data['plan_b_url'];
         this.planBStart = data['plan_b_start'];
         this.planBEnd = data['plan_b_end'];
+        localStorage.setItem('isBPayed', data['is_b_payed']);
       },
       err=>{
         const validationErrors = err.error;

@@ -44,6 +44,15 @@ export class AuthService {
       JSON.stringify(body),{headers:headers})
   }
 
+  changePassword(user: User) {
+    const body = { username: user.username, password: window.btoa(user.password),
+       email: user.email, confirmationpassword: window.btoa(user.confirmationpassword) };
+    const headers = new HttpHeaders().set('Content-Type','application/json');
+    return this.http.post(
+      this.BASE_URL + 'api/change-password',
+      JSON.stringify(body),{headers:headers})
+  }
+
   erroHandler(error: HttpErrorResponse) {
     console.log(error.message);
     return throwError(error.message || 'server Error');

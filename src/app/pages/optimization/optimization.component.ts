@@ -15,7 +15,7 @@ export class OptimizationComponent implements OnInit {
   serverErrors = [];
   uiErrors = [];
   optimizationInputs: OptimizationInputs = new OptimizationInputs (0,'','','',false,false,'','','','' );
-
+  isBPayed: string;
   optimizationForm: FormGroup;
   constructor(
     private optimizeApi: OptimizeApiService,
@@ -26,8 +26,8 @@ export class OptimizationComponent implements OnInit {
         capital : new FormControl({value:'10000', disabled:false},[Validators.required]),
         exchange: new FormControl('NYSE and NASDAQ',[Validators.required]),
         asset_group: new FormControl('Blue Chips',[Validators.required]),
-        opt_method: new FormControl('',[Validators.required]),
-        forecast_method: new FormControl('',[Validators.required]),
+        opt_method: new FormControl(''),
+        forecast_method: new FormControl(''),
         use_default_period: new FormControl(true,[Validators.required]),
         use_custom_period: new FormControl(false,[Validators.required]),
         start_date: new FormControl({value:'', disabled:true},[Validators.required]),
@@ -39,6 +39,7 @@ export class OptimizationComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.isBPayed = localStorage.getItem('isBPayed');
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -61,12 +62,12 @@ export class OptimizationComponent implements OnInit {
     optInputs.capital = this.optimizationForm.controls['capital'].value;
     optInputs.asset_group = this.optimizationForm.controls['asset_group'].value;
     optInputs.exchange = this.optimizationForm.controls['exchange'].value;
-    optInputs.forecast_method = this.optimizationForm.controls['forecast_method'].value;
-    optInputs.opt_method = this.optimizationForm.controls['opt_method'].value;
+    optInputs.forecast_method = this.isBPayed === "true" ? this.optimizationForm.controls['forecast_method'].value : "average";
+    optInputs.opt_method = this.isBPayed === "true" ? this.optimizationForm.controls['opt_method'].value : "markowitz";
     optInputs.use_custom_period = this.optimizationForm.controls['use_custom_period'].value;
     optInputs.start_date = this.optimizationForm.controls['start_date'].value;
     optInputs.end_date = this.optimizationForm.controls['end_date'].value;
-    optInputs.save_result = this.optimizationForm.controls['save_result'].value;
+    //optInputs.save_result = this.optimizationForm.controls['save_result'].value;
     this.uiErrors = [];
     var startExists = optInputs.start_date !== "";
     var endtExists = optInputs.end_date !== ""

@@ -9,6 +9,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { IsLoggedInService } from '../../services/guards/is-logged-in.service';
 import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
 import { OptimizationComponent } from 'src/app/pages/optimization/optimization.component';
+import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -32,7 +33,7 @@ export const AdminLayoutRoutes: Routes = [
     { 
         path: 'portfolios',
         component: PortfoliosComponent,
-        canActivate: [IsLoggedInService] 
+        canActivate: [IsLoggedInService, isBPayedService] 
     },
     { 
         path: 'single-portfolio', 

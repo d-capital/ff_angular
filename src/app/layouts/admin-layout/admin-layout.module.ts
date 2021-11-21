@@ -25,6 +25,7 @@ import { OptimizeApiService } from 'src/app/services/optimize.service';
 import { TasksApiService } from 'src/app/services/tasks.services';
 import { ResultsApiService } from 'src/app/services/results.service';
 import { UserProfileApiService } from 'src/app/services/user-profile.service';
+import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -57,7 +58,8 @@ import { UserProfileApiService } from 'src/app/services/user-profile.service';
     OptimizeApiService, 
     TasksApiService, 
     ResultsApiService, 
-    UserProfileApiService
+    UserProfileApiService,
+    isBPayedService,
   ],
 })
 

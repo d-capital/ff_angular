@@ -35,6 +35,7 @@ export class LoginformComponent {
       localStorage.setItem('auth_token', JSON.parse(auth_data)['auth_token']);
       var status = JSON.parse(auth_data)['status'];
       localStorage.setItem('username',this.loginForm.value.username);
+      localStorage.setItem('isBPayed', JSON.parse(auth_data)['isBPayed']);
       this.router.navigate(['/#/dashboard'])
       }, err => { 
         const validationErrors = err.error;

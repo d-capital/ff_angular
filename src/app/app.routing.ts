@@ -7,6 +7,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service';
 import { IsLoggedInService } from './services/guards/is-logged-in.service';
+import { isBPayedService } from './services/guards/is-plan-b-payed.service';
 
 
 const routes: Routes =[

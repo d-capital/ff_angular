@@ -101,5 +101,9 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
     document.getElementById('pName'+portfolioToCloseEditMode).style.display = 'block';
     document.getElementById('pNameControl'+portfolioToCloseEditMode).style.display = 'none';
   }
+  openNewPortfolio(){
+    localStorage.removeItem('pId');
+    this.router.navigate(['single-portfolio']);
+  }
 
 }

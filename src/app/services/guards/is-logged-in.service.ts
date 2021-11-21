@@ -20,9 +20,12 @@ export class IsLoggedInService implements CanActivate {
         let userStatus = isLoggedIn['status'];
         if (userStatus === 'success'){
           this.router.parseUrl('/#/'+route.routeConfig.path);
+          return true;
         }
-        return true;
+        
       }));
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 }

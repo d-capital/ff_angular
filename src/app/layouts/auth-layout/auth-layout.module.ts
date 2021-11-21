@@ -8,6 +8,7 @@ import { AuthLayoutRoutes } from './auth-layout.routing';
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { LoginformComponent} from '../../components/loginform/loginform.component'
+import { ForgotPasswordComponent } from 'src/app/pages/forgot-password/forgot-password.component';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     RegisterComponent,
     LoginformComponent,
+    ForgotPasswordComponent,
   ],
   providers: [AuthService],
 })

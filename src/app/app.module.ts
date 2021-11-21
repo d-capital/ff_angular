@@ -19,6 +19,7 @@ import { domain } from 'process';
 import { AuthService } from './services/auth.service';
 import { IsNotLoggedInService } from './services/guards/is-not-logged-in.service';
 import { IsLoggedInService } from './services/guards/is-logged-in.service';
+import { isBPayedService } from './services/guards/is-plan-b-payed.service';
 
 @NgModule({
   imports: [
@@ -33,9 +34,9 @@ import { IsLoggedInService } from './services/guards/is-logged-in.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
-  providers: [PortfoliosApiService, AuthService, IsNotLoggedInService, IsLoggedInService],
+  providers: [PortfoliosApiService, AuthService, IsNotLoggedInService, IsLoggedInService, isBPayedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

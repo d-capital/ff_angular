@@ -48,6 +48,7 @@ export class TaskStatusComponent implements OnInit {
   }
   seeOptimizationResults(){
     localStorage.setItem('isTempPortfolio','true');
+    localStorage.setItem('pId', '0');
     this.router.navigate(['single-portfolio']);
   }
 
