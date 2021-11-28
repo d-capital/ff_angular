@@ -495,9 +495,11 @@ export class SinglePortfolioComponent implements OnInit {
           uniToBuy = uniToBuy + aD.to_buy;
           uniPercentage = uniPercentage + aD.percentage;
       });
-      e.money = uniMoney;
-      e.to_buy = uniToBuy;
-      e.percentage = uniPercentage;
+      if (duplicate.some(x => x.asset === e.asset)){
+        e.money = uniMoney;
+        e.to_buy = uniToBuy;
+        e.percentage = uniPercentage;
+      };
     })
     return unique;
   }
