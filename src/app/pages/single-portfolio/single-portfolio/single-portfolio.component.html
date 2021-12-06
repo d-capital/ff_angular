@@ -81,7 +81,7 @@
                         <th scope="col">Used Price*</th>
                     </tr>
                   </thead>
-                  <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets').controls; let i = index" >
+                  <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets')['controls']; let i = index" >
                     <tr [formGroup]='p_asset'>
                       <th scope="row">
                         <button class = "btn" attr.data-rid={{i}}
