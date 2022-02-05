@@ -99,10 +99,15 @@
                   <div class="form-group">
                     <span style="margin-right: 5%;"><label class="form-control-label">Plan A</label></span>
                     <span style="margin-right: 5%;"><label class="">$10 per month</label></span>
-                    <button class="btn btn-dark" 
+                    <a class="btn btn-dark" 
+                      style="margin-right: 5%;margin-bottom: 2%;" 
+                      *ngIf="!isPatron && !planBStart && !payPlanBUrl" 
+                      href="https://www.patreon.com/oauth2/authorize?response_type=code&client_id=_ZGTUGhQet30wwBt5II-sP0A4k8VDZyoaubFmDl319ne9E__uwXqLv5rNJ3aXQJn&redirect_uri=https://thefinefolio.com/oauth/redirect">
+                      Login To Patreon</a>
+                    <!--button class="btn btn-dark" 
                       style="margin-right: 5%;margin-bottom: 2%;" 
                       *ngIf="!planBStart && !payPlanBUrl" 
-                      (click)="buyBPlan()">Buy</button>
+                      (click)="buyBPlan()">Buy</button-->
                     <a class="btn btn-dark" 
                       style="margin-right: 5%;margin-bottom: 2%;" 
                       *ngIf="payPlanBUrl" 
@@ -116,7 +121,7 @@
                     <button 
                       class="btn btn-dark" 
                       style="margin-right: 5%;margin-bottom: 2%;" 
-                      *ngIf="planBStart" disabled>You have paid for this plan from {{ planBStart }} till {{ planBEnd }}</button>
+                      *ngIf="planBStart || isPatron" disabled>You have paid for this plan</button>
                     <span style="margin-right: 5%;margin-top: 5%;"><label class="f">Customize Forecast and Optimization Settings, Save and Store Custom Portfolios</label></span>
                   </div>
                 </div>

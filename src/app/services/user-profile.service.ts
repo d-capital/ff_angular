@@ -11,6 +11,7 @@ export class UserProfileApiService {
   private payForBUrl=`${API_URL}api/payment/plan_b`;
   private updateBillStatusUrl=`${API_URL}api/update_bill_status/plan_b`;
   private rejectBillUrl=`${API_URL}api/reject_payment/plan_b`;
+  private savePatreonDataUrl = `${API_URL}/api/save_patreon_data`;
 
   constructor(private http: HttpClient) {
     
@@ -50,6 +51,11 @@ export class UserProfileApiService {
     });
     return this.http.get(this.rejectBillUrl,
       {headers: headers}).pipe(catchError(this.erroHandler));
+  }
+  public savePatreonData(tokenFf:any, patreonId: any): Observable<any>{
+    const body = { token_ff: tokenFf, patreon_user_id: patreonId };
+    return this.http.post(this.savePatreonDataUrl,
+      JSON.stringify(body)).pipe(catchError(this.erroHandler));
   }
 
   erroHandler(error: HttpErrorResponse) {

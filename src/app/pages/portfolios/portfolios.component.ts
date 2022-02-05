@@ -17,20 +17,31 @@ export class PortfoliosComponent implements OnInit, OnDestroy {
   
   portfoliosListSubs!: Subscription;
   portfoliosList!: Portfolio[];
+  isBPayed?:string;
+  hasLessThan2Portfolios?:Boolean;
   constructor(private portfoliosApi: PortfoliosApiService, private router: Router) { 
 
   }
 
   ngOnInit(): void {
     const token = localStorage.getItem('auth_token');
+    this.isBPayed = localStorage.getItem('isBPayed');
     this.portfoliosListSubs = this.portfoliosApi
       .getPortfolios(token)
       .subscribe(res => {
           this.portfoliosList = res;
+          this.portfoliosApi
+          .getPortfoliosCount(token)
+          .subscribe(res => {
+            let response = JSON.stringify(res);
+            let pCount = JSON.parse(response)['portfolios_count'];
+            this.hasLessThan2Portfolios = (pCount <= 2);
+            },
+            console.error
+          );
         },
         console.error
       );
-
   }
   ngOnDestroy(): void {
     this.portfoliosListSubs.unsubscribe();

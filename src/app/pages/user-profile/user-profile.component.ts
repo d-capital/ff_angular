@@ -15,6 +15,8 @@ export class UserProfileComponent implements OnInit {
   public payPlanBUrl?:string;
   public planBStart?:string;
   public planBEnd?:string;
+  public isBPayed?:string;
+  public isPatron?:string;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -31,6 +33,8 @@ export class UserProfileComponent implements OnInit {
         this.planBStart = data['plan_b_start'];
         this.planBEnd = data['plan_b_end'];
         localStorage.setItem('isBPayed', data['is_b_payed']);
+        this.isBPayed = data['is_b_payed'];
+        this.isPatron = data['is_patron'];
       },
       err=>{
         const validationErrors = err.error;
@@ -96,5 +100,4 @@ export class UserProfileComponent implements OnInit {
       }
     );
   }
-
 }

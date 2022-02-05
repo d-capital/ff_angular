@@ -38,6 +38,7 @@ export class SinglePortfolioComponent implements OnInit {
   mathcingAssetList: any;
   isNewP: boolean;
   isExistingP: boolean;
+  hasLessThan2Portfolios:boolean;
 
   newPortfolioContent: PortfolioContent[] = [];
 
@@ -102,7 +103,10 @@ export class SinglePortfolioComponent implements OnInit {
                 let assetInfo =  this.assetList.filter(s => s.ticker == x.asset)[0];
                 this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
                 let price = parseFloat(assetInfo.price.toFixed(2));
-                let money = assetInfo.price * x.lot * x.to_buy;
+                let assetCurrency = assetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
+                let sumCalcCapCurrency = this.portfoliosContentList[0].cap_currency === '$' ? 'dollar' : 'rub';
+                let sumCalcPrice = this.getCalcPrice(assetInfo.price,sumCalcCapCurrency, assetCurrency);
+                let money = sumCalcPrice * x.lot * x.to_buy;
                 this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;
                 var displayedAssetName = assetInfo.ticker + ' ' + assetInfo.name;
                 control.push(this.fb.group({
@@ -137,6 +141,15 @@ export class SinglePortfolioComponent implements OnInit {
                 pName.setValue('New Name');
                 document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
               };
+              this.portfoliosApi
+              .getPortfoliosCount(token)
+              .subscribe(res => {
+                let response = JSON.stringify(res);
+                let pCount = JSON.parse(response)['portfolios_count'];
+                this.hasLessThan2Portfolios = (pCount <= 2);
+                },
+                console.error
+              );
             },
             console.error
           );
@@ -156,6 +169,15 @@ export class SinglePortfolioComponent implements OnInit {
       this.assetListSubs = this.portfoliosApi
             .getAssets().subscribe(res => {
               this.assetList = res;
+              this.portfoliosApi
+              .getPortfoliosCount(token)
+              .subscribe(res => {
+                let response = JSON.stringify(res);
+                let pCount = JSON.parse(response)['portfolios_count'];
+                this.hasLessThan2Portfolios = (pCount <= 2);
+                },
+                console.error
+              );
             });
     };
   }

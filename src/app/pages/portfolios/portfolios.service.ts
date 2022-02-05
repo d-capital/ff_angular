@@ -21,6 +21,7 @@ private getPortfolioInfoUrl = `${API_URL}/api/get_single_portfolio_info`;
 private getAssetsUrl = `${API_URL}/api/get_assets`;
 private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
 private startBacktestUrl = `${API_URL}/api/start_backtest`;
+private getPortfoliosCountUrl = `${API_URL}/api/get_portfolios_count`;
 
   constructor(private http: HttpClient) {
     
@@ -33,6 +34,14 @@ private startBacktestUrl = `${API_URL}/api/start_backtest`;
       Authorization: `Bearer ${token}`
     });
     return this.http.get<Portfolio[]>(this.portfoliosUrl,
+      {headers: headers}).pipe(catchError(this.erroHandler));
+  }
+  getPortfoliosCount(token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.get<any>(this.getPortfoliosCountUrl,
       {headers: headers}).pipe(catchError(this.erroHandler));
   }
   deletePortfolio(token:any, portfolio_id: string): Observable<any>{

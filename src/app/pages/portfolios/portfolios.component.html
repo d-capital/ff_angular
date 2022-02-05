@@ -79,11 +79,11 @@
                   </td>
                 </tr>
               </tbody>
-              <button class = "btn-secondary" (click)="openNewPortfolio()"><i class= "ni ni-fat-add"></i></button>
+              <button *ngIf="isBPayed === 'true' || hasLessThan2Portfolios" class = "btn-secondary" (click)="openNewPortfolio()"><i class= "ni ni-fat-add"></i></button>
             </table>
           </div>
           <div class="card-footer py-4">
-            <nav aria-label="...">
+            <!--nav aria-label="...">
               <ul class="pagination justify-content-end mb-0">
                 <li class="page-item disabled">
                   <a class="page-link" href="javascript:void(0)" tabindex="-1">
@@ -105,7 +105,7 @@
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav-->
           </div>
         </div>
       </div>

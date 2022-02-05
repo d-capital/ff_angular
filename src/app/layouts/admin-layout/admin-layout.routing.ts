@@ -10,6 +10,7 @@ import { IsLoggedInService } from '../../services/guards/is-logged-in.service';
 import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-portfolio/single-portfolio.component';
 import { OptimizationComponent } from 'src/app/pages/optimization/optimization.component';
 import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
+import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/patreon-processing.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -33,7 +34,7 @@ export const AdminLayoutRoutes: Routes = [
     { 
         path: 'portfolios',
         component: PortfoliosComponent,
-        canActivate: [IsLoggedInService, isBPayedService] 
+        canActivate: [IsLoggedInService] 
     },
     { 
         path: 'single-portfolio', 
@@ -42,6 +43,11 @@ export const AdminLayoutRoutes: Routes = [
     {
         path: 'optimization',
         component: OptimizationComponent,
+        canActivate: [IsLoggedInService]
+    },
+    {
+        path: 'patreon-processing',
+        component: PatreonProcessingComponent,
         canActivate: [IsLoggedInService]
     }
 ];
