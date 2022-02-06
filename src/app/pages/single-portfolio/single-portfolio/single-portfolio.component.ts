@@ -104,7 +104,7 @@ export class SinglePortfolioComponent implements OnInit {
                 this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
                 let price = parseFloat(assetInfo.price.toFixed(2));
                 let assetCurrency = assetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
-                let sumCalcCapCurrency = this.portfoliosContentList[0].cap_currency === '$' ? 'dollar' : 'rub';
+                let sumCalcCapCurrency = this.portfoliosContentList[0].cap_currency !== 'rub' ? 'dollar' : 'rub';
                 let sumCalcPrice = this.getCalcPrice(assetInfo.price,sumCalcCapCurrency, assetCurrency);
                 let money = sumCalcPrice * x.lot * x.to_buy;
                 this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;

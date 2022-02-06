@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
   serverErrors=[];
   public username:string;
   public email:string;
+  public patreonLink = 'https://www.patreon.com/oauth2/authorize?response_type=code&client_id=_ZGTUGhQet30wwBt5II-sP0A4k8VDZyoaubFmDl319ne9E__uwXqLv5rNJ3aXQJn&redirect_uri=https://thefinefolio.com/oauth/redirect';
   public payPlanBUrl?:string;
   public planBStart?:string;
   public planBEnd?:string;
