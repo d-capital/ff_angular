@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import {Router} from '@angular/router'
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -30,6 +30,7 @@ export class LoginformComponent {
 
   onLogin(): void {
     const formControl = this.loginForm;
+    document.getElementById('overlay').style.display = "block";
     this.auth.login(this.loginForm.value).pipe().subscribe(data=>{
       var auth_data = JSON.stringify(data);
       localStorage.setItem('auth_token', JSON.parse(auth_data)['auth_token']);

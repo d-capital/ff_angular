@@ -35,7 +35,7 @@ import { TaskStatusComponent } from './task-status/task-status.component';
     SidebarComponent,
     LoadingComponent,
     AuthbuttonComponent,
-    TaskStatusComponent
+    TaskStatusComponent,
   ],
   providers: [AuthService],
   exports: [
