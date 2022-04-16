@@ -9,6 +9,8 @@ import {LoginformComponent} from '../../components/loginform/loginform.component
 export class LoginComponent implements OnInit, OnDestroy {
   constructor() {}
 
+  title = 'Loading your data';
+
   ngOnInit() {
   }
   ngOnDestroy() {
