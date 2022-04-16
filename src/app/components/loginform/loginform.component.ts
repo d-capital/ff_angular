@@ -39,6 +39,7 @@ export class LoginformComponent {
       localStorage.setItem('isBPayed', JSON.parse(auth_data)['isBPayed']);
       this.router.navigate(['/#/dashboard'])
       }, err => { 
+        document.getElementById('overlay').style.display = "none";
         const validationErrors = err.error;
         if (err instanceof HttpErrorResponse) {
           
