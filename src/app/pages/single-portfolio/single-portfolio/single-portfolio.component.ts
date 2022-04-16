@@ -9,6 +9,7 @@ import { float } from 'aws-sdk/clients/lightsail';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router'
+import { LoaderOverlayComponent } from 'src/app/components/loader-overlay/loader-overlay.component';
 
 @Component({
   selector: 'app-single-portfolio',
@@ -39,6 +40,8 @@ export class SinglePortfolioComponent implements OnInit {
   isNewP: boolean;
   isExistingP: boolean;
   hasLessThan2Portfolios:boolean;
+  spinnerTitle = "Loading portfolio data";
+  spinnerSubTitle = "";
 
   newPortfolioContent: PortfolioContent[] = [];
 
@@ -62,6 +65,7 @@ export class SinglePortfolioComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.startSpinning('Loading your portfolio data', '');
     this.isBPayed = localStorage.getItem("isBPayed");
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -132,8 +136,10 @@ export class SinglePortfolioComponent implements OnInit {
                   pCapCurrency.setValue(this.portfoliosInfo.cap_currency);
                   pName.setValue(this.portfoliosInfo.portfolio_name)
                   document.getElementById('startEnd').innerText = dsiplayedStart + ' - ' +displayedEnd;
-                  },
-                  console.error
+                  }, err => {
+                    console.error;
+                    document.getElementById('overlay').style.display = "none";
+                  }
                 );
               } else {
                 pCapital.setValue(cap);
@@ -150,11 +156,16 @@ export class SinglePortfolioComponent implements OnInit {
                 },
                 console.error
               );
-            },
-            console.error
+              document.getElementById('overlay').style.display = "none";
+            }, err => {
+              console.error;
+              document.getElementById('overlay').style.display = "none";
+            }
           );
-        },
-          console.error
+        }, err =>{
+          console.error;
+          document.getElementById('overlay').style.display = "none";
+        }
       );
     } else {
       const control = <FormArray>this.portfolioForm.get('pAssets');
@@ -175,8 +186,10 @@ export class SinglePortfolioComponent implements OnInit {
                 let response = JSON.stringify(res);
                 let pCount = JSON.parse(response)['portfolios_count'];
                 this.hasLessThan2Portfolios = (pCount <= 2);
-                },
-                console.error
+                }, err => {
+                  console.error;
+                  document.getElementById('overlay1').style.display = "none";
+                }
               );
             });
     };
@@ -483,7 +496,7 @@ export class SinglePortfolioComponent implements OnInit {
           let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
           allocationForTest.push(percentage)
         }
-        document.getElementById('overlay').style.display = "block";
+        this.startSpinning('We started to test your portfolio.', 'Wait a bit to see results.');
         this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
           this.router.navigate(['/#/results']);
           }, err => { 
@@ -525,5 +538,11 @@ export class SinglePortfolioComponent implements OnInit {
     })
     return unique;
   }
+
+  startSpinning(newSpinnerTitle, newSpinnerSubTitle){
+    this.spinnerTitle = newSpinnerTitle;
+    this.spinnerSubTitle = newSpinnerSubTitle;
+    document.getElementById('overlay').style.display = "block";
+  };
 
 }

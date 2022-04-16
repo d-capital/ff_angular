@@ -11,7 +11,7 @@ import { LoginformComponent} from '../../components/loginform/loginform.componen
 import { ForgotPasswordComponent } from 'src/app/pages/forgot-password/forgot-password.component';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import { LoaderOverlayComponent } from 'src/app/components/loader-overlay/loader-overlay.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -20,13 +20,13 @@ import { LoaderOverlayComponent } from 'src/app/components/loader-overlay/loader
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
+    ComponentsModule
   ],
   declarations: [
     LoginComponent,
     RegisterComponent,
     LoginformComponent,
-    ForgotPasswordComponent,
-    LoaderOverlayComponent
+    ForgotPasswordComponent
   ],
   providers: [AuthService],
 })

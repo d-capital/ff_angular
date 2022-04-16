@@ -203,15 +203,5 @@
     </div>
   </ng-template>
 </form>
-<div id="overlay" class="#overlay">
-  <div class="#text" id="text">
-      <div>
-        <div class="centering">
-          <div class="loader"></div>
-        </div>  
-        <p style="text-align: center;" class="mb-4"><b>We started to test your portfolio.</b></p>
-        <p style="text-align: center;"><b>Wait a bit to see results.</b></p>
-      </div>
-  </div>
-</div>
+<app-loader-overlay [title] = "spinnerTitle" [subTitle] = "spinnerSubTitle"></app-loader-overlay>
   

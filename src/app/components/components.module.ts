@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TaskStatusComponent } from './task-status/task-status.component';
+import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
 
 @NgModule({
   imports: [
@@ -36,13 +37,16 @@ import { TaskStatusComponent } from './task-status/task-status.component';
     LoadingComponent,
     AuthbuttonComponent,
     TaskStatusComponent,
+    LoaderOverlayComponent
+
   ],
   providers: [AuthService],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    TaskStatusComponent
+    TaskStatusComponent,
+    LoaderOverlayComponent
   ]
 })
 export class ComponentsModule { }
