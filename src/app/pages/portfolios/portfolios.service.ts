@@ -107,9 +107,10 @@ private getPortfoliosCountUrl = `${API_URL}/api/get_portfolios_count`;
     const body = {assets_to_lookup: assetsToLookup}
     return this.http.post<DbAssets[]>(this.getAssetsUrl, JSON.stringify(body)).pipe(catchError(this.erroHandler));
   }
-  public getAssetMatches(lookupValue:string): Observable<DbAssets[]>{
+  public getAssetMatches(lookupValue:string, isSettingAssets: boolean): Observable<DbAssets[]>{
     const body = {
-      lookup_value: lookupValue
+      lookup_value: lookupValue,
+      is_setting_assets: isSettingAssets
     };
     return this.http.post<DbAssets[]>(this.getAssetMatchesUrl,
       JSON.stringify(body)).pipe(catchError(this.erroHandler));

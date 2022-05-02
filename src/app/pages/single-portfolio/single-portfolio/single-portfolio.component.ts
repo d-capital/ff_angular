@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angu
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Router} from '@angular/router'
 import { LoaderOverlayComponent } from 'src/app/components/loader-overlay/loader-overlay.component';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-single-portfolio',
@@ -105,7 +106,6 @@ export class SinglePortfolioComponent implements OnInit {
               this.assetList = res;
               this.matchesList = res;
               const control = <FormArray>this.portfolioForm.get('pAssets');
-              //this.portfoliosApi.getAssetPrices().subscribe(res=>{}, err=>{});
               this.portfoliosContentList.forEach(x =>{
                 let assetInfo =  this.assetList.filter(s => s.ticker == x.asset)[0];
                 this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
@@ -124,7 +124,6 @@ export class SinglePortfolioComponent implements OnInit {
                   price: { value: price, disabled: true},
                   money: {value: parseFloat((money).toFixed(2)), disabled: true },
                 }));
-                //TODO: get each asset ticker, send all of them to API, get and fetch updated prices into form
               });
               let moneyLeft = (this.portfoliosContentList[0].capital - this.InitTotalMoneySpent).toFixed(2);
               this.InitFreeMoney = moneyLeft.toString();
@@ -190,9 +189,10 @@ export class SinglePortfolioComponent implements OnInit {
                 let response = JSON.stringify(res);
                 let pCount = JSON.parse(response)['portfolios_count'];
                 this.hasLessThan2Portfolios = (pCount <= 2);
+                document.getElementById('overlay').style.display = "none";
                 }, err => {
                   console.error;
-                  document.getElementById('overlay1').style.display = "none";
+                  document.getElementById('overlay').style.display = "none";
                 }
               );
             });
@@ -203,15 +203,16 @@ export class SinglePortfolioComponent implements OnInit {
     let assetToSearch = $event.target.value;
     this.mathcingAssetList = [];
 
-    if (assetToSearch.length > 1) {
-      if ($event.timeStamp - this.lastkeydown1 > 500) {
+    if (assetToSearch.length > 3) {
+      timeout(1000);
+      if ($event.timeStamp - this.lastkeydown1 > 1000) {
         this.searchFromArray(assetToSearch);
       }
     }
   }  
   searchFromArray(regex) {
     let matches = [];
-    this.portfoliosApi.getAssetMatches(regex).subscribe(res => {
+    this.portfoliosApi.getAssetMatches(regex, false).subscribe(res => {
       this.matchesList = res;
       this.matchesList.forEach(x =>{
         matches.push(x.ticker + ' ' + x.name); 
@@ -226,24 +227,29 @@ export class SinglePortfolioComponent implements OnInit {
     let newAsset = event.target.value;
     let newAssetSplitted = event.target.value.split(' ');
     let newAssetTicker = newAssetSplitted[0];
-    let newAssetInfo = this.assetList.find(x => x.ticker === newAssetTicker);
-    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
-    let assetCurrency = newAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
-    let calcPrice = this.getCalcPrice(newAssetInfo.price,capCurrency,assetCurrency); //TODO: get ticker and send to API to get price
-    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
-    let currentToBuy = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.to_buy;
-    let newMoney = parseFloat((calcPrice*newAssetInfo.lot*currentToBuy).toFixed(2));
-    let calcedNewPercentage = Math.round(((calcPrice*newAssetInfo.lot*currentToBuy)/capital)*100);
-    let newPercentage = isNaN(calcedNewPercentage)? 0 : calcedNewPercentage;
-    this.portfolioForm.controls.pAssets['controls'].at(rowId).setValue({
-      asset: newAsset, 
-      lot: newAssetInfo.lot, 
-      money: newMoney, 
-      percentage: newPercentage, 
-      to_buy: currentToBuy, 
-      price: (newAssetInfo.price).toFixed(2) 
+    this.portfoliosApi.getAssetMatches(newAssetTicker, true).subscribe(res => {
+      let newAssetInfo = res;
+      this.assetList.push(res[0]);
+      let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+      let assetCurrency = newAssetInfo[0].exchange === 'MOEX' ? 'rub' : 'dollar';
+      let calcPrice = this.getCalcPrice(newAssetInfo[0].price,capCurrency,assetCurrency);
+      let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
+      let currentToBuy = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.to_buy;
+      let newMoney = parseFloat((calcPrice*newAssetInfo[0].lot*currentToBuy).toFixed(2));
+      let calcedNewPercentage = Math.round(((calcPrice*newAssetInfo[0].lot*currentToBuy)/capital)*100);
+      let newPercentage = isNaN(calcedNewPercentage)? 0 : calcedNewPercentage;
+      this.portfolioForm.controls.pAssets['controls'].at(rowId).setValue({
+        asset: newAsset, 
+        lot: newAssetInfo[0].lot, 
+        money: newMoney, 
+        percentage: newPercentage, 
+        to_buy: currentToBuy, 
+        price: (newAssetInfo[0].price).toFixed(2) 
+      });
+      this.setNewTotals()
+    }, err => {
+      console.error;
     });
-    this.setNewTotals()
   }
   deleteAssetFromUi(event){
     const rowToDelete = event.target.dataset.rid;
@@ -262,39 +268,45 @@ export class SinglePortfolioComponent implements OnInit {
       let price = this.portfolioForm.controls.pAssets['controls'].at(i).controls.price.value;
       let lot = this.portfolioForm.controls.pAssets['controls'].at(i).controls.lot.value;
       let rowTicker = rowAsset.split(' ')[0];
-      let assetExchange = this.assetList.find(x => x.ticker === rowTicker).exchange;
-      let assetCurrency = assetExchange === 'MOEX' ? 'rub' : 'dollar'
-      let calcPrice = this.getCalcPrice(price, capCurrency, assetCurrency)
-      if(toBuy == NaN && percentage !== NaN){
-        let newToBuy = Math.round((capital*(percentage/100))/(lot*price));
-        let newMoney = calcPrice*lot*newToBuy;
-        let calcedNewPercentage1 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
-        let newPercentage = isNaN(calcedNewPercentage1) ? 0 : calcedNewPercentage1;
-        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
-          money: newMoney, 
-          percentage: newPercentage, 
-          to_buy: newToBuy
-        });
-      } else if(toBuy !== NaN && percentage == NaN){
-        let newPercentage = Math.round(((calcPrice*lot*toBuy)/capital)*100);
-        let newMoney = calcPrice*lot*toBuy;
-        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
-          money: newMoney, 
-          percentage: newPercentage
-        });
-      } else if(toBuy !== NaN && percentage !== NaN){
-        let newToBuy = Math.round((capital*(percentage/100))/(lot*calcPrice));
-        let newMoney = calcPrice*lot*newToBuy;
-        let calcedNewPercentage2 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
-        let newPercentage = isNaN(calcedNewPercentage2) ? 0 : calcedNewPercentage2;
-        this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
-          money: newMoney, 
-          percentage: newPercentage,
-          to_buy: newToBuy
-        });
-      }else{
-        //pass
-      };
+      this.portfoliosApi.getAssetMatches(rowTicker, true).subscribe(res => {
+        let assetExchange = res[0].exchange;
+        let assetCurrency = assetExchange === 'MOEX' ? 'rub' : 'dollar';
+        let assetPrice = res[0].price;
+        let calcPrice = this.getCalcPrice(assetPrice, capCurrency, assetCurrency)
+        if(toBuy == NaN && percentage !== NaN){
+          let newToBuy = Math.round((capital*(percentage/100))/(lot*price));
+          let newMoney = calcPrice*lot*newToBuy;
+          let calcedNewPercentage1 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+          let newPercentage = isNaN(calcedNewPercentage1) ? 0 : calcedNewPercentage1;
+          this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+            money: newMoney, 
+            percentage: newPercentage, 
+            to_buy: newToBuy
+          });
+        } else if(toBuy !== NaN && percentage == NaN){
+          let newPercentage = Math.round(((calcPrice*lot*toBuy)/capital)*100);
+          let newMoney = calcPrice*lot*toBuy;
+          this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+            money: newMoney, 
+            percentage: newPercentage
+          });
+        } else if(toBuy !== NaN && percentage !== NaN){
+          let newToBuy = Math.round((capital*(percentage/100))/(lot*calcPrice));
+          let newMoney = calcPrice*lot*newToBuy;
+          let calcedNewPercentage2 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
+          let newPercentage = isNaN(calcedNewPercentage2) ? 0 : calcedNewPercentage2;
+          this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
+            money: newMoney, 
+            percentage: newPercentage,
+            to_buy: newToBuy
+          });
+        }else{
+          //pass
+        };
+      }, err => {
+        console.error(err);
+      });
+
     }
     this.setNewTotals()
   }
