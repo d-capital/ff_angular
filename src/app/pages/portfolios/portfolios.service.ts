@@ -19,6 +19,7 @@ private renamePortfoliosUrl = `${API_URL}/api/rename_portfolio`;
 private getPortfolioContentUrl = `${API_URL}/api/get_single_portfolio_content`;
 private getPortfolioInfoUrl = `${API_URL}/api/get_single_portfolio_info`;
 private getAssetsUrl = `${API_URL}/api/get_assets`;
+private getAssetMatchesUrl = `${API_URL}/api/get_asset_matches`;
 private savePortfolioUrl = `${API_URL}/api/save_portfolio`;
 private startBacktestUrl = `${API_URL}/api/start_backtest`;
 private getPortfoliosCountUrl = `${API_URL}/api/get_portfolios_count`;
@@ -102,8 +103,16 @@ private getPortfoliosCountUrl = `${API_URL}/api/get_portfolios_count`;
       JSON.stringify(body), 
       {headers: headers}).pipe(catchError(this.erroHandler));
   }
-  public getAssets(): Observable<DbAssets[]> {
-    return this.http.get<DbAssets[]>(this.getAssetsUrl).pipe(catchError(this.erroHandler));
+  public getAssets(assetsToLookup?: PortfolioContent[]): Observable<DbAssets[]> {
+    const body = {assets_to_lookup: assetsToLookup}
+    return this.http.post<DbAssets[]>(this.getAssetsUrl, JSON.stringify(body)).pipe(catchError(this.erroHandler));
+  }
+  public getAssetMatches(lookupValue:string): Observable<DbAssets[]>{
+    const body = {
+      lookup_value: lookupValue
+    };
+    return this.http.post<DbAssets[]>(this.getAssetMatchesUrl,
+      JSON.stringify(body)).pipe(catchError(this.erroHandler));
   }
   public savePortfolio(token:any, new_name: string, portfolio_id: string, portfolioToSave: PortfolioContent[]): Observable<any>{
     const headers = new HttpHeaders({

@@ -31,6 +31,7 @@ export class SinglePortfolioComponent implements OnInit {
   portfoliosInfo!: Portfolio;
   assetListSubs!: Subscription;
   assetList!: DbAssets[];
+  matchesList: DbAssets[];
   InitTotalMoneySpent: float = 0.0;
   InitTotalPercentage: float = 0.0;
   InitFreeMoney: string;
@@ -100,9 +101,11 @@ export class SinglePortfolioComponent implements OnInit {
             displayedEnd = this.portfoliosContentList[0].end_date;
             dsiplayedStart = this.portfoliosContentList[0].start_date;
             this.assetListSubs = this.portfoliosApi
-            .getAssets().subscribe(res => {
+            .getAssets(this.portfoliosContentList).subscribe(res => {
               this.assetList = res;
+              this.matchesList = res;
               const control = <FormArray>this.portfolioForm.get('pAssets');
+              //this.portfoliosApi.getAssetPrices().subscribe(res=>{}, err=>{});
               this.portfoliosContentList.forEach(x =>{
                 let assetInfo =  this.assetList.filter(s => s.ticker == x.asset)[0];
                 this.InitTotalPercentage = this.InitTotalPercentage + x.percentage;
@@ -121,6 +124,7 @@ export class SinglePortfolioComponent implements OnInit {
                   price: { value: price, disabled: true},
                   money: {value: parseFloat((money).toFixed(2)), disabled: true },
                 }));
+                //TODO: get each asset ticker, send all of them to API, get and fetch updated prices into form
               });
               let moneyLeft = (this.portfoliosContentList[0].capital - this.InitTotalMoneySpent).toFixed(2);
               this.InitFreeMoney = moneyLeft.toString();
@@ -200,20 +204,22 @@ export class SinglePortfolioComponent implements OnInit {
     this.mathcingAssetList = [];
 
     if (assetToSearch.length > 1) {
-      if ($event.timeStamp - this.lastkeydown1 > 200) {
-        this.mathcingAssetList = this.searchFromArray(this.assetList, assetToSearch);
+      if ($event.timeStamp - this.lastkeydown1 > 500) {
+        this.searchFromArray(assetToSearch);
       }
     }
   }  
-  searchFromArray(arr, regex) {
-    let matches = [], i;
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i]['ticker'].toLowerCase().indexOf(regex.toLowerCase())>-1 
-      || arr[i]['name'].toLowerCase().indexOf(regex.toLowerCase())>-1) {
-        matches.push(arr[i]['ticker'] + '' + arr[i]['name']);
-      }
-    }
-    return matches;
+  searchFromArray(regex) {
+    let matches = [];
+    this.portfoliosApi.getAssetMatches(regex).subscribe(res => {
+      this.matchesList = res;
+      this.matchesList.forEach(x =>{
+        matches.push(x.ticker + ' ' + x.name); 
+      });
+      this.mathcingAssetList = matches;
+    }, err=>{
+      console.error;
+    });
   };
   setNewAsset(event){
     let rowId = event.target.id;
@@ -223,7 +229,7 @@ export class SinglePortfolioComponent implements OnInit {
     let newAssetInfo = this.assetList.find(x => x.ticker === newAssetTicker);
     let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
     let assetCurrency = newAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
-    let calcPrice = this.getCalcPrice(newAssetInfo.price,capCurrency,assetCurrency);
+    let calcPrice = this.getCalcPrice(newAssetInfo.price,capCurrency,assetCurrency); //TODO: get ticker and send to API to get price
     let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : this.portfolioForm.controls['capital'].value;
     let currentToBuy = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.to_buy;
     let newMoney = parseFloat((calcPrice*newAssetInfo.lot*currentToBuy).toFixed(2));
