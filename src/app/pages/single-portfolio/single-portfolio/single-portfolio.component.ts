@@ -203,9 +203,9 @@ export class SinglePortfolioComponent implements OnInit {
     let assetToSearch = $event.target.value;
     this.mathcingAssetList = [];
 
-    if (assetToSearch.length > 3) {
+    if (assetToSearch.length > 1) {
       timeout(1000);
-      if ($event.timeStamp - this.lastkeydown1 > 1000) {
+      if ($event.timeStamp - this.lastkeydown1 > 3000) {
         this.searchFromArray(assetToSearch);
       }
     }
@@ -341,7 +341,7 @@ export class SinglePortfolioComponent implements OnInit {
     let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
     let rowTicker = rowAsset.split(' ')[0];
-    let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
+    let rowAssetInfo = this.assetList.find(x => x?.ticker === rowTicker);
     let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
     let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
     let newCalcedPercentage = Math.round(((calcPrice*rowAssetInfo.lot*newToBuy)/capital)*100);
@@ -362,7 +362,7 @@ export class SinglePortfolioComponent implements OnInit {
     let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
     let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
     let rowTicker = rowAsset.split(' ')[0];
-    let rowAssetInfo = this.assetList.find(x => x.ticker === rowTicker);
+    let rowAssetInfo = this.assetList.find(x => x?.ticker === rowTicker);
     let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
     let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
     let calcedNewToBuy = Math.round((capital*(newPercentage/100))/(rowAssetInfo.lot*calcPrice));
