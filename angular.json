@@ -36,7 +36,9 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.min.js",
-              "node_modules/clipboard/dist/clipboard.min.js"
+              "node_modules/clipboard/dist/clipboard.min.js",
+              "node_modules/pdf-lib/dist/pdf-lib.min.js",
+              "node_modules/downloadjs/download.min.js"
             ]
           },
           "configurations": {

@@ -11,6 +11,7 @@ import { SinglePortfolioComponent } from 'src/app/pages/single-portfolio/single-
 import { OptimizationComponent } from 'src/app/pages/optimization/optimization.component';
 import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
 import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/patreon-processing.component';
+import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-component.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -49,5 +50,9 @@ export const AdminLayoutRoutes: Routes = [
         path: 'patreon-processing',
         component: PatreonProcessingComponent,
         canActivate: [IsLoggedInService]
+    },
+    {
+        path: 'w8ben',
+        component: W8benComponentComponent
     }
 ];

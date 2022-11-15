@@ -34,7 +34,7 @@ import { isBPayedService } from './services/guards/is-plan-b-payed.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
+    AuthLayoutComponent
   ],
   providers: [PortfoliosApiService, AuthService, IsNotLoggedInService, IsLoggedInService, isBPayedService],
   bootstrap: [AppComponent]
