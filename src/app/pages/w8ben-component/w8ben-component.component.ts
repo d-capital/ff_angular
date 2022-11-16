@@ -28,32 +28,57 @@ export class W8benComponentComponent implements OnInit {
       // Get all fields in the PDF by their names
       //PART 1: Identification
       const nameField = form.getTextField('topmostSubform[0].Page1[0].f_1[0]')
-      /*const countryOfCitizenship = form.getTextField('topmostSubform[0].Page1[0].f_2[0]')
+      const countryOfCitizenship = form.getTextField('topmostSubform[0].Page1[0].f_2[0]')
       const permResidenceAddress = form.getTextField('topmostSubform[0].Page1[0].f_3[0]')
       const cityStateZip = form.getTextField('topmostSubform[0].Page1[0].f_4[0]')
       const Country = form.getTextField('topmostSubform[0].Page1[0].f_5[0]')
       const mailingAddress = form.getTextField('topmostSubform[0].Page1[0].f_6[0]')
       const mailingAddressCityStateZip = form.getTextField('topmostSubform[0].Page1[0].f_7[0]')
-
-      const ssnOrTin = form.getTextField('topmostSubform[0].Page1[0].f_8[0]')
-      const fTin = form.getTextField('topmostSubform[0].Page1[0].f_9[0]')
-      const isFtinRequired = form.getTextField('topmostSubform[0].Page1[0].f_10[0]')
-      const referenceNumber = form.getTextField('topmostSubform[0].Page1[0].c1_01[0]')
-      const doB = form.getTextField('topmostSubform[0].Page1[0].f_11[0]')
+      const mailingAddressCountry = form.getTextField('topmostSubform[0].Page1[0].f_8[0]')
+      const ssnOrTin = form.getTextField('topmostSubform[0].Page1[0].f_9[0]')
+      const fTin = form.getTextField('topmostSubform[0].Page1[0].f_10[0]')
+      const isFtinRequired = form.getCheckBox('topmostSubform[0].Page1[0].c1_01[0]')
+      const referenceNumber = form.getTextField('topmostSubform[0].Page1[0].f_11[0]')
+      const doB = form.getTextField('topmostSubform[0].Page1[0].f_12[0]')
       //PART 2: Claim of Tax Treaty Benefits
-      const countryOfResidenceVerification = form.getTextField('topmostSubform[0].Page1[0].f_12[0]')
-      const articleAndParagraph = form.getTextField('topmostSubform[0].Page1[0].f_13[0]')
-      const percentage = form.getTextField('topmostSubform[0].Page1[0].f_14[0]')
-      const typeOfIncome = form.getTextField('topmostSubform[0].Page1[0].f_15[0]')
-      const additionalConditions = form.getTextField('topmostSubform[0].Page1[0].f_16[0]')
+      const countryOfResidenceVerification = form.getTextField('topmostSubform[0].Page1[0].f_13[0]')
+      const articleAndParagraph = form.getTextField('topmostSubform[0].Page1[0].f_14[0]')
+      const percentage = form.getTextField('topmostSubform[0].Page1[0].f_15[0]')
+      const typeOfIncome = form.getTextField('topmostSubform[0].Page1[0].f_16[0]')
+      const additionalConditions = form.getTextField('topmostSubform[0].Page1[0].f_18[0]')
       //PART 3: Certification
-      const certifyCapacityToSign = form.getTextField('topmostSubform[0].Page1[0].f_20[0]')
+      const certifyCapacityToSign = form.getCheckBox('topmostSubform[0].Page1[0].c1_02[0]')
+      //const unknownField = form.getTextField('topmostSubform[0].Page1[0].f_20[0]')
       const signDate = form.getTextField('topmostSubform[0].Page1[0].Date[0]')
-      const printNameOfSigner = form.getTextField('topmostSubform[0].Page1[0].f_21[0]')     
-      */
+      const printNameOfSigner = form.getTextField('topmostSubform[0].Page1[0].f_21[0]')
 
       // Fill in the basic info fields
-      nameField.setText('Not Exactly Mario')
+      nameField.setText('Stanislav Dziuba')
+      countryOfCitizenship.setText('Russia')
+      permResidenceAddress.setText('Podgorichka 5')
+      cityStateZip.setText('Budva, 85310')
+      Country.setText('Montenegro')
+      mailingAddress.setText('-')
+      mailingAddressCityStateZip.setText('-')
+      mailingAddressCountry.setText('-')
+      ssnOrTin.setText('409-52-2002')
+      fTin.setText('12345678910 (Montenegrian Tax Id)')
+      isFtinRequired.check()
+      referenceNumber.setText('-')
+      doB.setText('11-10-1992')
+
+      countryOfResidenceVerification.setText('Montenegro')
+      articleAndParagraph.setText('Article and Paragraph')
+      percentage.setText('13%')
+      typeOfIncome.setText('income type')
+      additionalConditions.setText('additional conditions')
+
+      certifyCapacityToSign.check()
+      //unknownField.setText('TEST') no idea what is that field, type is wrong (signature?)
+      signDate.setText('11-16-2022')
+      printNameOfSigner.setText('Stanislav Dziuba')
+
+
 
       // Serialize the PDFDocument to bytes (a Uint8Array)
       const pdfBytes = await pdfDoc.save()
