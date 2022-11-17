@@ -769,7 +769,7 @@
                 <hr style="border-top: 1px solid rgb(222, 222, 222);">
                 <div style="margin-left: 10px; margin-bottom: 10px;">
                     <h3>5. U.S. taxpayer identification number (SSN or ITIN), if required (see instructions)</h3>
-                    <input type="text" formControlName = "ssnOrTin" placeholder="Mailing address">
+                    <input type="text" formControlName = "ssnOrTin" placeholder="Enter your SSN or ITIN here">
                 </div>
                 <hr style="border-top: 1px solid rgb(222, 222, 222);">
                 <div style="margin-left: 10px; margin-bottom: 10px;">
@@ -807,7 +807,7 @@
                 <div style="margin-left: 10px; margin-bottom: 10px;">
                     <input type="checkbox" formControlName = "certifyCapacityToSign" placeholder="Certify capacity to sign">
                     <input type="date" formControlName = "signDate" placeholder="Date (MM-DD-YYYY) ">
-                    <input type="text" formControlName = "printNameOfSigner" placeholder="Print name of signer">
+                    <input type="text" [value]="w8benForm.get('nameField').value" formControlName = "printNameOfSigner" placeholder="Print name of signer">
                 </div>
                 <input 
                 type="submit"
