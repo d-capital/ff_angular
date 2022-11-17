@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
+import { LocationService } from 'src/app/services/location.service';
 import * as pdfLib from "pdf-lib/dist/pdf-lib.min.js";
 import download from 'downloadjs';
  
@@ -10,8 +11,14 @@ import download from 'downloadjs';
 })
 export class W8benComponentComponent implements OnInit {
   w8benForm: FormGroup;
+  ipaddress:string = '';
+  city:string = '';
+  state_prov:string = '';
+  zipcode:string = '';
+  country:string ='';
   constructor(
     private fb: FormBuilder,
+    private locationService: LocationService
   ) {
     this.w8benForm = this.fb.group({
       nameField : new FormControl({value:'', disabled:false},[Validators.required]),
@@ -46,7 +53,29 @@ export class W8benComponentComponent implements OnInit {
     let todayUI = yyyy + '-' + mm + '-' + dd;
     var signDate = <FormControl>this.w8benForm.get('signDate');
     signDate.setValue(todayUI);
-    //const formUrl = 'https://www.irs.gov/pub/irs-pdf/fw8ben.pdf';
+    this.locationService.getIpAddress().pipe().subscribe(res => {
+
+      this.ipaddress = res['ip'];
+      this.locationService.getGEOLocation(this.ipaddress).subscribe(res => {
+        this.city = res['city'];
+        this.state_prov = res['state_prov'];
+        this.zipcode = res['zipcode'];
+        this.country = res['country_name'];
+        var countryOfCitizenship = <FormControl>this.w8benForm.get('countryOfCitizenship');
+        countryOfCitizenship.setValue(this.country);
+        var Country = <FormControl>this.w8benForm.get('Country');
+        Country.setValue(this.country);
+        var countryOfResidenceVerification = <FormControl>this.w8benForm.get('countryOfResidenceVerification');
+        countryOfResidenceVerification.setValue(this.country);
+        var cityStateZip = <FormControl>this.w8benForm.get('cityStateZip');
+        if(this.state_prov != ''){
+          cityStateZip.setValue(this.city + ', '+ this.state_prov + ', ' + this.zipcode)
+        }else{
+          cityStateZip.setValue(this.city + ', ' + this.zipcode)
+        }
+      });
+
+    });
   }
 
 
