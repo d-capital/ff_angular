@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
 import * as pdfLib from "pdf-lib/dist/pdf-lib.min.js";
 import download from 'downloadjs';
  
@@ -8,10 +9,43 @@ import download from 'downloadjs';
   styleUrls: ['./w8ben-component.component.css']
 })
 export class W8benComponentComponent implements OnInit {
-
-  constructor() { }
+  w8benForm: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+  ) {
+    this.w8benForm = this.fb.group({
+      nameField : new FormControl({value:'', disabled:false},[Validators.required]),
+      countryOfCitizenship: new FormControl('',[Validators.required]),
+      permResidenceAddress: new FormControl('',[Validators.required]),
+      cityStateZip: new FormControl(''),
+      Country: new FormControl(''),
+      mailingAddress: new FormControl(''),
+      mailingAddressCityStateZip: new FormControl(''),
+      mailingAddressCountry: new FormControl(''),
+      ssnOrTin: new FormControl(''),
+      fTin: new FormControl(''),
+      isFtinRequired: new FormControl(false),
+      referenceNumber: new FormControl(''),
+      doB: new FormControl('', [Validators.required]),
+      countryOfResidenceVerification: new FormControl('',[Validators.required]),
+      articleAndParagraph: new FormControl(''),
+      percentage: new FormControl(''),
+      typeOfIncome: new FormControl(''),
+      additionalConditions: new FormControl(''),
+      certifyCapacityToSign: new FormControl(''),
+      signDate: new FormControl('',[Validators.required]),
+      printNameOfSigner: new FormControl('',[Validators.required])
+    });
+   }
   
   ngOnInit(): void {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    let todayUI = yyyy + '-' + mm + '-' + dd;
+    var signDate = <FormControl>this.w8benForm.get('signDate');
+    signDate.setValue(todayUI);
     //const formUrl = 'https://www.irs.gov/pub/irs-pdf/fw8ben.pdf';
   }
 
@@ -52,31 +86,35 @@ export class W8benComponentComponent implements OnInit {
       const signDate = form.getTextField('topmostSubform[0].Page1[0].Date[0]')
       const printNameOfSigner = form.getTextField('topmostSubform[0].Page1[0].f_21[0]')
 
+
       // Fill in the basic info fields
-      nameField.setText('Stanislav Dziuba')
-      countryOfCitizenship.setText('Russia')
-      permResidenceAddress.setText('Podgorichka 5')
-      cityStateZip.setText('Budva, 85310')
-      Country.setText('Montenegro')
-      mailingAddress.setText('-')
-      mailingAddressCityStateZip.setText('-')
-      mailingAddressCountry.setText('-')
-      ssnOrTin.setText('409-52-2002')
-      fTin.setText('12345678910 (Montenegrian Tax Id)')
-      isFtinRequired.check()
-      referenceNumber.setText('-')
-      doB.setText('11-10-1992')
+      nameField.setText(this.w8benForm.controls['nameField'].value)
+      countryOfCitizenship.setText(this.w8benForm.controls['countryOfCitizenship'].value)
+      permResidenceAddress.setText(this.w8benForm.controls['permResidenceAddress'].value)
+      cityStateZip.setText(this.w8benForm.controls['cityStateZip'].value)
+      Country.setText(this.w8benForm.controls['Country'].value)
+      mailingAddress.setText(this.w8benForm.controls['mailingAddress'].value)
+      mailingAddressCityStateZip.setText(this.w8benForm.controls['mailingAddressCityStateZip'].value)
+      mailingAddressCountry.setText(this.w8benForm.controls['mailingAddressCountry'].value)
+      ssnOrTin.setText(this.w8benForm.controls['ssnOrTin'].value)
+      fTin.setText(this.w8benForm.controls['fTin'].value)
+      if(this.w8benForm.controls['isFtinRequired'].value == true){
+        isFtinRequired.check()
+      }
+      referenceNumber.setText(this.w8benForm.controls['referenceNumber'].value)
+      doB.setText(this.w8benForm.controls['doB'].value)
 
-      countryOfResidenceVerification.setText('Montenegro')
-      articleAndParagraph.setText('Article and Paragraph')
-      percentage.setText('13%')
-      typeOfIncome.setText('income type')
-      additionalConditions.setText('additional conditions')
-
-      certifyCapacityToSign.check()
+      countryOfResidenceVerification.setText(this.w8benForm.controls['countryOfResidenceVerification'].value)
+      articleAndParagraph.setText(this.w8benForm.controls['articleAndParagraph'].value)
+      percentage.setText(this.w8benForm.controls['percentage'].value)
+      typeOfIncome.setText(this.w8benForm.controls['typeOfIncome'].value)
+      additionalConditions.setText(this.w8benForm.controls['additionalConditions'].value)
+      if(this.w8benForm.controls['certifyCapacityToSign'].value == true){
+        certifyCapacityToSign.check()
+      }
       //unknownField.setText('TEST') no idea what is that field, type is wrong (signature?)
-      signDate.setText('11-16-2022')
-      printNameOfSigner.setText('Stanislav Dziuba')
+      signDate.setText(this.w8benForm.controls['signDate'].value)
+      printNameOfSigner.setText(this.w8benForm.controls['printNameOfSigner'].value)
 
 
 
