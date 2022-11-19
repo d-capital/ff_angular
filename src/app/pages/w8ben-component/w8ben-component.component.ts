@@ -21,10 +21,10 @@ export class W8benComponentComponent implements OnInit {
     private locationService: LocationService
   ) {
     this.w8benForm = this.fb.group({
-      nameField : new FormControl({value:'', disabled:false},[Validators.required]),
+      nameField : new FormControl('',[Validators.required]),
       countryOfCitizenship: new FormControl('',[Validators.required]),
       permResidenceAddress: new FormControl('',[Validators.required]),
-      cityStateZip: new FormControl(''),
+      cityStateZip: new FormControl('', [Validators.required]),
       Country: new FormControl(''),
       mailingAddress: new FormControl(''),
       mailingAddressCityStateZip: new FormControl(''),
