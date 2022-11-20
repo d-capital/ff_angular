@@ -21,27 +21,29 @@ export class W8benComponentComponent implements OnInit {
     private locationService: LocationService
   ) {
     this.w8benForm = this.fb.group({
-      nameField : new FormControl('',[Validators.required]),
-      countryOfCitizenship: new FormControl('',[Validators.required]),
-      permResidenceAddress: new FormControl('',[Validators.required]),
+      nameField : new FormControl('', [Validators.required]),
+      countryOfCitizenship: new FormControl(''),
+      permResidenceAddress: new FormControl('', [Validators.required]),
       cityStateZip: new FormControl('', [Validators.required]),
       Country: new FormControl(''),
       mailingAddress: new FormControl(''),
       mailingAddressCityStateZip: new FormControl(''),
       mailingAddressCountry: new FormControl(''),
-      ssnOrTin: new FormControl(''),
+      ssnItinSelector: new FormControl(''),
+      ssn: new FormControl(''),
+      tin: new FormControl(''),
       fTin: new FormControl(''),
       isFtinRequired: new FormControl(false),
       referenceNumber: new FormControl(''),
       doB: new FormControl('', [Validators.required]),
-      countryOfResidenceVerification: new FormControl('',[Validators.required]),
+      countryOfResidenceVerification: new FormControl('', [Validators.required]),
       articleAndParagraph: new FormControl(''),
       percentage: new FormControl(''),
       typeOfIncome: new FormControl(''),
       additionalConditions: new FormControl(''),
       certifyCapacityToSign: new FormControl(''),
-      signDate: new FormControl('',[Validators.required]),
-      printNameOfSigner: new FormControl('',[Validators.required])
+      signDate: new FormControl(''),
+      printNameOfSigner: new FormControl('')
     });
    }
   
@@ -125,7 +127,13 @@ export class W8benComponentComponent implements OnInit {
       mailingAddress.setText(this.w8benForm.controls['mailingAddress'].value)
       mailingAddressCityStateZip.setText(this.w8benForm.controls['mailingAddressCityStateZip'].value)
       mailingAddressCountry.setText(this.w8benForm.controls['mailingAddressCountry'].value)
-      ssnOrTin.setText(this.w8benForm.controls['ssnOrTin'].value)
+      if(this.w8benForm.controls['ssnItinSelector'].value == "SSN"){
+        ssnOrTin.setText(this.w8benForm.controls['ssn'].value)
+      }else if(this.w8benForm.controls['ssnItinSelector'].value == "ITIN"){
+        ssnOrTin.setText(this.w8benForm.controls['tin'].value)
+      }else{
+        ssnOrTin.setText("n/a")
+      }
       fTin.setText(this.w8benForm.controls['fTin'].value)
       if(this.w8benForm.controls['isFtinRequired'].value == true){
         isFtinRequired.check()
@@ -143,8 +151,12 @@ export class W8benComponentComponent implements OnInit {
       }
       //unknownField.setText('TEST') no idea what is that field, type is wrong (signature?)
       signDate.setText(this.w8benForm.controls['signDate'].value)
-      printNameOfSigner.setText(this.w8benForm.controls['printNameOfSigner'].value)
-
+      if(this.w8benForm.controls['printNameOfSigner'].value == ''){
+        printNameOfSigner.setText(this.w8benForm.controls['nameField'].value)
+      }
+      else{
+        printNameOfSigner.setText(this.w8benForm.controls['printNameOfSigner'].value)
+      }
 
 
       // Serialize the PDFDocument to bytes (a Uint8Array)
