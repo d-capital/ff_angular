@@ -56,7 +56,6 @@ export class W8benComponentComponent implements OnInit {
     var signDate = <FormControl>this.w8benForm.get('signDate');
     signDate.setValue(todayUI);
     this.locationService.getIpAddress().pipe().subscribe(res => {
-
       this.ipaddress = res['ip'];
       this.locationService.getGEOLocation(this.ipaddress).subscribe(res => {
         this.city = res['city'];
