@@ -18,7 +18,7 @@
     "@angular/cdk": "^10.2.7",
     "@angular/common": "10.1.4",
     "@angular/compiler": "10.1.4",
-    "@angular/core": "^15.0.0",
+    "@angular/core": "^10.0.0",
     "@angular/forms": "10.1.4",
     "@angular/http": "7.2.16",
     "@angular/localize": "^10.1.4",
