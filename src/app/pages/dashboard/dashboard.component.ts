@@ -33,13 +33,15 @@ export class DashboardComponent implements OnInit {
   public testPeriod: string;
   public endCap: number;
   public returns: string;
+  public startDate: string;
+  public endDate: string;
   
   constructor(
     private resultsApiService: ResultsApiService,
   ) { }
 
   ngOnInit() {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('user_temp_uid');
     this.resultsApiService.getResults(token).pipe().subscribe(data=>{
       let curve = data['curve'].split(',');
       curve[0] = curve[0].replace('[','');
@@ -51,6 +53,8 @@ export class DashboardComponent implements OnInit {
       this.data = this.curveRefined;
       this.sharpeRatio = data['sr'];
       this.testPeriod = data['start_date'] +' - '+data['end_date'];
+      this.startDate = data['start_date'];
+      this.endDate = data['end_date'];
       this.maxDrawdown = data['max_drawdown'];
       this.maxWin = data['max_win'];
       this.endCap = this.curveRefined[this.curveRefined.length-1];
@@ -97,6 +101,7 @@ export class DashboardComponent implements OnInit {
 
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
+    this.salesChart.data.labels = [this.startDate, '', '', '', '', '', '', '','', '','','', '', '', this.endDate]
     this.salesChart.update();
   }
 

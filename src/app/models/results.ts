@@ -2,7 +2,7 @@ import { float } from "aws-sdk/clients/lightsail";
 
 export class Results {
     constructor(
-      public uid:number,
+      public uid:string,
       public start_date: string,
       public end_date: string,
       public capital: float,

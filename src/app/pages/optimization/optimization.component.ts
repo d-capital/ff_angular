@@ -83,7 +83,9 @@ export class OptimizationComponent implements OnInit {
     } else {
       this.optimizeApi.runOptimization(token, optInputs).pipe().subscribe(data=>{
         var status_data = JSON.stringify(data);
-        var status = JSON.parse(status_data)['status']; 
+        var status = JSON.parse(status_data)['status'];
+        var user_temp_uid =  JSON.parse(status_data)['guid'];
+        localStorage.setItem('user_temp_uid', user_temp_uid);
         if(status === 'success'){
           this.router.navigate(['/#/dashboard']);
         };

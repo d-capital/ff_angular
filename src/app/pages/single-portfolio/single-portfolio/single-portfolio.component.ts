@@ -49,6 +49,8 @@ export class SinglePortfolioComponent implements OnInit {
 
   lastkeydown1: number = 0;
 
+  public isLoggedIn: boolean;
+
   constructor(
     private portfoliosApi: PortfoliosApiService,
     private fb: FormBuilder,
@@ -69,6 +71,7 @@ export class SinglePortfolioComponent implements OnInit {
   ngOnInit(): void {
     this.startSpinning('Loading your portfolio data', '');
     this.isBPayed = localStorage.getItem("isBPayed");
+    this.isLoggedIn = localStorage.getItem("auth_token") !== null;
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -83,7 +86,7 @@ export class SinglePortfolioComponent implements OnInit {
     btStartDate.value = yearAgoUI;
     var btEndDate = <HTMLInputElement>document.getElementById('backtestEnd');
     btEndDate.value = todayUI;
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('user_temp_uid');
     const pId = parseFloat(localStorage.getItem('pId'));
     this.isNewP = !(pId);
     this.isExistingP = !!(this.portfoliosContentList);
@@ -273,7 +276,7 @@ export class SinglePortfolioComponent implements OnInit {
         let assetCurrency = assetExchange === 'MOEX' ? 'rub' : 'dollar';
         let assetPrice = res[0].price;
         let calcPrice = this.getCalcPrice(assetPrice, capCurrency, assetCurrency)
-        if(toBuy == NaN && percentage !== NaN){
+        if(Number.isNaN(toBuy) && !Number.isNaN(percentage)){
           let newToBuy = Math.round((capital*(percentage/100))/(lot*price));
           let newMoney = calcPrice*lot*newToBuy;
           let calcedNewPercentage1 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
@@ -283,14 +286,14 @@ export class SinglePortfolioComponent implements OnInit {
             percentage: newPercentage, 
             to_buy: newToBuy
           });
-        } else if(toBuy !== NaN && percentage == NaN){
+        } else if(!Number.isNaN(toBuy) && Number.isNaN(percentage)){
           let newPercentage = Math.round(((calcPrice*lot*toBuy)/capital)*100);
           let newMoney = calcPrice*lot*toBuy;
           this.portfolioForm.controls.pAssets['controls'].at(i).patchValue({
             money: newMoney, 
             percentage: newPercentage
           });
-        } else if(toBuy !== NaN && percentage !== NaN){
+        } else if(!Number.isNaN(toBuy) && !Number.isNaN(percentage)){
           let newToBuy = Math.round((capital*(percentage/100))/(lot*calcPrice));
           let newMoney = calcPrice*lot*newToBuy;
           let calcedNewPercentage2 = Math.round(((calcPrice*lot*newToBuy)/capital)*100);
@@ -498,7 +501,7 @@ export class SinglePortfolioComponent implements OnInit {
     if(portfolioEmpty || capitalEmpty || datesEmpty || capCurrencyEmpty || negativeFreeMoney){
       console.warn('Multiple errors while starting backtest on users side');
     } else {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('user_temp_uid');
       let stocksForTest = [];
       let allocationForTest = [];
       for(var i=0; i < pLength; i++){

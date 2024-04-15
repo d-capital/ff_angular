@@ -132,7 +132,7 @@
                   <button type="button" class = "btn-secondary" (click)="addRow()"><i class= "ni ni-fat-add"></i></button>
                 </table>
               </div>
-              <div *ngIf="isBPayed === 'true' || hasLessThan2Portfolios" style="margin-top:2%;margin-bottom: 2%; margin-right: 1% ;float: right;">
+              <div *ngIf="isLoggedIn && (isBPayed === 'true' || hasLessThan2Portfolios)" style="margin-top:2%;margin-bottom: 2%; margin-right: 1% ;float: right;">
 
                   <input type="submit" class="btn btn-dark" value="Save" [disabled]="!portfolioForm.valid">
 

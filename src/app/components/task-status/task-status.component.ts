@@ -19,7 +19,7 @@ export class TaskStatusComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('user_temp_uid');
     this.taskStatusApi.getTaskStatus(token).pipe().subscribe(data=>{
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];
@@ -52,7 +52,7 @@ export class TaskStatusComponent implements OnInit {
     this.router.navigate(['single-portfolio']);
   }
   refreshStatus() {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('user_temp_uid');
     this.taskStatusApi.getTaskStatus(token).pipe().subscribe(data=>{
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];

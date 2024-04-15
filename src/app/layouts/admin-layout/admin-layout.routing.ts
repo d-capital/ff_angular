@@ -43,8 +43,7 @@ export const AdminLayoutRoutes: Routes = [
     },
     {
         path: 'optimization',
-        component: OptimizationComponent,
-        canActivate: [IsLoggedInService]
+        component: OptimizationComponent
     },
     {
         path: 'patreon-processing',
