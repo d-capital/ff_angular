@@ -501,7 +501,7 @@ export class SinglePortfolioComponent implements OnInit {
     if(portfolioEmpty || capitalEmpty || datesEmpty || capCurrencyEmpty || negativeFreeMoney){
       console.warn('Multiple errors while starting backtest on users side');
     } else {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('user_temp_uid');
       let stocksForTest = [];
       let allocationForTest = [];
       for(var i=0; i < pLength; i++){
