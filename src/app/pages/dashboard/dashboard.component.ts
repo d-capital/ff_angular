@@ -100,6 +100,7 @@ export class DashboardComponent implements OnInit {
 
 
   public updateOptions() {
+    this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.data.labels = [this.startDate, '', '', '', '', '', '', '','', '','','', '', '', this.endDate]
     this.salesChart.update();
   }

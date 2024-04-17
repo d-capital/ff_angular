@@ -28,7 +28,8 @@
                             <font id='taskStatus' color="grey" size="3">{{ taskStatus }}</font>
                         </td>
                         <td>
-                            <button id = 'seeResultBtn' class='btn btn-dark' (click)='seeOptimizationResults()' disabled>See Result</button>
+                            <div id="mbc-spinner" class="mbc-spinner"></div>
+                            <button id = 'seeResultBtn' class='btn btn-dark' (click)='seeOptimizationResults()' style="display:none" disabled>See Result</button>
                         </td>
                     </tr>
                 </tbody>

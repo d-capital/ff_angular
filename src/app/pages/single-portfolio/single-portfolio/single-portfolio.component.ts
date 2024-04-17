@@ -360,23 +360,25 @@ export class SinglePortfolioComponent implements OnInit {
   setNewPercentage(event){
     let rowId = event.target.id;
     let newPercentage = parseInt(event.target.value);
-    let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : parseFloat(this.portfolioForm.controls['capital'].value);
-    let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
-    let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
-    let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
-    let rowTicker = rowAsset.split(' ')[0];
-    let rowAssetInfo = this.assetList.find(x => x?.ticker === rowTicker);
-    let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
-    let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
-    let calcedNewToBuy = Math.round((capital*(newPercentage/100))/(rowAssetInfo.lot*calcPrice));
-    let newToBuy = isNaN(calcedNewToBuy) ? 0 : calcedNewToBuy;
-    let newMoney = parseFloat((calcPrice*rowAssetInfo.lot*newToBuy).toFixed(2));
-    this.portfolioForm.controls.pAssets['controls'].at(rowId).patchValue({
-      money: newMoney, 
-      percentage: newPercentage, 
-      to_buy: newToBuy
-    });
-    this.setNewTotals();
+    if(!isNaN(newPercentage)){
+      let capital = this.portfolioForm.controls['capital'].value === "" ? 0 : parseFloat(this.portfolioForm.controls['capital'].value);
+      let capCurrency = this.portfolioForm.controls['cap_currency'].value === 'rub' ? 'rub' : 'dollar';
+      let price = parseFloat(this.portfolioForm.controls.pAssets['controls'].at(rowId).controls.price.value);
+      let rowAsset = this.portfolioForm.controls.pAssets['controls'].at(rowId).value.asset;
+      let rowTicker = rowAsset.split(' ')[0];
+      let rowAssetInfo = this.assetList.find(x => x?.ticker === rowTicker);
+      let assetCurrency = rowAssetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
+      let calcPrice = this.getCalcPrice(price,capCurrency,assetCurrency);
+      let calcedNewToBuy = Math.round((capital*(newPercentage/100))/(rowAssetInfo.lot*calcPrice));
+      let newToBuy = isNaN(calcedNewToBuy) ? 0 : calcedNewToBuy;
+      let newMoney = parseFloat((calcPrice*rowAssetInfo.lot*newToBuy).toFixed(2));
+      this.portfolioForm.controls.pAssets['controls'].at(rowId).patchValue({
+        money: newMoney, 
+        percentage: newPercentage, 
+        to_buy: newToBuy
+      });
+      this.setNewTotals();
+    }
   }
   public openModal(content){
     let capital = this.portfolioForm.controls['capital'].value;
