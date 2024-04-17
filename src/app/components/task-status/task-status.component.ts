@@ -38,24 +38,10 @@ export class TaskStatusComponent implements OnInit {
         this.taskStatus = JSON.parse(status_data)['task_status'];
       };
       }, err => {
-        if (err instanceof HttpErrorResponse) {
-          
-          if (err.status === 404) {
-            this.serverErrors = err.error.message
-            this.showTasks = false;
-            this.taskStatusSubscription.unsubscribe();
-            document.getElementById('seeResultBtn').setAttribute('style','display:block');
-            document.getElementById('mbc-spinner').setAttribute('style','display:none');
-          } else if (err.status === 422) {
-            this.serverErrors = err.error.message
-          }
-        } else {
-          this.showTasks = true;
-          this.taskStatusSubscription.unsubscribe();
-          this.taskStatus = 'Error (try again later)';
-          document.getElementById('seeResultBtn').setAttribute('style','display:block');
-          document.getElementById('mbc-spinner').setAttribute('style','display:none');
-        }
+        this.showTasks = false;
+        this.taskStatusSubscription.unsubscribe();
+        document.getElementById('seeResultBtn').setAttribute('style','display:block');
+        document.getElementById('mbc-spinner').setAttribute('style','display:none');
         const validationErrors = err.error;
     });
     this.taskStatusSubscription = interval(10000).subscribe(x => {
@@ -87,25 +73,11 @@ export class TaskStatusComponent implements OnInit {
         this.taskStatus = JSON.parse(status_data)['task_status'];
       };
       }, err => { 
-        if (err instanceof HttpErrorResponse) {
-          
-          if (err.status === 404) {
-            this.serverErrors = err.error.message
-            this.showTasks = false;
-            this.taskStatusSubscription.unsubscribe();
-            document.getElementById('seeResultBtn').setAttribute('style','display:block');
-            document.getElementById('mbc-spinner').setAttribute('style','display:none');
-          } else if (err.status === 422) {
-            this.serverErrors = err.error.message
-          }
-        } else {
-          this.showTasks = true;
+          this.showTasks = false;
           this.taskStatusSubscription.unsubscribe();
-          this.taskStatus = 'Error (try again later)';
           document.getElementById('seeResultBtn').setAttribute('style','display:block');
           document.getElementById('mbc-spinner').setAttribute('style','display:none');
-        }
-        const validationErrors = err.error;
+          const validationErrors = err.error;
     });
   }
 
