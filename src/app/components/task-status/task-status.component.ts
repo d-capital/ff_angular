@@ -26,14 +26,14 @@ export class TaskStatusComponent implements OnInit {
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];
       var task_status = JSON.parse(status_data)['task_status'];
-      if(status === 'success' && task_status == 'Ready to Look At'){
+      if(status === 'success' && task_status == 'Ready'){
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
         document.getElementById('mbc-spinner').setAttribute('style','display:none');
         document.getElementById('seeResultBtn').removeAttribute("disabled");
         document.getElementById('seeResultBtn').setAttribute('style','display:block');
         document.getElementById('taskStatus').setAttribute('color','green');
-      } else if(status === 'success' && task_status !== 'Ready to Look At') {
+      } else if(status === 'success' && task_status !== 'Ready') {
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
       };
@@ -60,7 +60,7 @@ export class TaskStatusComponent implements OnInit {
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];
       var task_status = JSON.parse(status_data)['task_status'];
-      if(status === 'success' && task_status == 'Ready to Look At'){
+      if(status === 'success' && task_status == 'Ready'){
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
         document.getElementById('mbc-spinner').setAttribute('style','display:none');
@@ -68,7 +68,7 @@ export class TaskStatusComponent implements OnInit {
         document.getElementById('seeResultBtn').setAttribute('style','display:block');
         document.getElementById('taskStatus').setAttribute('color','green');
         this.taskStatusSubscription.unsubscribe();
-      } else if(status === 'success' && task_status !== 'Ready to Look At') {
+      } else if(status === 'success' && task_status !== 'Ready') {
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
       };

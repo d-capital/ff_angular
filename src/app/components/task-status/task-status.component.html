@@ -16,14 +16,12 @@
             <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                     <tr>
-                    <th scope="col">Task</th>
                     <th scope="col">Status</th>
                     <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody *ngIf='showTasks; else noTasks'>
                     <tr>
-                        <th scope="row">Run of Portfolio Optimization Algorithm</th>
                         <td>
                             <font id='taskStatus' color="grey" size="3">{{ taskStatus }}</font>
                         </td>
@@ -34,7 +32,7 @@
                     </tr>
                 </tbody>
                 <ng-template #noTasks>
-                    <span style="margin-top: 10%;margin-right: 5%; margin-bottom: 10%;">No Active Task</span>
+                    <!--span style="margin-top: 10%;margin-right: 5%; margin-bottom: 10%;">No Active Task</span-->
                     <a href="/#/optimization" class="btn">Run New Optimization Task</a>
                 </ng-template>
             </table>
