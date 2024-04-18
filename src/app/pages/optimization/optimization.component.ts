@@ -23,7 +23,7 @@ export class OptimizationComponent implements OnInit {
     private router: Router,
     ) { 
       this.optimizationForm = this.fb.group({
-        capital : new FormControl({value:'10000', disabled:false},[Validators.required]),
+        capital : new FormControl({value:'10000', disabled:false},[Validators.required, Validators.min(1000)]),
         exchange: new FormControl('NYSE and NASDAQ',[Validators.required]),
         asset_group: new FormControl('Blue Chips',[Validators.required]),
         opt_method: new FormControl(''),
