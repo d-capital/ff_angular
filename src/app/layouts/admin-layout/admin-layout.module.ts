@@ -29,6 +29,7 @@ import { UserProfileApiService } from 'src/app/services/user-profile.service';
 import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
 import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/patreon-processing.component';
 import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-component.component';
+import { ArticlesComponent } from 'src/app/pages/articles/articles.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -55,7 +56,8 @@ import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-com
     SinglePortfolioComponent,
     OptimizationComponent,
     PatreonProcessingComponent,
-    W8benComponentComponent
+    W8benComponentComponent,
+    ArticlesComponent
   ],
   providers: [
     AuthService, 

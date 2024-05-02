@@ -12,6 +12,7 @@ import { OptimizationComponent } from 'src/app/pages/optimization/optimization.c
 import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service';
 import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/patreon-processing.component';
 import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-component.component';
+import { ArticlesComponent } from '../../pages/articles/articles.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -24,10 +25,12 @@ export const AdminLayoutRoutes: Routes = [
     },
     { 
         path: 'tables',
-        component: TablesComponent },
+        component: TablesComponent 
+    },
     { 
         path: 'icons',
-        component: IconsComponent },
+        component: IconsComponent 
+    },
     { 
         path: 'maps',
         component: MapsComponent 
@@ -53,5 +56,9 @@ export const AdminLayoutRoutes: Routes = [
     {
         path: 'w8ben',
         component: W8benComponentComponent
+    },
+    {
+        path:'articles',
+        component: ArticlesComponent
     }
 ];

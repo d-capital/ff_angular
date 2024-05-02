@@ -74,11 +74,11 @@
                     <tr>
                         <th scope="col">Delete</th>
                         <th scope='col'>Asset</th>
-                        <th scope="col">Lot</th>
-                        <th scope="col">Lots to buy</th>
-                        <th scope="col">%</th>
+                        <th scope="col" style="width: 98px;"> </th>
+                        <th scope="col" style="width: 50px;"> </th>
+                        <th scope="col" style="width: 50px;">%</th>
                         <th scope="col">Money Spent</th>
-                        <th scope="col">Used Price*</th>
+                        <th scope="col" style="display:none">Used Price*</th>
                     </tr>
                   </thead>
                   <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets')['controls']; let i = index" >
@@ -103,12 +103,12 @@
                         </datalist>
                       </td>
                       <td style="width: 98px;">
-                        <input style="width: 50px;" 
+                        <input style="width: 50px;display:none" 
                         formControlName="lot"
                         id="{{i}}" name='lot'>
                       </td>
                       <td>
-                        <input required style="width: 50px;" 
+                        <input required style="width: 50px;display:none" 
                         formControlName="to_buy"
                         id="{{i}}" name='to_buy'
                         (keyup)="setNewToBy($event)">
@@ -124,7 +124,7 @@
                         id="{{i}}" name='money'>
                       </td>
                       <td class="text-left">
-                        <input style="width: 50px;" formControlName="price"
+                        <input style="width: 50px;display:none" formControlName="price"
                         id="{{i}}" name='price'>
                       </td>
                     </tr>

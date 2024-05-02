@@ -116,7 +116,7 @@ export class SinglePortfolioComponent implements OnInit {
                 let assetCurrency = assetInfo.exchange === 'MOEX' ? 'rub' : 'dollar';
                 let sumCalcCapCurrency = this.portfoliosContentList[0].cap_currency !== 'rub' ? 'dollar' : 'rub';
                 let sumCalcPrice = this.getCalcPrice(assetInfo.price,sumCalcCapCurrency, assetCurrency);
-                let money = sumCalcPrice * x.lot * x.to_buy;
+                let money = cap * (x.percentage/100); // TODO: change to *x.percentage and recalc to_buy
                 this.InitTotalMoneySpent = this.InitTotalMoneySpent + money;
                 var displayedAssetName = assetInfo.ticker + ' ' + assetInfo.name;
                 control.push(this.fb.group({
