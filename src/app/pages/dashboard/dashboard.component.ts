@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
 import { Results } from 'src/app/models/results';
 import { ResultsApiService } from 'src/app/services/results.service';
+import { NewsService } from 'src/app/services/news.service';
 
 // core components
 import {
@@ -35,13 +36,27 @@ export class DashboardComponent implements OnInit {
   public returns: string;
   public startDate: string;
   public endDate: string;
+  public news: any;
   
   constructor(
     private resultsApiService: ResultsApiService,
+    private newsApiService: NewsService
   ) { }
 
   ngOnInit() {
     const token = localStorage.getItem('user_temp_uid');
+    this.newsApiService.getNews().pipe().subscribe(data=>{
+      console.log('data loaded');
+      this.news = data['news'];
+    },err => { 
+        const validationErrors = err.error;
+        if (err instanceof HttpErrorResponse) {
+          
+          if (err.status === 422) {
+            this.serverErrors = err.error.message
+          }
+      }
+    });
     this.resultsApiService.getResults(token).pipe().subscribe(data=>{
       let curve = data['curve'].split(',');
       curve[0] = curve[0].replace('[','');

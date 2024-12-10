@@ -111,7 +111,17 @@
       <br>
       <div class="card shadow" style="margin-bottom:3rem;">
         <div class="card-header bg-transparent">
-          <h6 class="text-uppercase text-muted ls-1 mb-1"> НОВОСТИ</h6>
+          <h6 class="text-uppercase text-muted ls-1 mb-1">НОВОСТИ</h6>
+          <div *ngIf="news">
+            <div *ngFor="let n of news">
+              <p> {{ n.title }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow" style="margin-bottom:3rem;">
+        <div class="card-header bg-transparent">
+          <h6 class="text-uppercase text-muted ls-1 mb-1"> СТАТЬИ</h6>
             <h3>Еженедельный обзор - aнализ предстоящей недели</h3>
             <div>
                 <p>
@@ -121,7 +131,7 @@
                 </p>
             </div>
         </div>
-    </div>
+      </div>
       <app-task-status></app-task-status>
       <!-- Card stats -->
       <div class="row" *ngIf="sharpeRatio || maxDrawdown || testPeriod || returns">

@@ -30,6 +30,7 @@ import { isBPayedService } from 'src/app/services/guards/is-plan-b-payed.service
 import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/patreon-processing.component';
 import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-component.component';
 import { ArticlesComponent } from 'src/app/pages/articles/articles.component';
+import { NewsService } from 'src/app/services/news.service';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -68,6 +69,7 @@ import { ArticlesComponent } from 'src/app/pages/articles/articles.component';
     ResultsApiService, 
     UserProfileApiService,
     isBPayedService,
+    NewsService
   ],
 })
 
