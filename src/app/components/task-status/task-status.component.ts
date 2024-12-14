@@ -26,7 +26,7 @@ export class TaskStatusComponent implements OnInit {
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];
       var task_status = JSON.parse(status_data)['task_status'];
-      if(status === 'success' && task_status == 'Ready'){
+      if(status === 'success' && task_status == 'Готово'){
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
         document.getElementById('mbc-spinner').setAttribute('style','display:none');
@@ -60,7 +60,7 @@ export class TaskStatusComponent implements OnInit {
       var status_data = JSON.stringify(data);
       var status = JSON.parse(status_data)['status'];
       var task_status = JSON.parse(status_data)['task_status'];
-      if(status === 'success' && task_status == 'Ready'){
+      if(status === 'success' && task_status == 'Готово'){
         this.showTasks = true;
         this.taskStatus = JSON.parse(status_data)['task_status'];
         document.getElementById('mbc-spinner').setAttribute('style','display:none');

@@ -73,10 +73,10 @@ export class OptimizationComponent implements OnInit {
     var endtExists = optInputs.end_date !== ""
     var lessThan30 = startExists && endtExists && (Date.parse(optInputs.end_date) - Date.parse(optInputs.start_date)) < 30;
     if(lessThan30){
-      this.uiErrors.push('Testing period should equal to or be greater than 30 days');
+      this.uiErrors.push('Период тестирования должен быть равен или превышать 30 дней.');
     };
     if(!startExists || !endtExists){
-      this.uiErrors.push('Both start and end dates should be filled out');
+      this.uiErrors.push('Даты начала и окончания должны быть заполнены.');
     };
     if(lessThan30 || !startExists || !endtExists){
       //pass

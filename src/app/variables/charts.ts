@@ -320,7 +320,7 @@ export const chartExample1 = {
   data: {
     labels: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8','p9', 'p10','p11','p12', 'p13', 'p14', 'p15'],
     datasets: [{
-      label: 'Capital Growth',
+      label: 'Кривая капитала',
       data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
       fontColor: colors.white,
       borderColor: colors.white,
