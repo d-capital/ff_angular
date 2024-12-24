@@ -10,7 +10,7 @@ import { FundamentalsInput } from 'src/app/models/fundamentals-inputs';
   styleUrls: ['./fundamentals.component.css']
 })
 export class FundamentalsComponent implements OnInit {
-  public fundamentalAnalysis: string = 'Your analysis will be here.';
+  public fundamentalAnalysis: string = 'Результаты анализа будут тут.';
   public selectedPair:string;
   serverErrors=[];
   uiErrors = [];
@@ -31,11 +31,15 @@ export class FundamentalsComponent implements OnInit {
 
   getFundamentalAnalysis():void {
     this.selectedPair = this.fundamentalsForm.controls['currencyPair'].value;
+    document.getElementById('mbc-spinner').setAttribute('style','display:block');
+    this.fundamentalAnalysis = 'Результаты анализа будут тут.'
     this.fundamentalsService.getFundamentals(this.selectedPair).pipe().subscribe(data=>{
         console.log('data loaded');
         this.fundamentalAnalysis = this.formatText(data['analysis']);
+        document.getElementById('mbc-spinner').setAttribute('style','display:none');  
       },err => { 
-          const validationErrors = err.error;
+        document.getElementById('mbc-spinner').setAttribute('style','display:none');  
+        const validationErrors = err.error;
           if (err instanceof HttpErrorResponse) {
             
             if (err.status === 422) {
