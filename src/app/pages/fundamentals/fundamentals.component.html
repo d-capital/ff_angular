@@ -1,0 +1,52 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+      </div>
+    </div>
+</div>
+
+<div style="margin-top: 3%;"><h2 class="text-center mt-0" >Пара деталей</h2></div>
+<div id="log"></div>
+<div>
+    <form role="form" [formGroup]="fundamentalsForm" novalidate (ngSubmit)="getFundamentalAnalysis()">
+        <div class="custom-row">
+            <div class="col-lg-3 col-md-6 text-center">
+                <h3 class="h4 mb-2">Валютная пара: </h3>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <p>
+                    <select class="custom-select" formControlName='currencyPair'>
+                        <option value="EURUSD">EURUSD</option>
+                        <option value="USDJPY">USDJPY</option>
+                        <option value="AUDCAD">AUDCAD</option>
+                        <option value="NZDUSD">NZDUSD</option>
+                    </select>
+                </p>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="custom-tooltip">
+                    <i class="ni ni-bulb-61"></i>
+                    <p class="custom-tooltiptext">Выбирайте валютную пару а AI сделает быстрый фундаментальный анализ для Вас.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <h3 class="h4 mb-2"> </h3>
+                <!--input type="checkbox" id="save" formControlName="save_result">
+                <label for="save">I want to save calculated portfolio</label><br-->
+                <p>
+                    <input [disabled]="!fundamentalsForm.valid" 
+                    class="btn btn-primary btn-xl" 
+                    type="submit" 
+                    value="Получить анализ">
+                </p>
+            </div>
+        </div>
+        <br>
+        <div style="padding-left:10%; padding-right:10%; color:rgb(0, 0, 0); text-indent: 50px; text-align: justify; letter-spacing: 1px;" *ngIf="fundamentalAnalysis" [innerHTML] = "fundamentalAnalysis"></div>
+        <span *ngFor="let error of uiErrors">
+            <div style="color:red; text-align: center;">{{error}}</div>
+        </span>
+        <br>
+        <div style="color:red; text-align: center;" *ngIf="serverErrors">{{serverErrors}}</div>
+    </form>
+</div>
