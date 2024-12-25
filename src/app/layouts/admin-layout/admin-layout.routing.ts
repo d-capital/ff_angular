@@ -14,6 +14,7 @@ import { PatreonProcessingComponent } from 'src/app/pages/patreon-processing/pat
 import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-component.component';
 import { ArticlesComponent } from '../../pages/articles/articles.component';
 import { FundamentalsComponent } from 'src/app/pages/fundamentals/fundamentals.component';
+import { ForexTestComponent } from 'src/app/pages/forex-test/forex-test.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -65,5 +66,9 @@ export const AdminLayoutRoutes: Routes = [
     {
         path:'fundamentals',
         component: FundamentalsComponent
+    },
+    {
+        path:'forex-test',
+        component: ForexTestComponent
     }
 ];

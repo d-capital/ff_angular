@@ -1,0 +1,31 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+        </div>
+    </div>
+</div>
+<div class="test-container">
+    <h1>Тест на знание фундаментального анализа Forex</h1>
+    <!-- Question -->
+    <div *ngIf="!showModal" class="question">
+        <p>{{ currentQuestionIndex + 1 }}. {{ questions[currentQuestionIndex].question }}</p>
+        <div *ngFor="let option of questions[currentQuestionIndex].options">
+            <label>
+                <input type="radio" name="question{{ currentQuestionIndex }}" [value]="option"
+                    [(ngModel)]="questions[currentQuestionIndex].selected" />
+                {{ option }}
+            </label>
+        </div>
+        <button (click)="submitAnswer()">Ответить</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal" *ngIf="showModal">
+        <div class="modal-content">
+            <p>
+                {{ isAnswerCorrect ? 'Верно!' : 'Неверно!' }}
+                Правильный ответ: {{ questions[currentQuestionIndex].answer }}
+            </p>
+            <button (click)="nextQuestion()">Дальше</button>
+        </div>
+    </div>
+</div>
