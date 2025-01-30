@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TaskStatusComponent } from './task-status/task-status.component';
 import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.component';
+import { BarometerComponent } from './barometer/barometer.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.componen
     LoadingComponent,
     AuthbuttonComponent,
     TaskStatusComponent,
-    LoaderOverlayComponent
+    LoaderOverlayComponent,
+    BarometerComponent
 
   ],
   providers: [AuthService],
@@ -46,7 +48,8 @@ import { LoaderOverlayComponent } from './loader-overlay/loader-overlay.componen
     NavbarComponent,
     SidebarComponent,
     TaskStatusComponent,
-    LoaderOverlayComponent
+    LoaderOverlayComponent,
+    BarometerComponent
   ]
 })
 export class ComponentsModule { }

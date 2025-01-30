@@ -1,6 +1,15 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
-    <div class="header-body">
+    <div class="header-body">  
+      <div style="width: 100%; display: table; margin-bottom: 2%;">
+        <app-barometer currencyPair = "EUR/USD"></app-barometer>
+        <app-barometer currencyPair = "USD/CAD"></app-barometer>
+        <app-barometer currencyPair = "NZD/USD"></app-barometer>
+        <app-barometer currencyPair = "AUD/USD"></app-barometer>
+        <app-barometer currencyPair = "USD/JPY"></app-barometer>
+        <app-barometer currencyPair = "GBP/USD"></app-barometer>
+        <app-barometer currencyPair = "EUR/GBP"></app-barometer>
+      </div>
       <div class="row" *ngIf="!sharpeRatio && !maxDrawdown && !testPeriod && !returns">
         <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0" style="background-color: #172b4d">
