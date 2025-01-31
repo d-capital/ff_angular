@@ -22,6 +22,10 @@ import { InterestRateService } from 'src/app/services/interest-rate.service';
                 <span class="sell-label">Sell</span>
                 <span class="buy-label">Buy</span>
             </div>
+            <div class="label-container">
+                <span>{{ fistCurrnecyName }} {{ firstCurrencyIr }}</span>
+                <span>{{ secondCurrencyName }} {{ secondCurrencyIr}}</span>
+            </div>
         </div>
     </div>
   `,
@@ -51,7 +55,6 @@ import { InterestRateService } from 'src/app/services/interest-rate.service';
         justify-content: space-between;
         width: 200px; /* Adjust width as needed */
         padding: 10px;
-        border: 1px solid #ccc;
     }
 
     .sell-label {
@@ -72,6 +75,10 @@ export class BarometerComponent implements OnInit {
       ) { }
     @Input() value: number = 0.5; // Value from -1 to 1
     @Input() currencyPair: string = "eur/usd"; // Value from -1 to 1
+    public fistCurrnecyName:string = "";
+    public firstCurrencyIr: string = "";
+    public secondCurrencyName: string = "";
+    public secondCurrencyIr: string = "";
 
     ngOnInit(): void {
         this.getInterestRate();
@@ -81,11 +88,15 @@ export class BarometerComponent implements OnInit {
         this.interestRateService.getInterestRate().pipe().subscribe(data=>{
             const firstCurrency = this.currencyPair.split("/")[0].toLowerCase();
             const secondCurrency = this.currencyPair.split("/")[1].toLowerCase();
+            this.fistCurrnecyName = firstCurrency.toUpperCase();
+            this.secondCurrencyName = secondCurrency.toUpperCase();
             var firstCurrencyRates = data['interest_rate'][firstCurrency]
             var firstCurrencyCurrentRate = firstCurrencyRates[firstCurrencyRates.length - 1]
+            this.firstCurrencyIr = firstCurrencyCurrentRate['actual_formatted'];
             var firstCurrencyCurrentRateValue = firstCurrencyCurrentRate['actual'] / 100
             var secondCurrencyRates = data['interest_rate'][secondCurrency]
             var secondCurrencyCurrentRate = secondCurrencyRates[secondCurrencyRates.length - 1]
+            this.secondCurrencyIr = secondCurrencyCurrentRate['actual_formatted'];
             var secondCurrencyCurrentRateValue = secondCurrencyCurrentRate['actual'] / 100
             console.log("ir value");
             var diff = firstCurrencyCurrentRateValue/secondCurrencyCurrentRateValue
