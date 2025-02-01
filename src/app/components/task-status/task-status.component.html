@@ -2,8 +2,8 @@
     <div class="card-header bg-transparent">
       <div class="row align-items-center">
         <div class="col">
-          <h6 class="text-uppercase text-muted ls-1 mb-1">ОПТИМИЗАЦИЯ ПОРТФЕЛЯ</h6>
-          <h2 class="mb-0" style="display: inline; margin-right: 5px;">Статус</h2>
+          <h6 class="text-uppercase text-muted ls-1 mb-1">PORTFOLIO OPTMIZATION</h6>
+          <h2 class="mb-0" style="display: inline; margin-right: 5px;">Status</h2>
           <button class="btn btn-light" 
           style="zoom: 0.6; margin-bottom: 10px;"
           (click) = "refreshStatus()">
@@ -16,7 +16,7 @@
             <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                     <tr>
-                    <th scope="col">Статус</th>
+                    <th scope="col">Status</th>
                     <th scope="col"></th>
                     </tr>
                 </thead>
@@ -27,13 +27,13 @@
                         </td>
                         <td>
                             <div id="mbc-spinner" class="mbc-spinner"></div>
-                            <button id = 'seeResultBtn' class='btn btn-dark' (click)='seeOptimizationResults()' style="display:none" disabled>К результатам</button>
+                            <button id = 'seeResultBtn' class='btn btn-dark' (click)='seeOptimizationResults()' style="display:none" disabled>Results</button>
                         </td>
                     </tr>
                 </tbody>
                 <ng-template #noTasks>
                     <!--span style="margin-top: 10%;margin-right: 5%; margin-bottom: 10%;">No Active Task</span-->
-                    <a href="/#/optimization" class="btn">Прогнать новую оптимизацию</a>
+                    <a href="/#/optimization" class="btn">Run new task</a>
                 </ng-template>
             </table>
         </div>

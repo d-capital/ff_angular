@@ -5,13 +5,13 @@
     </div>
 </div>
 
-<div style="margin-top: 3%;"><h2 class="text-center mt-0" >Пара деталей</h2></div>
+<div style="margin-top: 3%;"><h2 class="text-center mt-0" >Couple of details</h2></div>
 <div id="log"></div>
 <div>
     <form role="form" [formGroup]="optimizationForm" novalidate (ngSubmit)="startOptimization()">
         <div class="custom-row">
             <div class="col-lg-3 col-md-6 text-center">
-                    <h3 class="h4 mb-2">Капитал: </h3>
+                    <h3 class="h4 mb-2">Capital: </h3>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <p>
@@ -25,14 +25,14 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">Нам нужно знать, сколько денег вы готовы вложить в портфель
-                        так чтобы мы могли распределить его между акциями, облигациями и ETF в соответствии с их ценами и минимальным лотом.</p>
+                    <p class="custom-tooltiptext">We need to know how much money you're willing to put into the portfolio
+                        so that we can allocate it between stocks, bonds and ETFs according to their prices and minimum lot sizes.</p>
                 </div>
             </div>
         </div>
         <div class="custom-row">
             <div class="col-lg-3 col-md-6 text-center">
-                <h3 class="h4 mb-2">Биржа: </h3>
+                <h3 class="h4 mb-2">Exchange: </h3>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <p>
@@ -46,19 +46,19 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">Вы можете выбрать биржу, из акций которой будет собран портфель.</p>
+                    <p class="custom-tooltiptext">You can choose the stock exchange from whose stocks the portfolio will be assembled.</p>
                 </div>
             </div>
 
         </div>
         <div class="custom-row">
             <div class="col-lg-3 col-md-6 text-center">
-                <h3 class="h4 mb-2">Группа активов: </h3>
+                <h3 class="h4 mb-2">Asset Group: </h3>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <select class="custom-select" formControlName='asset_group'>
-                        <option value="Blue Chips">Голубые фишки</option>
+                        <option value="Blue Chips">Blue Chips</option>
                         <!--option value="TOP-30 Stocks">TOP Stocks</option>
                         <option value="TOP-30 Stocks + Bonds">TOP Stocks + Bonds</option>>
                         <option value="No Oil">Without Energetic Branch</option-->
@@ -68,15 +68,15 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">Выберите активы, которые будут анализироваться: включите безопасные облигации.
-                        или покупайте только акции высокоэффективных компаний.
-                        Не нравится, как цены на нефть движут рынки? Исключить энергетические компании.</p>
+                    <p class="custom-tooltiptext">Choose the assets to be analyzed: include safe bonds.
+                        Or buy only stocks of high-performing companies.
+                        Don't like the way oil prices move the markets? Exclude energy companies.</p>
                 </div>
             </div>
         </div>
         <div class="custom-row" *ngIf="isBPayed === 'true'">
             <div class="col-lg-3 col-md-6 text-center">
-                <h3 class="h4 mb-2">Метод прогноза: </h3>
+                <h3 class="h4 mb-2">Prediction Method: </h3>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <p>
@@ -89,14 +89,14 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">По умолчанию мы будем использовать нестареющую классику — усреднение, 
-                        (ARIMA-GARCH) возможно скоро появиться как платная функция.</p>
+                    <p class="custom-tooltiptext">By default we will use the timeless classic - averaging, 
+                        (ARIMA-GARCH) may soon be available as a paid feature.</p>
                 </div>
             </div>
         </div>
         <div class="custom-row" *ngIf="isBPayed === 'true'">
             <div class="col-lg-3 col-md-6 text-center">
-                <h3 class="h4 mb-2">Метод оптимизации: </h3>
+                <h3 class="h4 mb-2">Optimization method: </h3>
             </div>
 
             <div class="col-lg-3 col-md-6 text-center">
@@ -110,39 +110,39 @@
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">По умолчанию мы будем использовать максимизацию прибыли
-                        с ограничением риска ниже или равным 2 % (так называемая оптимизация Марковица),
-                        Следующим вариантом является максимизация коэффициента Шарпа.</p>
+                    <p class="custom-tooltiptext">By default, we will use profit maximization
+                        with a risk constraint less than or equal to 2% (the so-called Markowitz optimization),
+                        The next option is to maximize the Sharpe ratio.</p>
                 </div>
             </div>
         </div>
         <div class="custom-row">
             <div class="col-lg-3 col-md-6 text-center">
-                <h3 class="h4 mb-2">Период оптимизации</h3>
+                <h3 class="h4 mb-2">Optimization period</h3>
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <p>
                     <input type="checkbox" id="yes1" (change)="datesOn()" formControlName='use_custom_period' 
                     style="margin-right: 2%;">
-                    <label style="margin-right: 4%;" for="yes1">Выбрать даты самому</label>
+                    <label style="margin-right: 4%;" for="yes1">Select on your own</label>
                     <input type="checkbox" id="no1" (change)="datesOff()" formControlName='use_default_period'
                     style="margin-right: 2%;">
-                    <label for="no1">Сделайте все за меня</label><br>
+                    <label for="no1">Do it for me</label><br>
                 </p>
             </div>  
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="custom-tooltip">
                     <i class="ni ni-bulb-61"></i>
-                    <p class="custom-tooltiptext">Рекомендуемый способ — выбрать прошлый год для расчета портфеля на следующий год.
-                        Но вы можете выбрать собственный диапазон, например, чтобы симулировать успехи портфеля в 2019 году 
-                        нужно оптимизировать его на данных 2018 года</p>
+                    <p class="custom-tooltiptext">The recommended way is to choose last year to calculate the portfolio for next year.
+                        But you can choose your own range, for example, to simulate the portfolio's success in 2019 
+                        you need to optimize it on 2018 data</p>
                 </div>
             </div>
         </div>
         <div class="custom-row">
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="form-group" id="startdate1" style="display:none">
-                    <label for="inputDate">Дата начала:</label>
+                    <label for="inputDate">Start date:</label>
                     <input type="date" 
                     class="form-control"
                     formControlName='start_date'
@@ -152,7 +152,7 @@
             </div>
             <div class="col-lg-3 col-md-6 text-center">
                 <div class="form-group" id = "enddate1" style="display:none">
-                    <label for="inputDate">Дата оконачания:</label>
+                    <label for="inputDate">End date:</label>
                     <input type="date" 
                     class="form-control"
                     formControlName='end_date' 
@@ -168,7 +168,7 @@
                     <input [disabled]="!optimizationForm.valid" 
                     class="btn btn-primary btn-xl" 
                     type="submit" 
-                    value="Собрать портфель">
+                    value="Build portfolio">
                 </p>
             </div>
         </div>

@@ -17,7 +17,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">W8BEN</h5>
-                  <span class="h2 font-weight-bold mb-0"><a class="btn bg-yellow" href="/#/w8ben">Автозаполнение W8BEN</a></span>
+                  <span class="h2 font-weight-bold mb-0"><a class="btn bg-yellow" href="/#/w8ben">Autofill W8BEN</a></span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-gradient-primary text-white rounded-circle shadow">
@@ -27,7 +27,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-success mr-2"><i class=""></i></span>
-                <span class="text-nowrap">Пара кликов и PDF готов</span>
+                <span class="text-nowrap">Create PDF fast</span>
               </p>
             </div>
           </div>
@@ -58,8 +58,8 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">АЛГОРИТМ</h5>
-                  <span class="h2 font-weight-bold mb-0"><a class="btn" href="/#/optimization">Собрать Портфель</a></span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">ALGO</h5>
+                  <span class="h2 font-weight-bold mb-0"><a class="btn" href="/#/optimization">Build Portfolio</a></span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -69,7 +69,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-danger mr-2"></span>
-                <span class="text-nowrap">Портфель акций - быстро</span>
+                <span class="text-nowrap">Stock portfolio - fast</span>
               </p>
             </div>
           </div>
@@ -80,7 +80,7 @@
               <div class="row">
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">FOREX</h5>
-                  <span class="h2 font-weight-bold mb-0"><a class="btn" href="/#/forex-test">Пройти <br> тест</a></span>
+                  <span class="h2 font-weight-bold mb-0"><a class="btn" href="/#/forex-test">Take<br> a test</a></span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -90,7 +90,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-danger mr-2"></span>
-                <span class="text-nowrap">Тест на знание FOREX</span>
+                <span class="text-nowrap">FOREX knowledge test</span>
               </p>
             </div>
           </div>
@@ -121,7 +121,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Выручка</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Revenue</h5>
                   <span class="h2 font-weight-bold mb-0">{{endCap}}</span>
                 </div>
                 <div class="col-auto">
@@ -132,7 +132,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-success mr-2"><i class="fas fa-percent"></i> {{returns}} </span>
-                <span class="text-nowrap">C даты начала</span>
+                <span class="text-nowrap">From start date</span>
               </p>
             </div>
           </div>
@@ -141,23 +141,23 @@
       <br>
       <div class="card shadow" style="margin-bottom:3rem;">
         <div class="card-header bg-transparent">
-          <h6 class="text-uppercase text-muted ls-1 mb-1"> СТАТЬИ</h6>
-            <h3>Обзор торговой недели (30.12.24 - 3.1.25)</h3>
+          <h6 class="text-uppercase text-muted ls-1 mb-1">Articles</h6>
+            <h3>Trend strength Index</h3>
             <div>
                 <p>
-                  В понедельник выйдет German Prelim CPI m/m, 
-                  значение выше предыдущего может спровоцировать... <a href = "/#/articles">Читать полностью</a>
+                  <b>Trend Strength Index</b> - is an indicator that shows the strength of the market.
+                  In essence, it is similar to a simplified autoregressive indicator ...<a href = "/#/articles">Continue</a>
                 </p>
             </div>
         </div>
       </div>
       <div class="card shadow" style="margin-bottom:3rem;">
         <div class="card-header bg-transparent">
-          <h6 class="text-uppercase text-muted ls-1 mb-1">НОВОСТИ</h6>
+          <h6 class="text-uppercase text-muted ls-1 mb-1">NEWS</h6>
           <div *ngIf="news">
             <div *ngFor="let n of news">
               <p>{{ n.published }}</p>
-              <p> {{ n.title }}  <a href="{{ n.link }}" target="_blank">Ссылка на источник</a></p>
+              <p> {{ n.title }}  <a href="{{ n.link }}" target="_blank">Source Link</a></p>
               <hr>
             </div>
           </div>
@@ -171,7 +171,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Коэффицент Шарпа</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Sharpe Ratio</h5>
                   <span class="h2 font-weight-bold mb-0">{{ sharpeRatio }}</span>
                 </div>
                 <div class="col-auto">
@@ -192,7 +192,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Макс. прибыль</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Max Profit</h5>
                   <span class="h2 font-weight-bold mb-0">{{ maxWin }} %</span>
                 </div>
                 <div class="col-auto">
@@ -203,7 +203,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ maxDrawdown }} %</span>
-                <span class="text-nowrap">Макс. просадка</span>
+                <span class="text-nowrap">Max Drawdown</span>
               </p>
             </div>
           </div>
@@ -213,7 +213,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Период тестирования</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Test period</h5>
                   <span class="h5 font-weight-bold mb-0">{{ testPeriod }}</span>
                 </div>
                 <div class="col-auto">
@@ -224,7 +224,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <!--span class="text-warning mr-2"></span-->
-                <span class="text-nowrap">Для показанного результата</span>
+                <span class="text-nowrap">For the given result</span>
               </p>
             </div>
           </div>
@@ -234,7 +234,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Доходы</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">End Capital</h5>
                   <span class="h2 font-weight-bold mb-0">{{endCap}}</span>
                 </div>
                 <div class="col-auto">
@@ -245,7 +245,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-success mr-2"><i class="fas fa-percent"></i> {{returns}} </span>
-                <span class="text-nowrap">С начала теста</span>
+                <span class="text-nowrap">From test start</span>
               </p>
             </div>
           </div>
@@ -261,8 +261,8 @@
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="text-uppercase text-light ls-1 mb-1">Обзор</h6>
-              <h2 class="text-white mb-0">Результаты теста</h2>
+              <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
+              <h2 class="text-white mb-0">Test results</h2>
             </div>
             <div class="col">
               <ul class="nav nav-pills justify-content-end">

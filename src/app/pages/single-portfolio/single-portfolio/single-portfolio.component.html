@@ -7,15 +7,15 @@
       <div class="card-header bg-transparent">
         <div class="row align-items-center">
           <div class="col">
-            <h6 class="text-uppercase text-muted ls-1 mb-1">Протестировать портфель</h6>
+            <h6 class="text-uppercase text-muted ls-1 mb-1">Test portfolio</h6>
           </div>
         </div>
           <div class="table-responsive">
               <table class="table align-items-center table-flush">
                   <thead class="thead-light">
                       <tr>
-                      <th scope="col">Дата Начала</th>
-                      <th scope="col">Дата Окночания</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">End Date</th>
                       <th scope="col"></th>
                       </tr>
                   </thead>
@@ -32,7 +32,7 @@
                               id = 'startBacktest' 
                               class='btn btn-dark' 
                               [disabled]="!portfolioForm.valid"
-                              (click)='startBacktest()'>Начать Тест</button>
+                              (click)='startBacktest()'>Start Test</button>
                           </td>
                       </tr>
                   </tbody>
@@ -55,8 +55,8 @@
             <form role="form" [formGroup]="portfolioForm" (ngSubmit)="openModal(modalData)" novalidate>
                 <div class="card-header border-0">
                   <h3 class="mb-0">
-                  <span><b>Выбранный портфель:</b> <input name='new_name' formControlName='new_name'> </span>
-                  <span style="margin-left: 10%;"><b style="margin-right: 2%;">Капитал:</b> 
+                  <span><b>Selected portfolio:</b> <input name='new_name' formControlName='new_name'> </span>
+                  <span style="margin-left: 10%;"><b style="margin-right: 2%;">Capital:</b> 
                   <select style="width: 40px; border: 0px" formControlName='cap_currency' (change)="recalcPortfolio()">
                         <option value="$">$</option>
                         <!--option value="rub">₽</option-->
@@ -65,20 +65,20 @@
                       <input formControlName='capital' name = "capital" (keyup)="recalcPortfolio()">
                     </span>
                   </span>
-                  <span style="margin-left: 10%;"><b>Период оптимизации: </b> <span id='startEnd'>' '</span></span>
+                  <span style="margin-left: 10%;"><b>Optimization period: </b> <span id='startEnd'>' '</span></span>
                   <span style="margin-left: 10%;" *ngIf="portfoliosInfo?.er"><b>ER:</b> {{ portfoliosInfo.er }}</span> </h3>
                 </div>
               <div class="table-responsive">
                 <table #el class="table align-items-center table-flush">
                   <thead class="thead-light">
                     <tr>
-                        <th scope="col">Удалить</th>
-                        <th scope='col'>Актив</th>
+                        <th scope="col">Delete</th>
+                        <th scope='col'>Asset</th>
                         <th scope="col" style="width: 98px;"> </th>
                         <th scope="col" style="width: 50px;"> </th>
                         <th scope="col" style="width: 50px;">%</th>
-                        <th scope="col">Денег потрачено</th>
-                        <th scope="col" style="display:none">Использованная цена*</th>
+                        <th scope="col">Money spent</th>
+                        <th scope="col" style="display:none">Price used*</th>
                     </tr>
                   </thead>
                   <tbody formArrayName='pAssets' *ngFor="let p_asset of portfolioForm.get('pAssets')['controls']; let i = index" >
@@ -143,11 +143,11 @@
               </span>
             </form>
             <div class="card-footer py-4">
-              <span>Денег потрачено всего: <span id="totalMoneySpent">{{ InitTotalMoneySpent }}</span></span>
-              <span style="margin-left: 10%;">Сумма долей: <span id="totalPercentage">{{ InitTotalPercentage }}</span></span>
-              <span style="margin-left: 10%;">Свободный остаток: <span id="freeMoney">{{ InitFreeMoney }}</span></span>
+              <span>Total money spent: <span id="totalMoneySpent">{{ InitTotalMoneySpent }}</span></span>
+              <span style="margin-left: 10%;">Total percentage: <span id="totalPercentage">{{ InitTotalPercentage }}</span></span>
+              <span style="margin-left: 10%;">Money left: <span id="freeMoney">{{ InitFreeMoney }}</span></span>
               <p></p>
-              <span style="margin-top: 1%;color: green; font-size: small;">* цены указаны по состоянию на вчерашний день и в валюте биржи, на которой торгуется актив</span>
+              <span style="margin-top: 1%;color: green; font-size: small;">* prices are quoted as of yesterday and in the currency of the exchange on which the asset is traded</span>
               <!--nav aria-label="...">
                 <ul class="pagination justify-content-end mb-0">
                   <li class="page-item disabled">
@@ -178,28 +178,28 @@
   </div>
   <ng-template #modalData let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Хотите сохранить портфель?</h4>
+      <h4 class="modal-title" id="modal-basic-title">Do you want to save a portfolio?</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">×</span>
       </button>
     </div>
     <div class="modal-body">
       <div *ngIf="this.portfoliosInfo">
-        <p><strong>Хотите ли Вы сохранить изменение в существующем портфеле или создать новый?</strong></p>
-        <p>Если Вы нажмете кнопку «Перезаписать», сохраненные данные этого портфолио будут обновлены, а старая версия будет утеряна.
+        <p><strong>Do you want to save a change to an existing portfolio or create a new one?</strong></p>
+        <p>If you click the “Overwrite” button, the saved data of this portfolio will be updated and the old version will be lost.
         </p>
       </div>
       <p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Save click'); onSave('new')">Сохранить новый портфель</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Save click'); onSave('new')">Save new portfolio</button>
     </div>
     <div *ngIf="this.portfoliosInfo" class="modal-footer">
       <button 
       type="button" 
       class="btn btn-danger" 
-      (click)="modal.close('Save click'); onSave('old')">Перезаписать 
-      <span class="text-secondary">'{{this.portfoliosInfo?.portfolio_name}}'</span> портфель</button>
+      (click)="modal.close('Save click'); onSave('old')">Overwrite 
+      <span class="text-secondary">'{{this.portfoliosInfo?.portfolio_name}}'</span> portfolio</button>
     </div>
   </ng-template>
 </form>

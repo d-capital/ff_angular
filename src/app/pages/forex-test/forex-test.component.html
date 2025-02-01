@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="test-container">
-    <h1>Тест на знание фундаментального анализа Forex</h1>
+    <h1>Forex fundamentals test</h1>
     <!-- Question -->
     <div *ngIf="!showModal" class="question">
         <p>{{ currentQuestionIndex + 1 }}. {{ questions[currentQuestionIndex].question }}</p>
@@ -16,16 +16,16 @@
                 {{ option }}
             </label>
         </div>
-        <button (click)="submitAnswer()">Ответить</button>
+        <button (click)="submitAnswer()">Submit</button>
     </div>
     <!-- Modal -->
     <div class="modal" *ngIf="showModal">
         <div class="modal-content">
             <p>
-                {{ isAnswerCorrect ? 'Верно!' : 'Неверно!' }}
-                Правильный ответ: {{ questions[currentQuestionIndex].answer }}
+                {{ isAnswerCorrect ? 'Correct!' : 'False!' }}
+                Correct answer: {{ questions[currentQuestionIndex].answer }}
             </p>
-            <button (click)="nextQuestion()">Дальше</button>
+            <button (click)="nextQuestion()">Continue</button>
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ export class SinglePortfolioComponent implements OnInit {
   isNewP: boolean;
   isExistingP: boolean;
   hasLessThan2Portfolios:boolean;
-  spinnerTitle = "Загружаем портфель";
+  spinnerTitle = "Loading portfolio";
   spinnerSubTitle = "";
 
   newPortfolioContent: PortfolioContent[] = [];
@@ -69,7 +69,7 @@ export class SinglePortfolioComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.startSpinning('Загружаем ваш портфель', '');
+    this.startSpinning('Loading portfolio', '');
     this.isBPayed = localStorage.getItem("isBPayed");
     this.isLoggedIn = localStorage.getItem("auth_token") !== null;
     var today = new Date();
@@ -391,19 +391,19 @@ export class SinglePortfolioComponent implements OnInit {
     var negativeFreeMoney = currentFreeMoney<0; 
     this.uiErrorsOnSave = [];
     if (capCurrencyEmpty){
-      this.uiErrorsOnSave.push('Валюта капитала не определена.');
+      this.uiErrorsOnSave.push('The currency of the capital has not been determined.');
     }
     if (capitalEmpty){
-      this.uiErrorsOnSave.push('Нужно указать капитал.');
+      this.uiErrorsOnSave.push('You need to specify the capital.');
     }
     if (portfolioEmpty){
-      this.uiErrorsOnSave.push('В портфеле нет ни одного актива.');
+      this.uiErrorsOnSave.push('There are no assets in the portfolio.');
     }
     if (negativeFreeMoney){
-      this.uiErrorsOnSave.push("Вы потратили больше денег, чем задали в поле с капиталом.");
+      this.uiErrorsOnSave.push("You spent more money than you set in the capital field.");
     }
     if(portfolioEmpty || capitalEmpty || capCurrencyEmpty || negativeFreeMoney){
-      console.warn('Несколько ошибок на клиенте.');
+      console.warn('Multiple errors on the client side.');
     } else {
       this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
     }
@@ -486,22 +486,22 @@ export class SinglePortfolioComponent implements OnInit {
     //check duplicates here
     this.uiErrors = [];
     if (datesEmpty){
-      this.uiErrors.push('Даты начал и конца - это обязательные поля.');
+      this.uiErrors.push('Start and end dates are required fields.');
     }
     if (capCurrencyEmpty){
-      this.uiErrors.push('Не выбрана валюта капитала.');
+      this.uiErrors.push('No capital currency has been selected.');
     }
     if (capitalEmpty){
-      this.uiErrors.push('Нужно заполнить поле капитала.');
+      this.uiErrors.push('You need to fill in the capital field.');
     }
     if (portfolioEmpty){
-      this.uiErrors.push('Вы не выбрали ни одного актива.');
+      this.uiErrors.push("You haven't selected any assets.");
     }
     if (negativeFreeMoney){
-      this.uiErrors.push("Вы потратили больше чем заявленный капитал.");
+      this.uiErrors.push("You spent more than your stated capital.");
     }
     if(portfolioEmpty || capitalEmpty || datesEmpty || capCurrencyEmpty || negativeFreeMoney){
-      console.warn('Несколько ошибок на клиенте');
+      console.warn('Several errors on the client');
     } else {
       const token = localStorage.getItem('user_temp_uid');
       let stocksForTest = [];
@@ -513,13 +513,13 @@ export class SinglePortfolioComponent implements OnInit {
       }
       const toFindDuplicates = stocksForTest.filter((item, index) => stocksForTest.indexOf(item) !== index)
       if(toFindDuplicates.length > 0){
-        this.uiErrors.push(`Следующие активы повторяются: ${toFindDuplicates}. Попробуйте поменять свой выбор.`);
+        this.uiErrors.push(`The following assets are repeated: ${toFindDuplicates}. Try to change your choices.`);
       } else {
         for(var i=0; i < pLength; i++){
           let percentage = this.portfolioForm.controls.pAssets['controls'].at(i).value.percentage;
           allocationForTest.push(percentage)
         }
-        this.startSpinning('Мы начали тестировать наш портфель.', 'Подождите немного, чтобы увидеть результат.');
+        this.startSpinning('We started testing our portfolio.', 'Wait a little while to see the result.');
         this.portfoliosApi.startBacktest(token, stocksForTest, allocationForTest, capital, capCurrency, backtestStartDate, backtestEndDate).pipe().subscribe(data=>{
           this.router.navigate(['/#/results']);
           }, err => { 

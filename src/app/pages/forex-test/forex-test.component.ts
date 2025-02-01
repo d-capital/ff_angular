@@ -11,39 +11,39 @@ export class ForexTestComponent implements OnInit {
     isAnswerCorrect: boolean | null = null;
     questions = [
         {
-          question: "В выходные дни появились новости о том, что Северная Корея выпустила еще одну ракету в воды Японии, на что США в ответ отправят один из крупнейших в мире военных кораблей «Нимиц» в западную часть Тихого океана, чтобы сдержать любую потенциальную эскалацию. Судя по этой новости, какую валютную пару вы бы с большей вероятностью купили или продали.",
-          options: ["КУПИТЬ AUDUSD", "КУПИТЬ EURJPY", "КУПИТЬ USDJPY", "ПРОДАТЬ USDJPY"],
-          answer: "ПРОДАТЬ USDJPY",
+          question: "Over the weekend, news emerged that North Korea had fired another missile into Japanese waters, to which the US would respond by sending one of the world's largest warships, the Nimitz, to the Western Pacific to contain any potential escalation. Based on this news, which currency pair would you be more likely to buy or sell?",
+          options: ["BUY AUDUSD", "BUY EURJPY", "BUY USDJPY", "SELL USDJPY"],
+          answer: "SELL USDJPY",
           selected: null
         },
         {
-          question: "Ходят слухи, что ОПЕК встретится с целью снизить добычу нефти. Если эта встреча пройдет успешно, цены на нефть вырастут, а поскольку рынок Форекс является фьючерсным рынком, он, скорее всего, изменится, если слухи подтвердятся. Какой валютной парой мы будем торговать, основываясь на этой новости?",
-          options: ["ПРОДАТЬ USDJPY", "ПРОДАТЬ AUDUSD", "КУПИТЬ EURUAD", "ПРОДАТЬ USDCAD"],
-          answer: "ПРОДАТЬ USDCAD",
+          question: "There are rumors that OPEC will meet to reduce oil production. If this meeting is successful, oil prices will rise, and since the Forex market is a futures market, it will likely change if the rumors are true. Which currency pair will we trade based on this news?",
+          options: ["SELL USDJPY", "SELL AUDUSD", "BUY EURUAD", "SELL USDCAD"],
+          answer: "SELL USDCAD",
           selected: null
         },
         {
-            question: "Сообщается, что ОПЕК встретится через несколько дней, чтобы достичь соглашения о сокращении добычи нефти. Какую сделку вы бы выбрали.",
-            options: ["ПРОДАТЬ EURUSD", "ПРОДАТЬ GBPAUD", "ПРОДАТЬ USDCAD", "ПРОДАТЬ CADJPY"],
-            answer: "ПРОДАТЬ USDCAD",
+            question: "It is reported that OPEC will meet in a few days to reach an agreement on cutting oil production. Which deal would you choose?",
+            options: ["SELL EURUSD", "SELL GBPAUD", "SELL USDCAD", "SELL CADJPY"],
+            answer: "SELL USDCAD",
             selected: null
         },
         {
-            question: "Увольнение Дональдом Трампом директора ФБР Джеймса Коми (10 мая) и обвинения в том, что он давил на Коми, чтобы тот прекратил расследование предполагаемых связей своего бывшего главы национальной безопасности и других чиновников с Россией, вызвали политическую неопределенность в США. Инвесторы были обеспокоены тем, что обвинения могут задержать снижение налогов и увеличение расходов при незначительных разговорах об импичменте.Также недавно 7 мая завершились выборы во Франции, на которых Франция избрала лидера, который ясно дал понять, что у него нет планов подрывать ЕС или еврозону. Это позитивно для евро, поэтому текущие рыночные настроения по евро являются бычьими.Какую сделку вы бы выбрали?",
-            options: ["КУПИТЬ EURGBP", "КУПИТЬ EURJPY", "КУПИТЬ EURUSD"],
-            answer: "КУПИТЬ EURUSD",
+            question: "Donald Trump's firing of FBI Director James Comey (May 10) and allegations that he pressured Comey to drop the investigation into alleged ties between his former national security chief and other officials and Russia have caused political uncertainty in the US. Investors were concerned that the allegations could delay tax cuts and spending increases with little talk of impeachment.Also, French elections recently concluded on May 7, where France elected a leader who has made it clear that he has no plans to undermine the EU or the eurozone. This is positive for the euro, so current market sentiment on the euro is bullish.Which trade would you choose?",
+            options: ["BUY EURGBP", "BUY EURJPY", "BUY EURUSD"],
+            answer: "BUY EURUSD",
             selected: null
         },
         {
-            question: "Данные по PMI в обрабатывающей промышленности Китая оказались хуже ожиданий на азиатской торговой сессии, и мы только что получили данные по доллару США, которые оказались лучше ожиданий. Основываясь на этих факторах, какую сделку вы бы выбрали?",
-            options: ["ПРОДАТЬ GBPUSD", "ПРОДАТЬ AUDUSD", "КУПИТЬ AUDUSD"],
-            answer: "ПРОДАТЬ AUDUSD",
+            question: "China's manufacturing PMI data came in worse than expected in the Asian trading session, and we just received better than expected US Dollar data. Based on these factors, which trade would you choose?",
+            options: ["SELL GBPUSD", "SELL AUDUSD", "BUY AUDUSD"],
+            answer: "SELL AUDUSD",
             selected: null
         },
         {
-            question: "Цены на нефть и сырьевые товары снижаются, и мы только что получили лучшие, чем ожидалось, данные производственного PMI для фунта стерлингов. Основываясь на этих факторах, которые вы бы выбрали для торговли ниже",
-            options: ["КУПИТЬ GBPJPY", "КУПИТЬ USDCAD", "КУПИТЬ GBPAUD"],
-            answer: "КУПИТЬ GBPAUD",
+            question: "Oil and commodity prices are down and we have just received better than expected manufacturing PMI data for sterling. Based on these factors you would choose to trade below",
+            options: ["BUY GBPJPY", "BUY USDCAD", "BUY GBPAUD"],
+            answer: "BUY GBPAUD",
             selected: null
         }
       ];
@@ -66,7 +66,7 @@ export class ForexTestComponent implements OnInit {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
     } else {
-      alert('Вы завершили квиз!'); // Or navigate to a results page.
+      alert('You have finished the quiz!'); // Or navigate to a results page.
     }
   }
 

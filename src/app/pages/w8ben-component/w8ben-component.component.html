@@ -14,16 +14,16 @@
                 <div class = "grid-container">                    
                     <div class="grid-item">
                         <h3>1. Name of individual who is the beneficial owner</h3>
-                        <input class="w3-input" style="margin-bottom:10px" formControlName='nameField' type="text" placeholder="Введите полное имя">
+                        <input class="w3-input" style="margin-bottom:10px" formControlName='nameField' type="text" placeholder="Enter full name">
                         <div *ngIf="w8benForm.controls['nameField'].invalid && w8benForm.controls['nameField'].touched" class="alert alert-danger">
                             <div *ngIf="w8benForm.controls['nameField'].errors.required">
-                                Имя - это обязательно поле.
+                                Name is a required field.
                             </div>
                         </div>
                     </div>
                     <div class="grid-item">
                         <h3>2. Country of citizenship</h3>
-                        <select class="w3-select" formControlName='countryOfCitizenship' placeholder="Страна гражданства">
+                        <select class="w3-select" formControlName='countryOfCitizenship' placeholder="Country of citizenship">
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Åland Islands">Åland Islands</option>
                             <option value="Albania">Albania</option>
@@ -274,19 +274,19 @@
                 <hr style="border-top: 1px solid rgb(222, 222, 222);">
                 <div style="margin-left: 10px; margin-bottom: 10px;">
                     <h3>3. Permanent residence address (street, apt. or suite no., or rural route). Do not use a P.O. box or in-care-of address. </h3>
-                    <input style="margin-left: 10px; margin-bottom: 2%;" class="w3-input" type="text" formControlName='permResidenceAddress' placeholder="Ваш адрес">
+                    <input style="margin-left: 10px; margin-bottom: 2%;" class="w3-input" type="text" formControlName='permResidenceAddress' placeholder="Your address">
                     <div *ngIf="w8benForm.controls['permResidenceAddress'].invalid && w8benForm.controls['permResidenceAddress'].touched" class="alert alert-danger">
                         <div *ngIf="w8benForm.controls['permResidenceAddress'].errors.required">
-                            Адрес вашего постоянного жительства - это обязательно поле.
+                            Your permanent residence address is a required field.
                         </div>
                     </div>
                     <h3 style="margin-left: 10px;" >City or town, state or province. Include postal code where appropriate.</h3>
                     <div class="grid-container">    
                         <div class="grid-item">
-                            <input class="w3-input" type="text" formControlName='cityStateZip' placeholder="Город, штат, индекс">
+                            <input class="w3-input" type="text" formControlName='cityStateZip' placeholder="City, state, zip code">
                             <div *ngIf="w8benForm.controls['cityStateZip'].invalid && w8benForm.controls['cityStateZip'].touched" class="alert alert-danger">
                                 <div *ngIf="w8benForm.controls['cityStateZip'].errors.required">
-                                    Заполните информацию о городе, штате или регионе и почтовый индекс.
+                                    Fill in your city, state or region and zip code information.
                                 </div>
                             </div>
                         </div>
@@ -543,11 +543,11 @@
                 <hr style="border-top: 1px solid rgb(222, 222, 222);">
                 <div style="margin-left: 10px; margin-bottom: 10px;">
                     <h3>4. Mailing address (if different from above)</h3>
-                    <input class="w3-input" style="margin-left: 10px; margin-bottom: 2%;" type="text" formControlName='mailingAddress' placeholder="Ваш почтовый адрес">
+                    <input class="w3-input" style="margin-left: 10px; margin-bottom: 2%;" type="text" formControlName='mailingAddress' placeholder="Your mailing address">
                     <h3 style="margin-left: 10px;">City or town, state or province. Include postal code where appropriate.</h3>
                     <div class="grid-container">
                         <div class="grid-item">
-                            <input class="w3-input" type="text" formControlName='mailingAddressCityStateZip' placeholder="Город, штат, индекс">
+                            <input class="w3-input" type="text" formControlName='mailingAddressCityStateZip' placeholder="City, state, zip code">
                         </div>
                         <div class="grid-item">
                             <select class="w3-select" formControlName='mailingAddressCountry' placeholder="Country">
@@ -811,7 +811,7 @@
                     class="w3-input" 
                     type="text" 
                     formControlName = "ssn" 
-                    placeholder="Введите свой SSN (для граждан США - номер страховки)" 
+                    placeholder="Enter your SSN (for U.S. citizens, your insurance number)" 
                     maxlength="12">
                     <!--div *ngIf="w8benForm.controls['ssn'].invalid && w8benForm.controls['ssn'].touched" class="alert alert-danger">
                         <div *ngIf="w8benForm.controls['ssn'].errors.pattern">
@@ -822,7 +822,7 @@
                     class="w3-input" 
                     type="text" 
                     formControlName = "tin" 
-                    placeholder="Введите свой ITIN (так же номер страховки в США, но другого типа)"
+                    placeholder="Enter your ITIN (also your U.S. insurance number, but of a different type)"
                     maxlength="9">
                     <!--div *ngIf="w8benForm.controls['tin'].invalid && w8benForm.controls['tin'].touched" class="alert alert-danger">
                         <div *ngIf="w8benForm.controls['tin'].errors.pattern">
@@ -1105,23 +1105,23 @@
                     </select></h3>
                     <h3>10. <b>Special rates and conditions</b> (if applicable—see instructions): The beneficial owner is claiming the provisions of Article and paragraph</h3>
                     <h3><input class="w3-input" style="width: auto;" formControlName="articleAndParagraph" type="text"> of the treaty identified on line 9 above to claim a <input class="w3-input" formControlName = "percentage" type="text"> % rate of withholding on (specify type of income): </h3>
-                    <input class="w3-input" formControlName = "typeOfIncome" type="text" placeholder="Тип дохода">
+                    <input class="w3-input" formControlName = "typeOfIncome" type="text" placeholder="Type of income">
                     <h3>Explain the additional conditions in the Article and paragraph the beneficial owner meets to be eligible for the rate of withholding:</h3>
-                    <input class="w3-input" type="text" formControlName = "additionalConditions" placeholder="Доказательство легитимности">
+                    <input class="w3-input" type="text" formControlName = "additionalConditions" placeholder="Proof of legitimacy">
                 </div>
                 <h2 style="margin-left: 10px; margin-bottom: 20px; margin-top: 40px;"><b>Part III: Certification</b></h2>
                 <hr style="border-top: 1px solid rgb(222, 222, 222);">
                 <div style="margin-left: 10px; margin-bottom: 10px;">
                     Certify capcity to sign: <input class="w3-check" type="checkbox" formControlName = "certifyCapacityToSign" placeholder="Certify capacity to sign">
                     <input class="w3-input" type="date" formControlName = "signDate" placeholder="Date (MM-DD-YYYY) ">
-                    <input class="w3-input" type="text" [value]="w8benForm.get('nameField').value" formControlName = "printNameOfSigner" placeholder="Впишите имя подписывающегося">
+                    <input class="w3-input" type="text" [value]="w8benForm.get('nameField').value" formControlName = "printNameOfSigner" placeholder="Write the name of the person signing">
                 </div>
                 <input 
                 type="submit"
                 [disabled]="!w8benForm.valid" 
                 style="margin-top: 30px;margin-bottom: 30px;" 
                 class="btn btn-dark" 
-                value="Скачать форму">
+                value="Download the form">
             </form>
         </div>
     </div>
