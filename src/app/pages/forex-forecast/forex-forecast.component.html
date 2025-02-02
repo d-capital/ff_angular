@@ -1,0 +1,15 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+      </div>
+    </div>
+</div>
+<div class="card shadow" style="margin-bottom:3rem;">
+    <div class="card-header bg-transparent">
+        <h2>{{ selectedCurrencyPair }}</h2>
+        <app-barometer currencyPair = "{{selectedCurrencyPair}}" isDashboard = "false"></app-barometer>
+        <div><span>Current Exchange Rate: </span> <span>{{ currentExchangeRate }}</span></div>
+        <div><span>Mundell Flemming Forecast: </span> <span>{{ futureExchangeRate }}</span></div>
+        <div *ngIf="regressionExchangeRate>0"><span>Regression Forecast: </span> <span>{{ regressionExchangeRate }}</span></div>
+    </div>
+</div>

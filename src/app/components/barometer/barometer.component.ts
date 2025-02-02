@@ -1,6 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { InterestRateService } from 'src/app/services/interest-rate.service';
+import { ForexForecastService } from 'src/app/services/forex-forecast.service';
+import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-barometer',
@@ -25,6 +28,9 @@ import { InterestRateService } from 'src/app/services/interest-rate.service';
             <div class="label-container">
                 <span>{{ fistCurrnecyName }} {{ firstCurrencyIr }}</span>
                 <span>{{ secondCurrencyName }} {{ secondCurrencyIr}}</span>
+            </div>
+            <div *ngIf = "isDashboard == true" class="label-container">
+                <span><button class="btn" (click)="redirectToForecastPage()">See forecast</button></span>
             </div>
         </div>
     </div>
@@ -72,13 +78,18 @@ export class BarometerComponent implements OnInit {
     serverErrors=[];
     constructor(
         private interestRateService: InterestRateService,
+        private forexForecastService: ForexForecastService,
+        private router: Router,
       ) { }
     @Input() value: number = 0.5; // Value from -1 to 1
     @Input() currencyPair: string = "eur/usd"; // Value from -1 to 1
+    @Input() isDashboard: boolean = true;
     public fistCurrnecyName:string = "";
     public firstCurrencyIr: string = "";
     public secondCurrencyName: string = "";
     public secondCurrencyIr: string = "";
+    public futureExchangeRate: number = 0.0;
+    public regressionExchnageRate: number = 0.0;
 
     ngOnInit(): void {
         this.getInterestRate();
@@ -132,5 +143,10 @@ export class BarometerComponent implements OnInit {
 
     get needleY(): number {
         return 100 - 90 * Math.sin((1 - this.value) * Math.PI);
+    }
+
+    redirectToForecastPage():void{
+      localStorage.setItem("currencyPair",this.currencyPair);
+      this.router.navigate(['forex-forecast']);
     }
 }

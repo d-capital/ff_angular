@@ -15,6 +15,7 @@ import { W8benComponentComponent } from 'src/app/pages/w8ben-component/w8ben-com
 import { ArticlesComponent } from '../../pages/articles/articles.component';
 import { FundamentalsComponent } from 'src/app/pages/fundamentals/fundamentals.component';
 import { ForexTestComponent } from 'src/app/pages/forex-test/forex-test.component';
+import { ForexForecastComponent } from 'src/app/pages/forex-forecast/forex-forecast.component';
 
 export const AdminLayoutRoutes: Routes = [
     { 
@@ -70,5 +71,9 @@ export const AdminLayoutRoutes: Routes = [
     {
         path:'forex-test',
         component: ForexTestComponent
+    },
+    {
+        path:'forex-forecast',
+        component: ForexForecastComponent
     }
 ];

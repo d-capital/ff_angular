@@ -33,6 +33,7 @@ import { ArticlesComponent } from 'src/app/pages/articles/articles.component';
 import { FundamentalsComponent } from 'src/app/pages/fundamentals/fundamentals.component';
 import { NewsService } from 'src/app/services/news.service';
 import { ForexTestComponent } from 'src/app/pages/forex-test/forex-test.component';
+import { ForexForecastComponent } from 'src/app/pages/forex-forecast/forex-forecast.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -62,7 +63,8 @@ import { ForexTestComponent } from 'src/app/pages/forex-test/forex-test.componen
     W8benComponentComponent,
     ArticlesComponent,
     FundamentalsComponent,
-    ForexTestComponent
+    ForexTestComponent,
+    ForexForecastComponent
   ],
   providers: [
     AuthService, 
