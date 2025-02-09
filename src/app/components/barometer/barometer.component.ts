@@ -122,7 +122,9 @@ export class BarometerComponent implements OnInit {
             }
             else if(diff < 1){
                 var rating = 1-diff;
-            }
+            } else if(diff == 1){
+              var rating = 0.5;
+          }
             console.log(rating);
             this.value = rating;
           },err => { 
