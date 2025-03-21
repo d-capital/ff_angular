@@ -6,10 +6,16 @@
 </div>
 <div class="card shadow" style="margin-bottom:3rem;">
     <div class="card-header bg-transparent">
-        <h2>{{ selectedCurrencyPair }}</h2>
+        <select [(ngModel)]="selectedCurrencyPair" (change)="loadCurrencyPair($event.target.value)" class="w3-select">
+            <option *ngFor="let pair of currencyPairs" [value]="pair">{{ pair }}</option>
+        </select>
+        <!--h2>{{ selectedCurrencyPair }}</h2-->
         <app-barometer currencyPair = "{{selectedCurrencyPair}}" isDashboard = "false"></app-barometer>
         <div><span>Current Exchange Rate: </span> <span>{{ currentExchangeRate }}</span></div>
         <div><span>Mundell Fleming Forecast: </span> <span>{{ futureExchangeRate }}</span></div>
         <div *ngIf="regressionExchangeRate>0"><span>Regression Forecast: </span> <span>{{ regressionExchangeRate }}</span></div>
+        <div><span>PPP rate: </span> <span>{{ pppRate }}</span></div>
+        <div><span>IRP rate: </span> <span>{{ irpRate }}</span></div>
+        <div><span>Fair Exchange Rate: </span> <span>{{ fairExchangeRate }}</span></div>
     </div>
 </div>

@@ -1,14 +1,28 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">  
-      <div style="width: 100%; display: table; margin-bottom: 2%;">
-        <app-barometer currencyPair = "EUR/USD"></app-barometer>
-        <app-barometer currencyPair = "USD/CAD"></app-barometer>
-        <app-barometer currencyPair = "NZD/USD"></app-barometer>
-        <app-barometer currencyPair = "AUD/USD"></app-barometer>
-        <app-barometer currencyPair = "USD/JPY"></app-barometer>
-        <app-barometer currencyPair = "GBP/USD"></app-barometer>
-        <app-barometer currencyPair = "EUR/GBP"></app-barometer>
+      <div class="row" style="margin-bottom: 2%;" *ngIf="!sharpeRatio && !maxDrawdown && !testPeriod && !returns">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0" style="background-color: #172b4d">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Forex Forecast</h5>
+                  <span class="h2 font-weight-bold mb-0"><a class="btn bg-yellow" href="/#/forex-forecast">Forex Forecast</a></span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-default text-white rounded-circle shadow">
+                    <i class="ni ni-chart-bar-32"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-success mr-2"><i class=""></i></span>
+                <span class="text-nowrap">Forex Forecast</span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row" *ngIf="!sharpeRatio && !maxDrawdown && !testPeriod && !returns">
         <div class="col-xl-3 col-lg-6">
